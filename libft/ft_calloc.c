@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   directory.c                                        :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/04 15:15:41 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/04 15:24:30 by gpladet          ###   ########.fr       */
+/*   Created: 2019/10/10 15:09:06 by ldavids           #+#    #+#             */
+/*   Updated: 2019/10/24 12:05:13 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/header.h"
+#include "libft.h"
 
-void	getdirectory(void)
+void	*ft_calloc(size_t num, size_t size)
 {
-	char buffer[PATH_MAX];
+	void	*result;
 
-	getcwd(buffer, sizeof(buffer));
-	ft_putstr_fd(buffer, 1);
+	if (!(result = malloc(size * num)))
+		return (NULL);
+	ft_bzero(result, size * num);
+	return (result);
 }

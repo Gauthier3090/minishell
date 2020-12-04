@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   directory.c                                        :+:      :+:    :+:   */
+/*   ft_lstclear_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/04 15:15:41 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/04 15:24:30 by gpladet          ###   ########.fr       */
+/*   Created: 2019/10/31 15:32:23 by ldavids           #+#    #+#             */
+/*   Updated: 2019/10/31 15:32:31 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/header.h"
+#include "libft.h"
 
-void	getdirectory(void)
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	char buffer[PATH_MAX];
-
-	getcwd(buffer, sizeof(buffer));
-	ft_putstr_fd(buffer, 1);
+	if (lst == NULL || del == NULL)
+		return ;
+	if (*lst == NULL)
+		return ;
+	ft_lstclear(&((*lst)->next), del);
+	ft_lstdelone(*lst, del);
+	*lst = NULL;
 }

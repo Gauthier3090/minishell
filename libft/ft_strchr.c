@@ -1,21 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   directory.c                                        :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/04 15:15:41 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/04 15:24:30 by gpladet          ###   ########.fr       */
+/*   Created: 2019/10/08 11:15:00 by ldavids           #+#    #+#             */
+/*   Updated: 2019/10/16 16:41:02 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/header.h"
+#include "libft.h"
 
-void	getdirectory(void)
+char	*ft_strchr(const char *str, int c)
 {
-	char buffer[PATH_MAX];
+	int		i;
+	char	*s;
+	char	ch;
 
-	getcwd(buffer, sizeof(buffer));
-	ft_putstr_fd(buffer, 1);
+	i = 0;
+	s = (char*)str;
+	ch = (char)c;
+	while (s[i])
+	{
+		if (s[i] == ch)
+			return (s + i);
+		i++;
+	}
+	if (s[i] == ch)
+		return (s + i);
+	return (NULL);
 }

@@ -1,21 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   directory.c                                        :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/04 15:15:41 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/04 15:24:30 by gpladet          ###   ########.fr       */
+/*   Created: 2019/10/15 13:09:52 by ldavids           #+#    #+#             */
+/*   Updated: 2020/12/04 15:38:33 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/header.h"
+#include "libft.h"
 
-void	getdirectory(void)
+void	ft_putnbr_fd(int n, int fd)
 {
-	char buffer[PATH_MAX];
+	unsigned	int sign;
 
-	getcwd(buffer, sizeof(buffer));
-	ft_putstr_fd(buffer, 1);
+	if (fd < 0 || fd > FOPEN_MAX)
+		return ;
+	sign = n;
+	if (n < 0)
+	{
+		ft_putchar_fd('-', fd);
+		sign = -n;
+	}
+	if (sign >= 10)
+		ft_putnbr_fd(sign / 10, fd);
+	ft_putchar_fd(sign % 10 + '0', fd);
 }

@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   directory.c                                        :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/04 15:15:41 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/04 15:24:30 by gpladet          ###   ########.fr       */
+/*   Created: 2019/10/07 15:53:13 by ldavids           #+#    #+#             */
+/*   Updated: 2019/10/15 17:11:03 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/header.h"
+#include "libft.h"
 
-void	getdirectory(void)
+int	ft_isalpha(int c)
 {
-	char buffer[PATH_MAX];
-
-	getcwd(buffer, sizeof(buffer));
-	ft_putstr_fd(buffer, 1);
+	if (c < 65 || c > 122 || (c > 90 && c < 97))
+		return (0);
+	return (1);
 }

@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   directory.c                                        :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/04 15:15:41 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/04 15:24:30 by gpladet          ###   ########.fr       */
+/*   Created: 2019/10/07 16:01:18 by ldavids           #+#    #+#             */
+/*   Updated: 2019/10/15 17:12:01 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/header.h"
+#include "libft.h"
 
-void	getdirectory(void)
+int	ft_isalnum(int c)
 {
-	char buffer[PATH_MAX];
-
-	getcwd(buffer, sizeof(buffer));
-	ft_putstr_fd(buffer, 1);
+	if (c < 48 || (c > 57 && c < 65) || (c > 90 && c < 97) || c > 122)
+		return (0);
+	return (1);
 }

@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   directory.c                                        :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/04 15:15:41 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/04 15:24:30 by gpladet          ###   ########.fr       */
+/*   Created: 2019/10/08 11:37:58 by ldavids           #+#    #+#             */
+/*   Updated: 2019/10/17 13:14:57 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/header.h"
+#include "libft.h"
 
-void	getdirectory(void)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	char buffer[PATH_MAX];
+	size_t	i;
 
-	getcwd(buffer, sizeof(buffer));
-	ft_putstr_fd(buffer, 1);
+	i = 0;
+	if (n == 0)
+		return (0);
+	while ((s1[i] && s2[i]) && ((n - 1) > i) && s1[i] == s2[i])
+		i++;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

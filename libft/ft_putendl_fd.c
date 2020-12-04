@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   directory.c                                        :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/04 15:15:41 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/04 15:24:30 by gpladet          ###   ########.fr       */
+/*   Created: 2019/10/15 13:00:56 by ldavids           #+#    #+#             */
+/*   Updated: 2020/12/04 15:39:16 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/header.h"
+#include "libft.h"
 
-void	getdirectory(void)
+void	ft_putendl_fd(char *s, int fd)
 {
-	char buffer[PATH_MAX];
+	int index;
 
-	getcwd(buffer, sizeof(buffer));
-	ft_putstr_fd(buffer, 1);
+	index = 0;
+	if (s == NULL || fd < 0 || fd > FOPEN_MAX)
+		return ;
+	while (s[index])
+	{
+		write(fd, &s[index], 1);
+		index++;
+	}
+	write(fd, "\n", 1);
 }
