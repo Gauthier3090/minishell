@@ -6,7 +6,7 @@
 #    By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/04 15:34:54 by gpladet           #+#    #+#              #
-#    Updated: 2020/12/04 15:48:18 by gpladet          ###   ########.fr        #
+#    Updated: 2020/12/04 16:01:48 by gpladet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,7 @@ init :
 		@make -C ${PATH_LIBFT}
 
 ${NAME} : ${OBJS} ${INCS}
-		@${CC} ${PATH_SRC}main.c -L ${PATH_LIBFT} -o ${NAME} ${OBJS}
+		@${CC} ${COMP_FLAG} ${PATH_SRC}main.c -o ${NAME} ${OBJS} ${PATH_LIBFT}/libft.a
 
 ${PATH_OBJ}%.o : ${PATH_SRC}%.c
 		@${COMP} ${COMP_FLAG} ${COMP_INC} -c $< -o $@
