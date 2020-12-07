@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utility.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/07 16:11:09 by ldavids          ###   ########.fr       */
+/*   Created: 2020/12/07 16:21:04 by ldavids           #+#    #+#             */
+/*   Updated: 2020/12/07 16:24:28 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
 
-int	main(void)
+char*	ft_whitespace(char *input)
 {
-	int		is_active;
-	char	*input;
+char*	temp;
+int		i;
 
-	is_active = 1;
-	while (is_active)
-	{
-		directoryprompt();
-		input = getinput();
-		input = ft_whitespace(input);
-		ft_cd(input);
-		free(input);
-	}
+i = 0;
+while (input[i] && (input[i] == ' ' || input[i] == '\t' || input[i] == '\v' || input[i] == '\f' || input[i] == '\n'))
+i++;
+temp = ft_substr(input, i, ft_strlen(input) - i);
+free(input);
+return (temp);
 }

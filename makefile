@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+         #
+#    By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/04 15:34:54 by gpladet           #+#    #+#              #
-#    Updated: 2020/12/07 14:31:28 by gpladet          ###   ########.fr        #
+#    Updated: 2020/12/07 16:24:00 by ldavids          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ PATH_OBJ = objs/
 PATH_LIBFT = libft
 
 # List of sources
-SRCS = main.c ft_realloc.c prompt.c free.c
+SRCS = main.c ft_realloc.c prompt.c free.c cd.c utility.c
 OBJS = ${addprefix ${PATH_OBJ}, ${SRCS:.c=.o}}
 INCS = ${addprefix ${PATH_INC}, header.h}
 
