@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/07 18:43:22 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/07 18:46:02 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	main(int argc, char **argv, char **env)
 			echo(tab, env);
 		if (ft_strncmp(tab[0], "exit", ft_strlen(input)) == 0)
 			exit(EXIT_SUCCESS);
+		input = ft_whitespace(input);
+		ft_cd(input);
 		free(input);
 	}
 }
