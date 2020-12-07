@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 15:12:11 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/04 23:12:15 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/07 16:28:47 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,7 @@
 # define CYAN "\e[38;5;123m"
 # define GREEN "\e[38;5;28m"
 # define RESET "\e[0m"
+# define TRUE 1
+# define FALSE 0
 
 #endif
