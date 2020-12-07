@@ -6,7 +6,7 @@
 #    By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/04 15:34:54 by gpladet           #+#    #+#              #
-#    Updated: 2020/12/04 16:01:48 by gpladet          ###   ########.fr        #
+#    Updated: 2020/12/07 14:31:28 by gpladet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ PATH_OBJ = objs/
 PATH_LIBFT = libft
 
 # List of sources
-SRCS = directory.c
+SRCS = main.c ft_realloc.c prompt.c free.c
 OBJS = ${addprefix ${PATH_OBJ}, ${SRCS:.c=.o}}
 INCS = ${addprefix ${PATH_INC}, header.h}
 
@@ -49,7 +49,7 @@ init :
 		@make -C ${PATH_LIBFT}
 
 ${NAME} : ${OBJS} ${INCS}
-		@${CC} ${COMP_FLAG} ${PATH_SRC}main.c -o ${NAME} ${OBJS} ${PATH_LIBFT}/libft.a
+		@${CC} ${COMP_FLAG} -o ${NAME} ${OBJS} ${PATH_LIBFT}/libft.a
 
 ${PATH_OBJ}%.o : ${PATH_SRC}%.c
 		@${COMP} ${COMP_FLAG} ${COMP_INC} -c $< -o $@

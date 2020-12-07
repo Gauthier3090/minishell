@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 15:12:11 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/04 15:26:41 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/04 23:12:15 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,8 @@
 # define DEFINE_H
 
 # define PATH_MAX 4096
+# define CYAN "\e[38;5;123m"
+# define GREEN "\e[38;5;28m"
+# define RESET "\e[0m"
 
 #endif
