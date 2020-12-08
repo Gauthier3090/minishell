@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/07 18:45:33 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/08 00:02:07 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ void	ft_cd(char* input);
 char*	ft_whitespace(char *input);
 int		ft_absolute_path(char *arg);
 int		ft_cd_args_check(char **arg);
+int		ft_strlen_tab(char **tab);
 
 #endif

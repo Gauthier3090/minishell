@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 15:46:38 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/07 18:31:46 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/08 01:13:24 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,29 +25,37 @@ char	*delete_char(char *str, char c)
 	return (str);
 }
 
-void	echo_env(char *tab, char **env, int endline, int i)
+int		check_symbols(char *str)
 {
-	int		j;
+	int	i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] != '$')
+			return (FALSE);
+	}
+	return (TRUE);
+}
+
+void	echo_env(char *tab, char **env)
+{
+	int		i;
 	char	*tmp;
 
-	j = -1;
-	if (ft_strncmp(tab, "$", ft_strlen(tab)) == 0)
+	i = -1;
+	while (tab[++i])
 	{
-		if ((i > 1 && endline == TRUE) || (i > 2 && endline == FALSE))
-			ft_putchar_fd(' ', 1);
-		ft_putchar_fd('$', 1);
-		return ;
-	}
-	tmp = ft_substr(tab, 1, ft_strlen(tab));
-	while (env[++j])
-	{
-		if (ft_strnstr(env[j], tmp, ft_strlen(tmp)))
-		{
-			if ((i > 1 && endline == TRUE) || (i > 2 && endline == FALSE))
-				ft_putchar_fd(' ', 1);
-			ft_putstr_fd(delete_char(env[j], '='), 1);
+		if (tab[i] != '$')
+			ft_putchar_fd(tab[i], 1);
+		else
 			break ;
-		}
+	}
+	tmp = ft_substr(tab, i + 1, ft_strlen(tab));
+	while (env[++i])
+	{
+		if (ft_strnstr(env[i], tmp, ft_strlen(tmp)))
+			ft_putstr_fd(delete_char(env[i], '='), 1);
 	}
 	free(tmp);
 }
@@ -55,26 +63,28 @@ void	echo_env(char *tab, char **env, int endline, int i)
 void	echo(char **tab, char **env)
 {
 	int	i;
-	int	endline;
+	int	n_flag;
 
-	endline = TRUE;
-	i = 0;
-	if (!(ft_strncmp(tab[1], "-n", ft_strlen(tab[1]))))
+	n_flag = FALSE;
+	i = 1;
+	if (ft_strlen_tab(tab) > 1)
 	{
-		i = 1;
-		endline = FALSE;
-	}
-	while (tab[++i])
-	{
-		if (tab[i][0] == '$')
-			echo_env(tab[i], env, endline, i);
-		else
+		while (tab[i] && ft_strncmp(tab[i], "-n", ft_strlen(tab[i])) == 0)
 		{
-			if ((i > 1 && endline == TRUE) || (i > 2 && endline == FALSE))
+			n_flag = TRUE;
+			i++;
+		}
+		while (tab[i])
+		{
+			if (check_symbols(tab[i]) || !strchr(tab[i], '$'))
+				ft_putstr_fd(tab[i], 1);
+			else
+				echo_env(tab[i], env);
+			if (tab[i + 1] && tab[i][0] != '\0')
 				ft_putchar_fd(' ', 1);
-			ft_putstr_fd(tab[i], 1);
+			i++;
 		}
 	}
-	if (endline)
+	if (n_flag == FALSE)
 		ft_putchar_fd('\n', 1);
 }
