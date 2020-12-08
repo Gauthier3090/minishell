@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 16:21:04 by ldavids           #+#    #+#             */
-/*   Updated: 2020/12/08 01:19:14 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/08 16:18:24 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,23 @@ int		ft_strlen_tab(char **tab)
 	int	i;
 
 	i = 0;
-	while (tab[++i])
+	while (tab[i])
 		i++;
 	return (i);
+}
+
+int		ft_strisdigit(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	while (str[i])
+	{
+		if (str[i] < '0' || str[i] > '9')
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
 }

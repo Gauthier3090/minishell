@@ -1,23 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   define.h                                           :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/04 15:12:11 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/08 15:24:44 by gpladet          ###   ########.fr       */
+/*   Created: 2020/12/08 14:51:37 by gpladet           #+#    #+#             */
+/*   Updated: 2020/12/08 16:22:29 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DEFINE_H
-# define DEFINE_H
+#include "../includes/header.h"
 
-# define PATH_MAX 4096
-# define CYAN "\e[38;5;123m"
-# define GREEN "\e[38;5;28m"
-# define RESET "\e[0m"
-# define TRUE 1
-# define FALSE 0
+void	exit_shell(char **tab)
+{
+	int	ret;
 
-#endif
+	ret = 0;
+	if (ft_strlen_tab(tab) > 2)
+	{
+		ret = 1;
+		ft_putstr_fd("exit: too many arguments\n", 2);
+		return ;
+	}
+	else if (tab[1] && !ft_strisdigit(tab[1]))
+		ret = 255;
+	else if (tab[1])
+	{
+		ret = ft_atoi(tab[1]);
+		if (ret < 0 || ret > 255)
+			ret = 255;
+	}
+	exit(ret);
+}

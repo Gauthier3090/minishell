@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 15:46:38 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/08 01:13:24 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/08 14:49:54 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void	echo_env(char *tab, char **env)
 		else
 			break ;
 	}
-	tmp = ft_substr(tab, i + 1, ft_strlen(tab));
+	if (!(tmp = ft_substr(tab, i + 1, ft_strlen(tab))))
+		exit(EXIT_FAILURE);
 	while (env[++i])
 	{
 		if (ft_strnstr(env[i], tmp, ft_strlen(tmp)))
