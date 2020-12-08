@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 16:21:04 by ldavids           #+#    #+#             */
-/*   Updated: 2020/12/08 01:15:55 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/08 01:19:14 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ char	*ft_whitespace(char *input)
 	while (input[i] && (input[i] == ' ' || input[i] == '\t' || input[i] == '\v'
 	|| input[i] == '\f' || input[i] == '\n'))
 		i++;
-	temp = ft_substr(input, i, ft_strlen(input) - i);
+	if (!(temp = ft_substr(input, i, ft_strlen(input) - i)))
+		exit(EXIT_FAILURE);
 	free(input);
 	return (temp);
 }
