@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/07 18:46:02 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/08 16:00:07 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,31 @@
 
 int	main(int argc, char **argv, char **env)
 {
-	int		is_active;
-	char	*input;
-	char	**tab;
+	int			is_active;
+	char		*input;
+	char		**tab;
+	t_struct	*glo;
 
 	is_active = 1;
 	(void)argc;
 	(void)argv;
+	if (!(glo = malloc(sizeof(t_struct))))
+		exit(EXIT_FAILURE);
+	if (ft_struct_init(glo) == FALSE)
+		exit(EXIT_FAILURE);
 	while (is_active)
 	{
 		directoryprompt();
 		input = getinput();
+		input = ft_whitespace(input);
 		if (!(tab = ft_split(input, ' ')))
 			exit(EXIT_FAILURE);
 		if (ft_strncmp(tab[0], "echo", ft_strlen(input)) == 0)
 			echo(tab, env);
 		if (ft_strncmp(tab[0], "exit", ft_strlen(input)) == 0)
 			exit(EXIT_SUCCESS);
-		input = ft_whitespace(input);
-		ft_cd(input);
+		if (ft_cd(input, glo) == FALSE)
+			exit(EXIT_FAILURE);
 		free(input);
 	}
 }
