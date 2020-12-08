@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/08 16:22:05 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/08 17:32:40 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,18 @@
 
 int	main(int argc, char **argv, char **env)
 {
-	int		is_active;
-	char	*input;
-	char	**tab;
+	int			is_active;
+	char		*input;
+	char		**tab;
+	t_struct	*glo;
 
 	is_active = 1;
 	(void)argc;
 	(void)argv;
+	if (!(glo = malloc(sizeof(t_struct))))
+		exit(EXIT_FAILURE);
+	if (ft_struct_init(glo) == FALSE)
+		exit(EXIT_FAILURE);
 	while (is_active)
 	{
 		directoryprompt();
@@ -34,7 +39,8 @@ int	main(int argc, char **argv, char **env)
 			exit_shell(tab);
 		if (ft_strncmp(tab[0], "env", ft_strlen(input)) == 0)
 			ft_env(tab, env);
-		ft_cd(input);
+		if (ft_cd(input, glo) == FALSE)
+			exit(EXIT_FAILURE);
 		free(input);
 	}
 }
