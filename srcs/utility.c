@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 16:21:04 by ldavids           #+#    #+#             */
-/*   Updated: 2020/12/08 17:34:04 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/09 14:38:48 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,10 @@ int		ft_struct_init(t_struct *glo)
 	glo->env = NULL;
 	if (getcwd(buf, 200) == NULL)
 	{
-		ft_putstr_fd(strerror(errno), 1);
-		write(1, "\n", 1);
+		ft_putendl_fd(strerror(errno), 1);
 		return (FALSE);
 	}
 	glo->oldpwd = ft_strdup(buf);
 	glo->cd_count = 0;
-
-
-return (TRUE);
+	return (TRUE);
 }

@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/08 17:33:35 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/09 16:13:57 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@
 
 typedef struct		s_struct
 {
-char	*env;
-char	*oldpwd;
-char	*cd_count;
-int		return_status;
+	char	*env;
+	char	*oldpwd;
+	char	*cd_count;
+	int		return_status;
 }					t_struct;
 
 void	directoryprompt();
@@ -49,5 +49,9 @@ void	ft_env(char **tab, char **env);
 int		ft_relative_path(char *arg, t_struct *glo);
 int		ft_oldpwd(t_struct *glo);
 int		ft_cd_error(char *arg);
+void	export(char **tab, char **env);
+int		ft_strcmp(const char *s1, const char *s2);
+char	*ft_strcpy(char *dest, char *src);
+void	ft_print_tab(char **tab);
 
 #endif
