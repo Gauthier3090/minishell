@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/09 16:18:48 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/09 16:56:15 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../includes/header.h"
 
@@ -41,7 +42,7 @@ int	main(int argc, char **argv, char **env)
 			ft_env(tab, env);
 		if (ft_strncmp(tab[0], "export", ft_strlen(input)) == 0)
 			export(tab, env);
-		if (ft_cd(input, glo) == FALSE)
+		if (ft_cd(input, env, glo) == FALSE)
 			exit(EXIT_FAILURE);
 		free_tab(tab);
 		free(input);
