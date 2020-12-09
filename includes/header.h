@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/08 17:33:35 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/09 15:20:07 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ char	*env;
 char	*oldpwd;
 char	*cd_count;
 int		return_status;
+int		cd_len;
 }					t_struct;
 
 void	directoryprompt();
@@ -38,7 +39,7 @@ void	free_tab(char **tab);
 void	*ft_realloc(void *ptr, size_t size);
 char	*getdirectory(void);
 char	*getinput(void);
-int		ft_cd(char* input, t_struct *glo);
+int		ft_cd(char* input, char **env, t_struct *glo);
 char*	ft_whitespace(char *input);
 int		ft_absolute_path(char *arg, t_struct *glo);
 int		ft_cd_args_check(char **arg);
@@ -46,8 +47,10 @@ int		ft_strlen_tab(char **tab);
 int		ft_strisdigit(char *str);
 void	exit_shell(char **tab);
 void	ft_env(char **tab, char **env);
-int		ft_relative_path(char *arg, t_struct *glo);
+int		ft_change_dir(char *arg, char **env, t_struct *glo);
 int		ft_oldpwd(t_struct *glo);
 int		ft_cd_error(char *arg);
+int		ft_strhomelen(t_struct *glo);
+int		ft_home_dir(t_struct *glo, char **env);
 
 #endif

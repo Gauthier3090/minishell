@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/08 17:32:40 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/09 14:07:13 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	main(int argc, char **argv, char **env)
 			exit_shell(tab);
 		if (ft_strncmp(tab[0], "env", ft_strlen(input)) == 0)
 			ft_env(tab, env);
-		if (ft_cd(input, glo) == FALSE)
+		if (ft_cd(input, env, glo) == FALSE)
 			exit(EXIT_FAILURE);
 		free(input);
 	}
