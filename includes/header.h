@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/09 15:20:07 by ldavids          ###   ########.fr       */
+/*   Updated: 2020/12/09 22:56:12 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,11 @@ int		ft_strlen_tab(char **tab);
 int		ft_strisdigit(char *str);
 void	exit_shell(char **tab);
 void	ft_env(char **tab, char **env);
-int		ft_change_dir(char *arg, char **env, t_struct *glo);
-int		ft_oldpwd(t_struct *glo);
+int		ft_change_dir(char *arg, char **env, t_struct *glo, char **tab);
+int		ft_oldpwd(t_struct *glo, char **arg);
 int		ft_cd_error(char *arg);
 int		ft_strhomelen(t_struct *glo);
-int		ft_home_dir(t_struct *glo, char **env);
+int		ft_home_dir(t_struct *glo, char **env, char **arg);
+int		free_tab_ret(char **tab);
 
 #endif
