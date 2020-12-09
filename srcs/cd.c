@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 15:44:55 by ldavids           #+#    #+#             */
-/*   Updated: 2020/12/09 16:50:19 by ldavids          ###   ########.fr       */
+/*   Updated: 2020/12/09 22:56:28 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,33 @@ int		ft_cd(char *input, char **env, t_struct *glo)
 	char	**arg;
 	char	buf[200];
 
-	if ((ft_strncmp("cd", input, 2) == 0) && (input[2] == ' ' || input[2] == '\t' || input[2] == '\v' || input[2] == '\f' || input[2] == 0))
+	if (ft_strncmp("cd", input, 2) == 0)
 		arg = ft_split(ft_substr(input, 2, ft_strlen(input)), ' ');
-	if ((ft_strncmp("cd", arg, 2) == 0) && (ft_strlen(input) == 2))
-		arg[0] = ft_strdup(" ");
 	else
 		return (TRUE);
-	ft_putstr_fd(input, 1);
-	ft_putstr_fd(ft_itoa(ft_strlen(arg[0])), 1);
+	if (arg[0] == NULL)
+		{
+		free(arg[0]);
+		arg[0] = ft_strdup(" ");
+		}
+	if(((ft_strncmp(arg[0], " ", 1) != 0) && input[2] != ' ' && input[2] != '\t' && input[2] != '\v'))
+		return (free_tab_ret(arg));
 	if (ft_cd_args_check(arg) == 1)
-		return (TRUE);
+		return (free_tab_ret(arg));
 	if (arg[0][0] == '-' && (arg[0][1] == ' ' || arg[0][1] == '\t' || arg[0][1] == '\v' || arg[0][1] == '\f' || arg[0][1] == 0))
-		return(ft_oldpwd(glo));
+		return(ft_oldpwd(glo, arg));
 	free(glo->oldpwd);
 	if (!(glo->oldpwd = ft_strdup(getcwd(buf, 200))))
+		{
+		free_tab_ret(arg);
 		return (FALSE);
+		}
 	if (ft_strncmp(arg[0], "--", 3) == 0 || ft_strncmp(arg[0], " ", 1) == 0)
-		return (ft_home_dir(glo, env));
-return (ft_change_dir(arg[0], env, glo));
+		return (ft_home_dir(glo, env, arg));
+return (ft_change_dir(arg[0], env, glo, arg));
 }
 
-int		ft_oldpwd(t_struct *glo)
+int		ft_oldpwd(t_struct *glo, char **arg)
 {
 	char		buf[200];
 	char		*temp;
@@ -60,6 +66,7 @@ int		ft_oldpwd(t_struct *glo)
 	}
 	free(temp);
 	glo->cd_count++;
+	free_tab_ret(arg);
 	return (TRUE);
 }
 
@@ -85,7 +92,7 @@ int		ft_cd_args_check(char **arg)
 return (0);
 }
 
-int		ft_change_dir(char *arg, char **env, t_struct *glo)
+int		ft_change_dir(char *arg, char **env, t_struct *glo, char **tab)
 {
 save_env("$HOME", env, glo);
 if (ft_strhomelen(glo) == FALSE)
@@ -93,6 +100,7 @@ if (ft_strhomelen(glo) == FALSE)
 if (ft_strncmp(arg, "..", 3) == 0 && ft_strncmp(glo->oldpwd, glo->env, glo->cd_len + 1) == 0)
 	{
 		glo->cd_count++;
+		free_tab(tab);
 		return (TRUE);
 	}
 if (chdir(arg) == -1)
@@ -101,6 +109,7 @@ if (chdir(arg) == -1)
 		write(1, "\n", 1);
 	}
 	glo->cd_count++;
+free_tab(tab);
 return (TRUE);
 }
 
@@ -120,7 +129,7 @@ free(temp);
 return (TRUE);
 }
 
-int		ft_home_dir(t_struct *glo, char **env)
+int		ft_home_dir(t_struct *glo, char **env, char **arg)
 {
 save_env("$HOME", env, glo);
 if (ft_strhomelen(glo) == FALSE)
@@ -131,5 +140,6 @@ if (chdir(glo->env) == -1)
 		write(1, "\n", 1);
 	}
 	glo->cd_count++;
+free_tab(arg);
 return (TRUE);
 }

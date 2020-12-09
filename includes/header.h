@@ -6,9 +6,10 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/09 16:55:31 by ldavids          ###   ########.fr       */
+/*   Updated: 2020/12/09 23:03:37 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 
 #ifndef HEADER_H
@@ -48,14 +49,15 @@ int		ft_strlen_tab(char **tab);
 int		ft_strisdigit(char *str);
 void	exit_shell(char **tab);
 void	ft_env(char **tab, char **env);
-int		ft_change_dir(char *arg, char **env, t_struct *glo);
-int		ft_oldpwd(t_struct *glo);
+int		ft_change_dir(char *arg, char **env, t_struct *glo, char **tab);
+int		ft_oldpwd(t_struct *glo, char **arg);
 int		ft_cd_error(char *arg);
 void	export(char **tab, char **env);
 int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strcpy(char *dest, char *src);
 void	ft_print_tab(char **tab);
 int		ft_strhomelen(t_struct *glo);
-int		ft_home_dir(t_struct *glo, char **env);
+int		ft_home_dir(t_struct *glo, char **env, char **arg);
+int		free_tab_ret(char **tab);
 
 #endif
