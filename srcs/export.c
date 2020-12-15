@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 14:40:35 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/09 16:14:50 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/15 17:56:45 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,38 @@ void	sorting_env(char **env, int size)
 	free_tab(tab);
 }
 
-void	export(char **tab, char **env)
+void	export(t_minishell *shell)
 {
-	if (ft_strlen_tab(tab) == 1)
-		sorting_env(env, ft_strlen_tab(env));
+	char	*tmp;
+	int		i;
+
+	if (ft_strlen_tab(shell->tab) == 1)
+	{
+		sorting_env(shell->env, ft_strlen_tab(shell->env));
+		return ;
+	}
+	else if (shell->tab[1][0] == '$')
+	{
+		if (!(tmp = ft_substr(shell->tab[1], 1, ft_strlen(shell->tab[1]))))
+			exit(EXIT_FAILURE);
+		i = -1;
+		while (shell->env[++i])
+		{
+			if (ft_strnstr(shell->env[i], tmp, ft_strlen(tmp)))
+			{
+				free(shell->tab[1]);
+				if (!(shell->tab[1] = ft_strdup(delete_char(shell->env[i], '='))))
+					exit(EXIT_FAILURE);
+				shell->tab[1] = ft_realloc(shell->tab[1], ft_strlen(shell->tab[1] + 5));
+				shell->tab[1] = ft_strcat(shell->tab[1], "=''");
+			}
+		}
+		free(tmp);
+	}
+	tmp = tabtostr(shell->env);
+	tmp = ft_realloc(tmp, ft_strlen(tmp) + ft_strlen(shell->tab[1]) + 2);
+	tmp = ft_strcat(tmp, "\n");
+	tmp = ft_strcat(tmp, shell->tab[1]);
+	shell->env = ft_split(tmp, '\n');
+	free(tmp);
 }

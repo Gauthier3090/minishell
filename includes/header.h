@@ -6,9 +6,10 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/15 17:54:44 by ldavids          ###   ########.fr       */
+/*   Updated: 2020/12/15 18:14:34 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 
 
@@ -24,12 +25,20 @@
 
 typedef struct		s_struct
 {
-char	*env;
-char	*oldpwd;
-char	*cd_count;
-int		return_status;
-int		cd_len;
+	char			*env;
+	char			*oldpwd;
+	char			*cd_count;
+	int				return_status;
+	int				cd_len;
 }					t_struct;
+
+typedef struct		s_minishell
+{
+	char			**env;
+	char			**tab;
+	char			*input;
+	int				is_active;
+}					t_minishell;
 
 void	directoryprompt();
 int		ft_struct_init(t_struct *glo);
@@ -52,7 +61,7 @@ void	ft_env(char **tab, char **env);
 int		ft_change_dir(char *arg, char **env, t_struct *glo, char **tab);
 int		ft_oldpwd(t_struct *glo, char **arg);
 int		ft_cd_error(char *arg);
-void	export(char **tab, char **env);
+void	export(t_minishell *minishell);
 int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strcpy(char *dest, char *src);
 void	ft_print_tab(char **tab);
@@ -62,5 +71,6 @@ int		free_tab_ret(char **tab);
 int		ft_tilde(char **arg, char **env, t_struct *glo);
 int		ft_cd_env(char **arg, char **env, t_struct *glo);
 void	ft_path_len(char *arg, t_struct *glo);
+char	*ft_strcat(char *dest, char *src);
 
 #endif
