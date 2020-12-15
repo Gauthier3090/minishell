@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 15:44:55 by ldavids           #+#    #+#             */
-/*   Updated: 2020/12/09 22:56:28 by ldavids          ###   ########.fr       */
+/*   Updated: 2020/12/15 18:10:56 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,36 @@ int		ft_cd(char *input, char **env, t_struct *glo)
 {
 	char	**arg;
 	char	buf[200];
+	char	*temp;
 
 	if (ft_strncmp("cd", input, 2) == 0)
-		arg = ft_split(ft_substr(input, 2, ft_strlen(input)), ' ');
+	{
+		if (!(temp = ft_substr(input, 2, ft_strlen(input))))
+			return (FALSE);
+		if (!(arg = ft_split(temp, ' ')))
+			return (FALSE);
+		free(temp);
+	}
 	else
 		return (TRUE);
 	if (arg[0] == NULL)
-		{
-		free(arg[0]);
-		arg[0] = ft_strdup(" ");
-		}
-	if(((ft_strncmp(arg[0], " ", 1) != 0) && input[2] != ' ' && input[2] != '\t' && input[2] != '\v'))
+		return (ft_home_dir(glo, env, arg));
+	if (((ft_strncmp(arg[0], " ", 1) != 0) && input[2] != ' ' && input[2] != '\t' && input[2] != '\v'))
 		return (free_tab_ret(arg));
-	if (ft_cd_args_check(arg) == 1)
+	if (ft_cd_args_check(arg, env, glo) == FALSE)
+		return (FALSE);
+	if (ft_cd_args_check(arg, env, glo) == TRUE)
 		return (free_tab_ret(arg));
+	if (ft_cd_env(arg, env, glo) == FALSE)
+		return (FALSE);
 	if (arg[0][0] == '-' && (arg[0][1] == ' ' || arg[0][1] == '\t' || arg[0][1] == '\v' || arg[0][1] == '\f' || arg[0][1] == 0))
-		return(ft_oldpwd(glo, arg));
+		return (ft_oldpwd(glo, arg));
 	free(glo->oldpwd);
 	if (!(glo->oldpwd = ft_strdup(getcwd(buf, 200))))
-		{
-		free_tab_ret(arg);
-		return (FALSE);
-		}
+		return (free_tab_ret(arg));
 	if (ft_strncmp(arg[0], "--", 3) == 0 || ft_strncmp(arg[0], " ", 1) == 0)
 		return (ft_home_dir(glo, env, arg));
-return (ft_change_dir(arg[0], env, glo, arg));
+	return (ft_change_dir(arg[0], env, glo, arg));
 }
 
 int		ft_oldpwd(t_struct *glo, char **arg)
@@ -51,10 +56,11 @@ int		ft_oldpwd(t_struct *glo, char **arg)
 	if (!(temp = ft_strdup(getcwd(buf, 200))))
 		return (FALSE);
 	if (glo->cd_count == 0)
-		{
-			ft_putstr_fd("OLDPWD not set\n", 1);
-			return (TRUE);
-		}
+	{
+		ft_putstr_fd("OLDPWD not set\n", 1);
+		free(temp);
+		return (free_tab_ret(arg));
+	}
 	ft_cd_error(glo->oldpwd);
 	ft_putstr_fd(glo->oldpwd, 1);
 	write(1, "\n", 1);
@@ -62,6 +68,7 @@ int		ft_oldpwd(t_struct *glo, char **arg)
 	if (!(glo->oldpwd = ft_strdup(temp)))
 	{
 		free(temp);
+		free(arg);
 		return (FALSE);
 	}
 	free(temp);
@@ -70,10 +77,9 @@ int		ft_oldpwd(t_struct *glo, char **arg)
 	return (TRUE);
 }
 
-
 int		ft_cd_error(char *arg)
 {
-if (chdir(arg) == -1)
+	if (chdir(arg) == -1)
 	{
 		ft_putstr_fd(strerror(errno), 1);
 		write(1, "\n", 1);
@@ -81,65 +87,50 @@ if (chdir(arg) == -1)
 	return (TRUE);
 }
 
-int		ft_cd_args_check(char **arg)
+int		ft_cd_args_check(char **arg, char **env, t_struct *glo)
 {
 	if (arg[1] != NULL)
-		{
-			ft_putstr_fd("too many arguments", 1);
-			write(1, "\n", 1);
-			return (1);
-		}
-return (0);
-}
-
-int		ft_change_dir(char *arg, char **env, t_struct *glo, char **tab)
-{
-save_env("$HOME", env, glo);
-if (ft_strhomelen(glo) == FALSE)
-		return (FALSE);
-if (ft_strncmp(arg, "..", 3) == 0 && ft_strncmp(glo->oldpwd, glo->env, glo->cd_len + 1) == 0)
 	{
-		glo->cd_count++;
-		free_tab(tab);
+		ft_putstr_fd("too many arguments", 1);
+		write(1, "\n", 1);
 		return (TRUE);
 	}
-if (chdir(arg) == -1)
+	if (arg[0][0] == '~')
 	{
-		ft_putstr_fd(strerror(errno), 1);
-		write(1, "\n", 1);
+		if (!(ft_tilde(arg, env, glo)))
+			return (FALSE);
 	}
-	glo->cd_count++;
-free_tab(tab);
-return (TRUE);
+	return (2);
 }
 
-int		ft_strhomelen(t_struct *glo)
+int		ft_cd_env(char **arg, char **env, t_struct *glo)
 {
-char	*temp;
+	int		i;
+	char	*temp;
+	int		y;
+	char	*temp2;
 
-glo->cd_len = 1;
-while (glo->env[glo->cd_len] != '/')
-	glo->cd_len++;
-if (!(temp = ft_strdup(glo->env)))
-	return (FALSE);
-free(glo->env);
-if (!(glo->env = ft_substr(temp, 0, glo->cd_len)))
-	return (FALSE);
-free(temp);
-return (TRUE);
-}
-
-int		ft_home_dir(t_struct *glo, char **env, char **arg)
-{
-save_env("$HOME", env, glo);
-if (ft_strhomelen(glo) == FALSE)
-		return (FALSE);
-if (chdir(glo->env) == -1)
+	i = 0;
+	while (arg[0][i])
 	{
-		ft_putstr_fd(strerror(errno), 1);
-		write(1, "\n", 1);
+		if (arg[0][i] == '$')
+		{
+			y = i;
+			while (arg[0][y] && arg[0][y] != '/')
+				y++;
+			temp = ft_substr(arg[0], i, y);
+			save_env(temp, env, glo);
+			free(temp);
+			temp = ft_substr(arg[0], 0, i);
+			temp2 = ft_strjoin(temp, glo->env);
+			free(temp);
+			temp = ft_substr(arg[0], y, ft_strlen(arg[0]) - y);
+			free(arg[0]);
+			arg[0] = ft_strjoin(temp2, temp);
+			free(temp2);
+			free(temp);
+		}
+		i++;
 	}
-	glo->cd_count++;
-free_tab(arg);
-return (TRUE);
+	return (TRUE);
 }

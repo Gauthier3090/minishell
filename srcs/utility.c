@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 16:21:04 by ldavids           #+#    #+#             */
-/*   Updated: 2020/12/09 14:38:48 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/15 15:05:34 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	save_env(char *tab, char **env, t_struct *glo)
 	char	*tmp;
 
 	i = -1;
+	free(glo->env);
 	while (tab[++i])
 	{
 		if (tab[i] != '$')
@@ -79,7 +80,7 @@ int		ft_struct_init(t_struct *glo)
 {
 	char		buf[200];
 
-	glo->env = NULL;
+	glo->env = ft_strdup("");
 	if (getcwd(buf, 200) == NULL)
 	{
 		ft_putendl_fd(strerror(errno), 1);

@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/09 23:03:37 by ldavids          ###   ########.fr       */
+/*   Updated: 2020/12/15 17:54:44 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*getinput(void);
 int		ft_cd(char* input, char **env, t_struct *glo);
 char*	ft_whitespace(char *input);
 int		ft_absolute_path(char *arg, t_struct *glo);
-int		ft_cd_args_check(char **arg);
+int		ft_cd_args_check(char **arg, char **env, t_struct *glo);
 int		ft_strlen_tab(char **tab);
 int		ft_strisdigit(char *str);
 void	exit_shell(char **tab);
@@ -59,5 +59,8 @@ void	ft_print_tab(char **tab);
 int		ft_strhomelen(t_struct *glo);
 int		ft_home_dir(t_struct *glo, char **env, char **arg);
 int		free_tab_ret(char **tab);
+int		ft_tilde(char **arg, char **env, t_struct *glo);
+int		ft_cd_env(char **arg, char **env, t_struct *glo);
+void	ft_path_len(char *arg, t_struct *glo);
 
 #endif
