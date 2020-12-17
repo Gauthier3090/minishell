@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 14:40:35 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/17 15:05:42 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/17 15:33:39 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,17 @@
 int		variable_exist(char **env, char *str)
 {
 	int	i;
+	int	j;
+	int	length;
 
 	i = -1;
+	length = ft_strlen(str);
 	while (env[++i])
 	{
-		if (!ft_strncmp(env[i], str, ft_strlen(env[i])))
+		j = 0;
+		while (env[i][j] != '=')
+			j++;
+		if (!ft_strncmp(env[i], str, j) && !ft_strncmp(env[i], str, length))
 			return (TRUE);
 	}
 	return (FALSE);
