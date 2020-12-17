@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/17 15:13:33 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/17 16:54:07 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <errno.h>
+# include <dirent.h>
 
 typedef struct		s_struct
 {
@@ -81,5 +82,8 @@ void	sorting_env(char **env, int size);
 char	*tabtostr(char **tab);
 char	*ft_cd_env_sub(char *arg, char **env, t_struct *glo);
 void	ft_pwd(char *input);
+void	ft_ls(char *input);
+void	ft_errno_putstr(int errnumb);
+void	ft_ls_files(void);
 
 #endif
