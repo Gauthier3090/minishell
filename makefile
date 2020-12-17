@@ -6,7 +6,7 @@
 #    By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/04 15:34:54 by gpladet           #+#    #+#              #
-#    Updated: 2020/12/15 17:38:52 by ldavids          ###   ########.fr        #
+#    Updated: 2020/12/16 22:10:20 by ldavids          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ PATH_LIBFT = libft
 
 # List of sources
 SRCS = main.c prompt.c free.c cd.c cd2.c utility.c echo.c exit.c env.c \
-export.c utility2.c
+export.c utility2.c pwd.c
 OBJS = ${addprefix ${PATH_OBJ}, ${SRCS:.c=.o}}
 INCS = ${addprefix ${PATH_INC}, header.h}
 

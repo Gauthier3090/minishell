@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/16 15:51:16 by ldavids          ###   ########.fr       */
+/*   Updated: 2020/12/16 22:20:53 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ char	*ft_cd_env(char **arg, char **env, t_struct *glo);
 void	ft_path_len(char *arg, t_struct *glo);
 char	*ft_strcat(char *dest, char *src);
 char	*ft_cd_env_sub(char *arg, char **env, t_struct *glo);
+void	ft_pwd(char *input);
 
 #endif
