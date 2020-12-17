@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utility2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 19:19:46 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/17 15:42:30 by ldavids          ###   ########.fr       */
+/*   Updated: 2020/12/17 16:17:59 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
-
 
 int		ft_strcmp(const char *s1, const char *s2)
 {

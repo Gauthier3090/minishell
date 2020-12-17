@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 14:40:35 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/17 15:33:39 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/17 17:04:07 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ int		variable_exist(char **env, char *str)
 		while (env[i][j] != '=')
 			j++;
 		if (!ft_strncmp(env[i], str, j) && !ft_strncmp(env[i], str, length))
-			return (TRUE);
+			return (i);
 	}
-	return (FALSE);
+	return (-1);
 }
 
-void	create_variable(t_minishell *shell, char **arg)
+void	create_variable(t_minishell *shell, char **arg, int i)
 {
 	char	*str;
 	char	*tmp;
@@ -45,7 +45,7 @@ void	create_variable(t_minishell *shell, char **arg)
 	}
 	else
 	{
-		if (!(tmp = ft_strdup(shell->tab[1])))
+		if (!(tmp = ft_strdup(shell->tab[i])))
 			exit(EXIT_FAILURE);
 	}
 	str = tabtostr(shell->env);
@@ -58,23 +58,38 @@ void	create_variable(t_minishell *shell, char **arg)
 	free(tmp);
 }
 
-void	create_env_variable(t_minishell *shell)
+void	create_env_variable(t_minishell *shell, int i)
 {
 	char	**arg;
+	int		index;
 
-	if (!(arg = ft_split(shell->tab[1], '=')))
+	shell->tab[i] = ft_whitespace(shell->tab[i]);
+	if (!(arg = ft_split(shell->tab[i], '=')))
 		exit(EXIT_FAILURE);
-	if (variable_exist(shell->env, arg[0]))
-		ft_putendl_fd("EXIST", 1);
+	if ((index = variable_exist(shell->env, arg[0])) != -1)
+	{
+		if (arg[1])
+			shell->env[index] = ft_strdup(shell->tab[i]);
+	}
 	else
-		create_variable(shell, arg);
+		create_variable(shell, arg, i);
 	free_tab(arg);
 }
 
 void	export(t_minishell *shell)
 {
+	int	i;
+
 	if (ft_strlen_tab(shell->tab) == 1)
 		sorting_env(shell->env, ft_strlen_tab(shell->env));
-	else
-		create_env_variable(shell);
+	i = 0;
+	while (shell->tab[++i])
+	{
+		if (shell->tab[i][0] == '=')
+		{
+			ft_putendl_fd("minishell: bad assignment", 2);
+			exit(EXIT_FAILURE);
+		}
+		create_env_variable(shell, i);
+	}
 }

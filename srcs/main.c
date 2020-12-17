@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/17 16:16:50 by ldavids          ###   ########.fr       */
+/*   Updated: 2020/12/17 17:26:52 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@ void	ft_builtins(t_minishell *minishell, t_struct *glo)
 {
 	if (minishell->tab[0])
 	{
-		if (ft_strncmp(minishell->tab[0], "echo", 4) == 0)
+		if (ft_strcmp(minishell->tab[0], "echo") == 0)
 			echo(minishell->tab, minishell->env);
-		else if (ft_strncmp(minishell->tab[0], "exit", 4) == 0)
+		else if (ft_strcmp(minishell->tab[0], "exit") == 0)
 			exit_shell(minishell->tab);
-		else if (ft_strncmp(minishell->tab[0], "env", 3) == 0)
+		else if (ft_strcmp(minishell->tab[0], "env") == 0)
 			ft_env(minishell->tab, minishell->env);
-		else if (ft_strncmp(minishell->tab[0], "export", 6) == 0)
+		else if (ft_strcmp(minishell->tab[0], "export") == 0)
 			export(minishell);
-		else if (ft_strncmp("cd", minishell->input, 2) == 0)
+		else if (ft_strcmp("cd", minishell->input) == 0)
 			ft_cd(minishell->input, minishell->env, glo);
-		else if (ft_strncmp("pwd", minishell->input, 3) == 0)
+		else if (ft_strcmp("pwd", minishell->input) == 0)
 			ft_pwd(minishell->input);
 		else if (ft_strncmp("ls", minishell->input, 2) == 0)
 			ft_ls(minishell->input);
