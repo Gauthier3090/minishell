@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/17 15:10:01 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/17 15:12:27 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	ft_builtins(t_minishell *minishell, t_struct *glo)
 			ft_env(minishell->tab, minishell->env);
 		else if (ft_strncmp(minishell->tab[0], "export", 6) == 0)
 			export(minishell);
-		else if (ft_cd(minishell->input, minishell->env, glo) == FALSE)
-			exit(EXIT_FAILURE);
+		else if (ft_strncmp("cd", minishell->input, 2) == 0)
+			ft_cd(minishell->input, minishell->env, glo);
 		else
 		{
 			ft_putstr_fd("minishell: command not found: ", 2);

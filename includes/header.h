@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/16 17:23:12 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/17 15:12:50 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,11 @@ typedef struct		s_struct
 	char			*cd_count;
 	int				return_status;
 	int				cd_len;
+	char			*temp;
+	char			*temp2;
+	char			*arg;
+	int				i;
+	int				y;
 }					t_struct;
 
 typedef struct		s_minishell
@@ -53,7 +58,7 @@ char	*getinput(void);
 int		ft_cd(char* input, char **env, t_struct *glo);
 char*	ft_whitespace(char *input);
 int		ft_absolute_path(char *arg, t_struct *glo);
-int		ft_cd_args_check(char **arg, char **env, t_struct *glo);
+char	*ft_cd_args_check(char **arg, char **env, t_struct *glo);
 int		ft_strlen_tab(char **tab);
 int		ft_strisdigit(char *str);
 void	exit_shell(char **tab);
@@ -69,10 +74,11 @@ int		ft_strhomelen(t_struct *glo);
 int		ft_home_dir(t_struct *glo, char **env, char **arg);
 int		free_tab_ret(char **tab);
 int		ft_tilde(char **arg, char **env, t_struct *glo);
-int		ft_cd_env(char **arg, char **env, t_struct *glo);
+char	*ft_cd_env(char **arg, char **env, t_struct *glo);
 void	ft_path_len(char *arg, t_struct *glo);
 char	*ft_strcat(char *dest, char *src);
 void	sorting_env(char **env, int size);
 char	*tabtostr(char **tab);
+char	*ft_cd_env_sub(char *arg, char **env, t_struct *glo);
 
 #endif
