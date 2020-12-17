@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 17:38:20 by ldavids           #+#    #+#             */
-/*   Updated: 2020/12/16 16:46:56 by ldavids          ###   ########.fr       */
+/*   Updated: 2020/12/16 23:14:01 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int		ft_change_dir(char *arg, char **env, t_struct *glo, char **tab)
 	if (chdir(arg) == -1)
 	{
 		ft_putstr_fd(strerror(errno), 1);
+		glo->cd_count = 0;
 		write(1, "\n", 1);
 	}
 	glo->cd_count++;
@@ -96,6 +97,7 @@ int		ft_home_dir(t_struct *glo, char **env, char **arg)
 	{
 		ft_putstr_fd(strerror(errno), 1);
 		write(1, "\n", 1);
+		glo->cd_count = 0;
 	}
 	glo->cd_count++;
 	free_tab(arg);
