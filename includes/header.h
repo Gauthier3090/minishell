@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/15 18:14:34 by ldavids          ###   ########.fr       */
+/*   Updated: 2020/12/16 17:23:12 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,7 @@ int		ft_tilde(char **arg, char **env, t_struct *glo);
 int		ft_cd_env(char **arg, char **env, t_struct *glo);
 void	ft_path_len(char *arg, t_struct *glo);
 char	*ft_strcat(char *dest, char *src);
+void	sorting_env(char **env, int size);
+char	*tabtostr(char **tab);
 
 #endif

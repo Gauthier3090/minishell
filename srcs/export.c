@@ -6,110 +6,69 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 14:40:35 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/15 17:56:45 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/17 15:05:42 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
 
-size_t	ft_tablen(char **tab)
+int		variable_exist(char **env, char *str)
 {
-	int		i;
-	size_t	length;
+	int	i;
 
 	i = -1;
-	length = 0;
-	while (tab[++i])
+	while (env[++i])
 	{
-		length += ft_strlen(tab[i]);
-		length++;
+		if (!ft_strncmp(env[i], str, ft_strlen(env[i])))
+			return (TRUE);
 	}
-	return (length);
+	return (FALSE);
 }
 
-char	*tabtostr(char **tab)
+void	create_variable(t_minishell *shell, char **arg)
 {
 	char	*str;
-	int		i;
-	int		j;
-	int		index;
+	char	*tmp;
 
-	if (!(str = ft_calloc(1, ft_tablen(tab) * sizeof(char))))
-		return (NULL);
-	i = -1;
-	index = -1;
-	while (tab[++i])
+	if (!arg[1])
 	{
-		j = -1;
-		while (tab[i][++j])
-			str[++index] = tab[i][j];
-		if (i != ft_strlen_tab(tab) - 1)
-			str[++index] = '\n';
+		if (!(tmp = ft_strdup(arg[0])))
+			exit(EXIT_FAILURE);
+		tmp = ft_realloc(tmp, ft_strlen(tmp) + 5);
+		tmp = ft_strcat(tmp, "=''");
 	}
-	return (str);
+	else
+	{
+		if (!(tmp = ft_strdup(shell->tab[1])))
+			exit(EXIT_FAILURE);
+	}
+	str = tabtostr(shell->env);
+	str = ft_realloc(str, ft_strlen(str) + ft_strlen(tmp) + 2);
+	str = ft_strcat(str, "\n");
+	str = ft_strcat(str, tmp);
+	if (!(shell->env = ft_split(str, '\n')))
+		exit(EXIT_FAILURE);
+	free(str);
+	free(tmp);
 }
 
-void	sorting_env(char **env, int size)
+void	create_env_variable(t_minishell *shell)
 {
-	int		i;
-	int		j;
-	char	*tmp;
-	char	**tab;
+	char	**arg;
 
-	i = -1;
-	tmp = tabtostr(env);
-	if (!(tab = ft_split(tmp, '\n')))
+	if (!(arg = ft_split(shell->tab[1], '=')))
 		exit(EXIT_FAILURE);
-	free(tmp);
-	while (++i < size)
-	{
-		j = -1;
-		while (++j < size)
-		{
-			if (ft_strcmp(tab[i], tab[j]) < 0)
-			{
-				tmp = tab[i];
-				tab[i] = tab[j];
-				tab[j] = tmp;
-			}
-		}
-	}
-	ft_print_tab(tab);
-	free_tab(tab);
+	if (variable_exist(shell->env, arg[0]))
+		ft_putendl_fd("EXIST", 1);
+	else
+		create_variable(shell, arg);
+	free_tab(arg);
 }
 
 void	export(t_minishell *shell)
 {
-	char	*tmp;
-	int		i;
-
 	if (ft_strlen_tab(shell->tab) == 1)
-	{
 		sorting_env(shell->env, ft_strlen_tab(shell->env));
-		return ;
-	}
-	else if (shell->tab[1][0] == '$')
-	{
-		if (!(tmp = ft_substr(shell->tab[1], 1, ft_strlen(shell->tab[1]))))
-			exit(EXIT_FAILURE);
-		i = -1;
-		while (shell->env[++i])
-		{
-			if (ft_strnstr(shell->env[i], tmp, ft_strlen(tmp)))
-			{
-				free(shell->tab[1]);
-				if (!(shell->tab[1] = ft_strdup(delete_char(shell->env[i], '='))))
-					exit(EXIT_FAILURE);
-				shell->tab[1] = ft_realloc(shell->tab[1], ft_strlen(shell->tab[1] + 5));
-				shell->tab[1] = ft_strcat(shell->tab[1], "=''");
-			}
-		}
-		free(tmp);
-	}
-	tmp = tabtostr(shell->env);
-	tmp = ft_realloc(tmp, ft_strlen(tmp) + ft_strlen(shell->tab[1]) + 2);
-	tmp = ft_strcat(tmp, "\n");
-	tmp = ft_strcat(tmp, shell->tab[1]);
-	shell->env = ft_split(tmp, '\n');
-	free(tmp);
+	else
+		create_env_variable(shell);
 }
