@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/17 17:26:52 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/21 17:20:33 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,15 @@ void	ft_builtins(t_minishell *minishell, t_struct *glo)
 			ft_env(minishell->tab, minishell->env);
 		else if (ft_strcmp(minishell->tab[0], "export") == 0)
 			export(minishell);
-		else if (ft_strcmp("cd", minishell->input) == 0)
+		else if (ft_strncmp("cd", minishell->input, 2) == 0)
 			ft_cd(minishell->input, minishell->env, glo);
 		else if (ft_strcmp("pwd", minishell->input) == 0)
 			ft_pwd(minishell->input);
 		else if (ft_strncmp("ls", minishell->input, 2) == 0)
 			ft_ls(minishell->input);
+		/*else if (ft_strcmp(minishell->tab[0], "bash") == 0)*/
+		else if (ft_exec(minishell) != 0)
+			return ;
 		else
 		{
 			ft_putstr_fd("minishell: command not found: ", 2);

@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/17 16:54:07 by ldavids          ###   ########.fr       */
+/*   Updated: 2020/12/21 17:20:23 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,6 @@ void	ft_pwd(char *input);
 void	ft_ls(char *input);
 void	ft_errno_putstr(int errnumb);
 void	ft_ls_files(void);
+int		ft_exec(t_minishell *minishell);
 
 #endif
