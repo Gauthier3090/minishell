@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/21 17:20:23 by ldavids          ###   ########.fr       */
+/*   Updated: 2020/12/22 00:11:34 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ typedef struct		s_minishell
 void	directoryprompt();
 int		ft_struct_init(t_struct *glo);
 void	echo(char **tab, char **env);
-char	*delete_char(char *str, char c);
+char	*delete_char_left(char *str, char c);
+char	*delete_char_right(char *str, char c);
 void	echo_env(char *tab, char **env);
 void	save_env(char *tab, char **env, t_struct *glo);
 void	free_tab(char **tab);

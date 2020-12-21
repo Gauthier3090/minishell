@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 16:21:04 by ldavids           #+#    #+#             */
-/*   Updated: 2020/12/16 16:35:17 by ldavids          ###   ########.fr       */
+/*   Updated: 2020/12/22 00:04:56 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	save_env(char *tab, char **env, t_struct *glo)
 		free(glo->env);
 		if (ft_strnstr(env[i], tmp, ft_strlen(tmp)))
 		{
-			glo->env = ft_strdup(delete_char(env[i], '='));
+			glo->env = ft_strdup(delete_char_right(env[i], '='));
 			free(tmp);
 			return ;
 		}

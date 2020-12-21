@@ -6,24 +6,11 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 15:46:38 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/21 22:12:38 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/22 00:15:06 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
-
-char	*delete_char(char *str, char c)
-{
-	int	i;
-
-	i = -1;
-	while (str[++i])
-	{
-		if (str[i] == c)
-			return (&str[i + 1]);
-	}
-	return (str);
-}
 
 int		check_symbols(char *str)
 {
@@ -38,10 +25,29 @@ int		check_symbols(char *str)
 	return (TRUE);
 }
 
-void	echo_env(char *tab, char **env)
+void	echo_env_more(char **arg, char **env)
 {
 	int		i;
 	int		j;
+	char	*tmp;
+
+	i = -1;
+	while (arg[++i])
+	{
+		j = -1;
+		while (env[++j])
+		{
+			tmp = delete_char_left(env[j], '=');
+			if (ft_strcmp(tmp, arg[i]) == 0)
+				ft_putstr_fd(delete_char_right(env[j], '='), 1);
+			free(tmp);
+		}
+	}
+}
+
+void	echo_env(char *tab, char **env)
+{
+	int		i;
 	char	**arg;
 
 	i = -1;
@@ -54,16 +60,7 @@ void	echo_env(char *tab, char **env)
 	}
 	if (!(arg = ft_split(&tab[i], '$')))
 		exit(EXIT_FAILURE);
-	i = -1;
-	while (arg[++i])
-	{
-		j = -1;
-		while (env[++j])
-		{
-			if (ft_strnstr(env[j], arg[i], ft_strlen(arg[i])))
-				ft_putstr_fd(delete_char(env[j], '='), 1);
-		}
-	}
+	echo_env_more(arg, env);
 	free_tab(arg);
 }
 
