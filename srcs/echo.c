@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 15:46:38 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/15 16:59:31 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/21 22:12:38 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ int		check_symbols(char *str)
 void	echo_env(char *tab, char **env)
 {
 	int		i;
-	char	*tmp;
+	int		j;
+	char	**arg;
 
 	i = -1;
 	while (tab[++i])
@@ -51,14 +52,19 @@ void	echo_env(char *tab, char **env)
 		else
 			break ;
 	}
-	if (!(tmp = ft_substr(tab, i + 1, ft_strlen(tab))))
+	if (!(arg = ft_split(&tab[i], '$')))
 		exit(EXIT_FAILURE);
-	while (env[++i])
+	i = -1;
+	while (arg[++i])
 	{
-		if (ft_strnstr(env[i], tmp, ft_strlen(tmp)))
-			ft_putstr_fd(delete_char(env[i], '='), 1);
+		j = -1;
+		while (env[++j])
+		{
+			if (ft_strnstr(env[j], arg[i], ft_strlen(arg[i])))
+				ft_putstr_fd(delete_char(env[j], '='), 1);
+		}
 	}
-	free(tmp);
+	free_tab(arg);
 }
 
 void	echo(char **tab, char **env)

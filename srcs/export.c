@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 14:40:35 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/21 17:53:02 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/21 22:25:23 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ char	*research_env(char **env, char *str_research)
 	char	*tmp;
 	char	*str;
 
-	ft_putendl_fd(str_research, 1);
 	if (!(str = ft_calloc(1, 2 * sizeof(char))))
 		exit(EXIT_FAILURE);
 	i = -1;
@@ -140,6 +139,7 @@ void	create_env_variable(t_minishell *shell, int i)
 		exit(EXIT_FAILURE);
 	if ((index = variable_exist(shell->env, arg[0])) != -1)
 	{
+		free(shell->env[index]);
 		if (arg[1])
 		{
 			j = -1;
