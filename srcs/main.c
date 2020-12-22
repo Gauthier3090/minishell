@@ -6,7 +6,11 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2020/12/21 18:31:12 by gpladet          ###   ########.fr       */
+=======
+/*   Updated: 2020/12/22 15:28:59 by ldavids          ###   ########.fr       */
+>>>>>>> cd
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +34,7 @@ void	ft_builtins(t_minishell *minishell, t_struct *glo)
 			ft_pwd(minishell->input);
 		else if (ft_strncmp("ls", minishell->input, 2) == 0)
 			ft_ls(minishell->input);
-		/*else if (ft_strcmp(minishell->tab[0], "bash") == 0)*/
-		else if (ft_exec(minishell) != 0)
+		else if (ft_exec(minishell, glo) != 0)
 			return ;
 		else
 		{
