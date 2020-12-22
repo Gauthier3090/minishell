@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 00:11:01 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/22 15:39:40 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/22 22:46:28 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,25 @@ char	*delete_char_left(char *str, char c)
 		count++;
 	}
 	return (new_str);
+}
+
+int		variable_exist(char **env, char *str)
+{
+	int	i;
+	int	j;
+	int	length;
+
+	i = -1;
+	length = ft_strlen(str);
+	while (env[++i])
+	{
+		j = 0;
+		while (env[i][j] != '=')
+			j++;
+		if (!ft_strncmp(env[i], str, j) && !ft_strncmp(env[i], str, length))
+			return (i);
+	}
+	return (-1);
 }
 
 void	ft_putstr_error(char *message, char *variable)

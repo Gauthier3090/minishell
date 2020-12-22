@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/22 17:32:22 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/22 23:10:21 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,9 @@ void				ft_putstr_error(char *message, char *variable);
 int					ft_exec(t_minishell *minishell, t_struct *glo);
 char				**ft_exec_env(char **arg, char **env, t_struct *glo);
 int					ft_check_tabs(t_minishell *minishell, t_struct *glo);
+char				*export_variable(char *str, char **env);
+char				*export_variable_env(char *variable, char **arg, char **env);
+void				export_error(char *variable, char **arg);
+int					variable_exist(char **env, char *str);
 
 #endif
