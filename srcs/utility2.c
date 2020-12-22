@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 19:19:46 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/22 00:04:42 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/22 17:18:54 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	*ft_realloc(void *ptr, size_t size)
 		free(ptr);
 		return (NULL);
 	}
-	if (!(new = ft_calloc(1, size)))
+	if (!(new = ft_calloc(1, size + 1)))
 		return (NULL);
 	new = ft_strcpy(new, ptr);
 	free(ptr);

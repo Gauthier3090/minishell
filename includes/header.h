@@ -6,12 +6,9 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/22 00:11:34 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/22 15:40:00 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
-
 
 #ifndef HEADER_H
 # define HEADER_H
@@ -87,5 +84,6 @@ void	ft_ls(char *input);
 void	ft_errno_putstr(int errnumb);
 void	ft_ls_files(void);
 int		ft_exec(t_minishell *minishell);
+void	ft_putstr_error(char *message, char *variable);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 00:11:01 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/22 00:34:49 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/22 15:39:40 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,11 @@ char	*delete_char_left(char *str, char c)
 		count++;
 	}
 	return (new_str);
+}
+
+void	ft_putstr_error(char *message, char *variable)
+{
+	ft_putstr_fd(message, 2);
+	ft_putendl_fd(variable, 2);
+	exit(EXIT_FAILURE);
 }
