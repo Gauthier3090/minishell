@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/22 23:10:21 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/23 01:50:57 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct		s_minishell
 	char			**tab;
 	char			*input;
 	int				is_active;
+	int				go_free;
 }					t_minishell;
 
 void				directoryprompt();

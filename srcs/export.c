@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 14:40:35 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/22 23:25:11 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/23 01:57:00 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,33 +53,39 @@ char	*export_value(char *str, char **env)
 	return (value);
 }
 
-char	**create_variable_env(char *variable, char *value, char **env)
+void	create_variable_env(char *variable, char *value, t_minishell *shell)
 {
 	char	*str;
+	char	*tmp;
 	int		index;
 
-	if ((index = variable_exist(env, variable)) != -1)
-	{
-		if (!ft_strcmp(value, "''"))
-			return (env);
-		free(env[index]);
-		env[index] = NULL;
-	}
+	tmp = ft_strdup(variable);
 	if (!(variable = ft_realloc(variable, ft_strlen(value) + 2)))
 		exit(EXIT_FAILURE);
 	variable = ft_strcat(variable, "=");
 	variable = ft_strcat(variable, value);
-	str = tabtostr(env);
-	if (!(str = ft_realloc(str, ft_strlen(str) + ft_strlen(variable) + 2)))
-		exit(EXIT_FAILURE);
-	str = ft_strcat(str, "\n");
-	str = ft_strcat(str, variable);
-	if (!(env = ft_split(str, '\n')))
-		exit(EXIT_FAILURE);
-	free(str);
+	if ((index = variable_exist(shell->env, tmp)) != -1)
+	{
+		free(shell->env[index]);
+		shell->env[index] = ft_strdup(variable);
+	}
+	else
+	{
+		str = tabtostr(shell->env);
+		if (!(str = ft_realloc(str, ft_strlen(str) + ft_strlen(variable) + 2)))
+			exit(EXIT_FAILURE);
+		str = ft_strcat(str, "\n");
+		str = ft_strcat(str, variable);
+		if (shell->go_free)
+			free(shell->env);
+		if (!(shell->env = ft_split(str, '\n')))
+			exit(EXIT_FAILURE);
+		shell->go_free = TRUE;
+		free(str);
+	}
 	free(variable);
 	free(value);
-	return (env);
+	free(tmp);
 }
 
 char	*ft_export(char *variable, char *value, char **arg, char **env)
@@ -120,7 +126,7 @@ void	export(t_minishell *shell)
 		if (variable[0] == '\0' && !arg[1])
 			sorting_env(shell->env, ft_strlen_tab(shell->env));
 		value = ft_export(variable, value, arg, shell->env);
-		shell->env = create_variable_env(variable, value, shell->env);
+		create_variable_env(variable, value, shell);
 		free_tab(arg);
 	}
 }
