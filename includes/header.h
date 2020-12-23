@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/23 01:50:57 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/23 16:53:13 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # include <sys/wait.h>
 # include <errno.h>
 # include <dirent.h>
+# include <sys/time.h>
+# include <sys/resource.h>
+
 
 typedef struct		s_struct
 {
@@ -35,6 +38,8 @@ typedef struct		s_struct
 	int				y;
 	char			**tab;
 	char			**tab2;
+	pid_t			id1;
+	pid_t			id2;
 }					t_struct;
 
 typedef struct		s_minishell
@@ -95,5 +100,6 @@ char				*export_variable(char *str, char **env);
 char				*export_variable_env(char *variable, char **arg, char **env);
 void				export_error(char *variable, char **arg);
 int					variable_exist(char **env, char *str);
+int					ft_fork_exec(t_struct *glo);
 
 #endif

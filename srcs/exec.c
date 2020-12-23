@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 15:42:42 by ldavids           #+#    #+#             */
-/*   Updated: 2020/12/22 17:18:11 by ldavids          ###   ########.fr       */
+/*   Updated: 2020/12/23 16:55:35 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int		ft_exec(t_minishell *minishell, t_struct *glo)
 {
+	glo->i = 0;
 	if (ft_check_tabs(minishell, glo) == 0)
 		return (0);
 	glo->i = 1;
@@ -24,7 +25,8 @@ int		ft_exec(t_minishell *minishell, t_struct *glo)
 		glo->i++;
 	}
 	glo->tab2[++glo->i] = NULL;
-	fork();
+	if (ft_fork_exec(glo) == 1)
+		return (1);
 	if (execve(glo->tab2[0], glo->tab2, minishell->env) == -1)
 	{
 		ft_putstr_fd(strerror(errno), 1);
@@ -61,7 +63,6 @@ char	**ft_exec_env(char **tab, char **env, t_struct *glo)
 
 int		ft_check_tabs(t_minishell *minishell, t_struct *glo)
 {
-	glo->i = 0;
 	if (!(glo->tab = ft_split(minishell->input, ' ')))
 		exit(EXIT_FAILURE);
 	while (glo->tab[glo->i])
@@ -87,4 +88,31 @@ int		ft_check_tabs(t_minishell *minishell, t_struct *glo)
 		return (0);
 	}
 	return (1);
+}
+
+int		ft_fork_exec(t_struct *glo)
+{
+	int		id;
+
+	id = fork();
+	if (id == -1)
+	{
+		ft_putstr_fd(strerror(errno), 1);
+		write(1, "\n", 1);
+		free_tab(glo->tab);
+		free_tab(glo->tab2);
+		return (1);
+	}
+	if (id != 0)
+	{
+		if (wait(NULL) == -1)
+		{
+			ft_putstr_fd(strerror(errno), 1);
+			write(1, "\n", 1);
+		}
+		free_tab(glo->tab);
+		free_tab(glo->tab2);
+		return (1);
+	}
+	return (0);
 }
