@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 00:11:01 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/22 22:46:28 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/23 17:24:54 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*delete_char_right(char *str, char c)
 		if (str[i] == c)
 			return (&str[i + 1]);
 	}
-	return (str);
+	return (NULL);
 }
 
 char	*delete_char_left(char *str, char c)
