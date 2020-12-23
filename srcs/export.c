@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 14:40:35 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/23 01:57:00 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/23 17:28:06 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void	create_variable_env(char *variable, char *value, t_minishell *shell)
 	int		index;
 
 	tmp = ft_strdup(variable);
-	if (!(variable = ft_realloc(variable, ft_strlen(value) + 2)))
+	if (!(variable = ft_realloc(variable,
+	ft_strlen(variable) + ft_strlen(value) + 1)))
 		exit(EXIT_FAILURE);
 	variable = ft_strcat(variable, "=");
 	variable = ft_strcat(variable, value);
@@ -72,12 +73,12 @@ void	create_variable_env(char *variable, char *value, t_minishell *shell)
 	else
 	{
 		str = tabtostr(shell->env);
-		if (!(str = ft_realloc(str, ft_strlen(str) + ft_strlen(variable) + 2)))
+		if (!(str = ft_realloc(str, ft_strlen(str) + ft_strlen(variable) + 1)))
 			exit(EXIT_FAILURE);
 		str = ft_strcat(str, "\n");
 		str = ft_strcat(str, variable);
 		if (shell->go_free)
-			free(shell->env);
+			free_tab(shell->env);
 		if (!(shell->env = ft_split(str, '\n')))
 			exit(EXIT_FAILURE);
 		shell->go_free = TRUE;
@@ -88,16 +89,16 @@ void	create_variable_env(char *variable, char *value, t_minishell *shell)
 	free(tmp);
 }
 
-char	*ft_export(char *variable, char *value, char **arg, char **env)
+char	*ft_export(char *variable, char *value, char **env)
 {
-	if (arg[1])
-		value = export_value(arg[1], env);
+	if (value)
+		value = export_value(value, env);
 	else
 	{
 		if (!(value = ft_strdup("''")))
 			exit(EXIT_FAILURE);
 	}
-	if (variable[0] == '\0' && arg[1])
+	if (variable[0] == '\0' && value)
 		ft_putstr_error("minishell: this value is not found: ", value);
 	return (value);
 }
@@ -105,9 +106,10 @@ char	*ft_export(char *variable, char *value, char **arg, char **env)
 void	export(t_minishell *shell)
 {
 	int		i;
-	char	**arg;
 	char	*variable;
 	char	*value;
+	char	*tmp_variable;
+	char	*tmp_value;
 
 	if (ft_strlen_tab(shell->tab) == 1)
 		sorting_env(shell->env, ft_strlen_tab(shell->env));
@@ -116,17 +118,14 @@ void	export(t_minishell *shell)
 	{
 		shell->tab[i] = ft_whitespace(shell->tab[i]);
 		if (!ft_strncmp(shell->tab[i], "=", 1))
-		{
-			ft_putendl_fd("minishell: bad assigment", 2);
-			exit(EXIT_FAILURE);
-		}
-		if (!(arg = ft_split(shell->tab[i], '=')))
-			exit(EXIT_FAILURE);
-		variable = export_variable(arg[0], shell->env);
-		if (variable[0] == '\0' && !arg[1])
+			ft_putstr_error("minishell: ", "bad assigment");
+		tmp_variable = delete_char_left(shell->tab[i], '=');
+		tmp_value = delete_char_right(shell->tab[i], '=');
+		variable = export_variable(tmp_variable, shell->env);
+		if (variable[0] == '\0' && !tmp_value)
 			sorting_env(shell->env, ft_strlen_tab(shell->env));
-		value = ft_export(variable, value, arg, shell->env);
+		value = ft_export(tmp_variable, tmp_value, shell->env);
 		create_variable_env(variable, value, shell);
-		free_tab(arg);
+		free(tmp_variable);
 	}
 }

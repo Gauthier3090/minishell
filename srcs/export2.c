@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 16:50:28 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/22 22:01:57 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/23 17:15:45 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,12 +111,13 @@ char	*export_variable(char *str, char **env)
 	int		i;
 	int		j;
 	char	*variable;
+	char	*tmp;
 	char	**arg;
 
-	i = -1;
-	j = 1;
 	if (!(variable = ft_calloc(1, 2 * sizeof(char))))
 		exit(EXIT_FAILURE);
+	i = -1;
+	j = 1;
 	while (str[++i] != '$' && str[i])
 	{
 		if (!(variable = ft_realloc(variable, j + 1)))
@@ -124,11 +125,16 @@ char	*export_variable(char *str, char **env)
 		variable[i] = str[i];
 		j++;
 	}
+	if (!(tmp = ft_strdup(variable)))
+		exit(EXIT_FAILURE);
 	if (!(arg = ft_split(&str[i], '$')))
 		exit(EXIT_FAILURE);
 	if (arg)
 		variable = export_variable_env(variable, arg, env);
+	if (arg[0] && tmp[0] != '\0')
+		ft_putstr_error("minishell: identifier not found : ", variable);
 	export_error(variable, arg);
+	free(tmp);
 	free_tab(arg);
 	return (variable);
 }
