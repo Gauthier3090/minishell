@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/23 16:53:13 by ldavids          ###   ########.fr       */
+/*   Updated: 2020/12/24 15:39:59 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ char				*tabtostr(char **tab);
 char				*ft_cd_env_sub(char *arg, char **env, t_struct *glo);
 void				ft_pwd(char *input);
 void				ft_ls(char *input);
+void				ft_ls_sub(struct dirent	*entry);
 void				ft_errno_putstr(int errnumb);
 void				ft_ls_files(void);
 void				ft_putstr_error(char *message, char *variable);
