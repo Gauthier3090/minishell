@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 16:50:28 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/23 17:15:45 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/28 15:25:31 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,22 +109,12 @@ char	*export_variable_env(char *variable, char **arg, char **env)
 char	*export_variable(char *str, char **env)
 {
 	int		i;
-	int		j;
 	char	*variable;
 	char	*tmp;
 	char	**arg;
 
-	if (!(variable = ft_calloc(1, 2 * sizeof(char))))
-		exit(EXIT_FAILURE);
 	i = -1;
-	j = 1;
-	while (str[++i] != '$' && str[i])
-	{
-		if (!(variable = ft_realloc(variable, j + 1)))
-			exit(EXIT_FAILURE);
-		variable[i] = str[i];
-		j++;
-	}
+	variable = export_variable_start(str, &i);
 	if (!(tmp = ft_strdup(variable)))
 		exit(EXIT_FAILURE);
 	if (!(arg = ft_split(&str[i], '$')))

@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 14:40:35 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/23 17:28:06 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/28 15:30:41 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ char	*export_value(char *str, char **env)
 
 void	create_variable_env(char *variable, char *value, t_minishell *shell)
 {
-	char	*str;
 	char	*tmp;
 	int		index;
 
@@ -67,23 +66,14 @@ void	create_variable_env(char *variable, char *value, t_minishell *shell)
 	variable = ft_strcat(variable, value);
 	if ((index = variable_exist(shell->env, tmp)) != -1)
 	{
-		free(shell->env[index]);
-		shell->env[index] = ft_strdup(variable);
+		if (strcmp(value, "''"))
+		{
+			free(shell->env[index]);
+			shell->env[index] = ft_strdup(variable);
+		}
 	}
 	else
-	{
-		str = tabtostr(shell->env);
-		if (!(str = ft_realloc(str, ft_strlen(str) + ft_strlen(variable) + 1)))
-			exit(EXIT_FAILURE);
-		str = ft_strcat(str, "\n");
-		str = ft_strcat(str, variable);
-		if (shell->go_free)
-			free_tab(shell->env);
-		if (!(shell->env = ft_split(str, '\n')))
-			exit(EXIT_FAILURE);
-		shell->go_free = TRUE;
-		free(str);
-	}
+		variable_no_exist(shell, variable);
 	free(variable);
 	free(value);
 	free(tmp);
