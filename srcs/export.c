@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 14:40:35 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/28 15:30:41 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/28 16:07:43 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	create_variable_env(char *variable, char *value, t_minishell *shell)
 	variable = ft_strcat(variable, value);
 	if ((index = variable_exist(shell->env, tmp)) != -1)
 	{
-		if (strcmp(value, "''"))
+		if (ft_strcmp(value, "''"))
 		{
 			free(shell->env[index]);
 			shell->env[index] = ft_strdup(variable);
@@ -74,9 +74,9 @@ void	create_variable_env(char *variable, char *value, t_minishell *shell)
 	}
 	else
 		variable_no_exist(shell, variable);
-	free(variable);
-	free(value);
-	free(tmp);
+	variable ? free(variable) : 0;
+	value ? free(value) : 0;
+	tmp ? free(tmp) : 0;
 }
 
 char	*ft_export(char *variable, char *value, char **env)

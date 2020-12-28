@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/22 17:26:58 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/28 15:43:24 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	ft_builtins(t_minishell *minishell, t_struct *glo)
 			ft_env(minishell->tab, minishell->env);
 		else if (ft_strcmp(minishell->tab[0], "export") == 0)
 			export(minishell);
+		else if (ft_strcmp(minishell->tab[0], "unset") == 0)
+			unset(minishell);
 		else if (ft_strcmp(minishell->tab[0], "cd") == 0)
 			ft_cd(minishell->input, minishell->env, glo);
 		else if (ft_strcmp(minishell->tab[0], "pwd") == 0)

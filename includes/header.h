@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/28 15:25:52 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/28 15:43:28 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,5 +104,6 @@ int					variable_exist(char **env, char *str);
 int					ft_fork_exec(t_struct *glo);
 void				variable_no_exist(t_minishell *shell, char *variable);
 char				*export_variable_start(char *str, int *i);
+void				unset(t_minishell *shell);
 
 #endif
