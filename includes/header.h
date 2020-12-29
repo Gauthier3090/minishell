@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/28 15:43:28 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/29 16:41:08 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,11 @@ typedef struct		s_struct
 	char			*arg;
 	int				i;
 	int				y;
+	int				x;
+	int				check;
 	char			**tab;
 	char			**tab2;
+	char			**forked_tab;
 	pid_t			id1;
 	pid_t			id2;
 }					t_struct;
@@ -52,6 +55,7 @@ typedef struct		s_minishell
 }					t_minishell;
 
 void				directoryprompt();
+void				ft_builtins(t_minishell *minishell, t_struct *glo);
 int					ft_struct_init(t_struct *glo);
 void				echo(char **tab, char **env);
 char				*delete_char_left(char *str, char c);
@@ -105,5 +109,8 @@ int					ft_fork_exec(t_struct *glo);
 void				variable_no_exist(t_minishell *shell, char *variable);
 char				*export_variable_start(char *str, int *i);
 void				unset(t_minishell *shell);
+int					ft_semicolon(t_minishell *minishell, t_struct *glo);
+int					ft_semicolon_sub(t_minishell *minishell, t_struct *glo);
+int					check_fork(int id, t_struct *glo);
 
 #endif
