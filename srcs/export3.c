@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 23:09:02 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/28 15:25:45 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/29 17:22:54 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*export_variable_start(char *str, int *i)
 	return (variable);
 }
 
-void	export_error(char *variable, char **arg)
+int		export_error(char *variable)
 {
 	int	i;
 
@@ -55,14 +55,38 @@ void	export_error(char *variable, char **arg)
 	while (variable[++i])
 	{
 		if (variable[i] == '+' || variable[i] == '-')
+		{
+			ft_putchar_fd(variable[i], 1);
 			ft_putstr_error("export: not an identifier: ", variable);
+			return (TRUE);
+		}
 	}
 	if (ft_strisdigit(variable) && variable[0] != '\0')
-		ft_putstr_error("export: not an identifier: ", variable);
-	i = -1;
-	while (arg[++i])
 	{
-		if (arg[0] != arg[i] && ft_strcmp(arg[i], "USER"))
-			ft_putstr_error("export: not valid in this context: ", variable);
+		ft_putstr_error("export: not an identifier: ", variable);
+		return (TRUE);
 	}
+	return (FALSE);
+}
+
+void	export_more(t_minishell *shell, char *tmp_variable, char *tmp_value)
+{
+	char	*variable;
+	char	*value;
+
+	if (!(variable = export_variable(tmp_variable, shell->env)))
+	{
+		free(tmp_variable);
+		return ;
+	}
+	if (variable[0] == '\0' && !tmp_value)
+		sorting_env(shell->env, ft_strlen_tab(shell->env));
+	if (!(value = ft_export(variable, tmp_value, shell->env)))
+	{
+		free(variable);
+		free(tmp_variable);
+		return ;
+	}
+	create_variable_env(variable, value, shell);
+	free(tmp_variable);
 }

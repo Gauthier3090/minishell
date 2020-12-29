@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/28 15:43:28 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/29 17:22:30 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,10 @@ char				**ft_exec_env(char **arg, char **env, t_struct *glo);
 int					ft_check_tabs(t_minishell *minishell, t_struct *glo);
 char				*export_variable(char *str, char **env);
 char				*export_variable_env(char *variable, char **arg, char **env);
-void				export_error(char *variable, char **arg);
+int					export_error(char *variable);
+void				export_more(t_minishell *shell, char *tmp_variable, char *tmp_value);
+void				create_variable_env(char *variable, char *value, t_minishell *shell);
+char				*ft_export(char *variable, char *value, char **env);
 int					variable_exist(char **env, char *str);
 int					ft_fork_exec(t_struct *glo);
 void				variable_no_exist(t_minishell *shell, char *variable);

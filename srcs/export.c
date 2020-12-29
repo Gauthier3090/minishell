@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 14:40:35 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/28 16:07:43 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/29 17:23:32 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,15 +89,17 @@ char	*ft_export(char *variable, char *value, char **env)
 			exit(EXIT_FAILURE);
 	}
 	if (variable[0] == '\0' && value)
+	{
 		ft_putstr_error("minishell: this value is not found: ", value);
+		free(value);
+		return (NULL);
+	}
 	return (value);
 }
 
 void	export(t_minishell *shell)
 {
 	int		i;
-	char	*variable;
-	char	*value;
 	char	*tmp_variable;
 	char	*tmp_value;
 
@@ -108,14 +110,12 @@ void	export(t_minishell *shell)
 	{
 		shell->tab[i] = ft_whitespace(shell->tab[i]);
 		if (!ft_strncmp(shell->tab[i], "=", 1))
+		{
 			ft_putstr_error("minishell: ", "bad assigment");
+			return ;
+		}
 		tmp_variable = delete_char_left(shell->tab[i], '=');
 		tmp_value = delete_char_right(shell->tab[i], '=');
-		variable = export_variable(tmp_variable, shell->env);
-		if (variable[0] == '\0' && !tmp_value)
-			sorting_env(shell->env, ft_strlen_tab(shell->env));
-		value = ft_export(tmp_variable, tmp_value, shell->env);
-		create_variable_env(variable, value, shell);
-		free(tmp_variable);
+		export_more(shell, tmp_variable, tmp_value);
 	}
 }

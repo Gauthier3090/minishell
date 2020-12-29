@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 16:50:28 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/28 15:25:31 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/29 16:36:38 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,9 +121,13 @@ char	*export_variable(char *str, char **env)
 		exit(EXIT_FAILURE);
 	if (arg)
 		variable = export_variable_env(variable, arg, env);
-	if (arg[0] && tmp[0] != '\0')
-		ft_putstr_error("minishell: identifier not found : ", variable);
-	export_error(variable, arg);
+	if (export_error(variable))
+	{
+		free(tmp);
+		free_tab(arg);
+		free(variable);
+		return (NULL);
+	}
 	free(tmp);
 	free_tab(arg);
 	return (variable);
