@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/22 17:26:58 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/29 16:14:50 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ void	ft_builtins(t_minishell *minishell, t_struct *glo)
 {
 	if (minishell->tab[0])
 	{
-		if (ft_strcmp(minishell->tab[0], "echo") == 0)
+		if (ft_semicolon(minishell, glo) == FALSE)
+			return ;
+		else if (ft_strcmp(minishell->tab[0], "echo") == 0)
 			echo(minishell->tab, minishell->env);
 		else if (ft_strcmp(minishell->tab[0], "exit") == 0)
 			exit_shell(minishell->tab);
