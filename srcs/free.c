@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 14:29:15 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/09 22:47:52 by ldavids          ###   ########.fr       */
+/*   Updated: 2020/12/31 15:39:41 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,12 @@ int		free_tab_ret(char **tab)
 		free(tab[i]);
 	free(tab);
 	return (TRUE);
+}
+
+void	free_var_unset(char **arg, char *value, char *str, char *tmp)
+{
+	free(value);
+	free(tmp);
+	free_tab(arg);
+	free(str);
 }
