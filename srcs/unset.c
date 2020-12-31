@@ -6,20 +6,44 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 15:40:36 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/29 17:03:14 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/31 15:26:01 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
 
+char	*unset_value(char *str, char **env)
+{
+	char	*value;
+	char	**arg;
+	int		i;
+
+	if (str)
+	{
+		i = -1;
+		value = NULL;
+		value = export_value_more(value, str, &i);
+		if (!(arg = ft_split(&str[i], '$')))
+			exit(EXIT_FAILURE);
+		if (arg)
+			value = export_variable_env(value, arg, env);
+		free_tab(arg);
+		return (value);
+	}
+	return (NULL);
+}
+
 char	*unset_variable(char *str, char **env)
 {
 	int		i;
 	char	*variable;
+	char	*value;
 	char	*tmp;
 	char	**arg;
 
 	i = -1;
+	value = unset_value(delete_char_right(str, '='), env);
+	str = delete_char_left(str, '=');
 	variable = export_variable_start(str, &i);
 	if (!(tmp = ft_strdup(variable)))
 		exit(EXIT_FAILURE);
@@ -27,8 +51,16 @@ char	*unset_variable(char *str, char **env)
 		exit(EXIT_FAILURE);
 	if (arg)
 		variable = export_variable_env(variable, arg, env);
+	if (value)
+	{
+		variable = ft_realloc(variable, ft_strlen(variable) + ft_strlen(value) + 1);
+		variable = ft_strcat(variable, "=");
+		variable = ft_strcat(variable, value);
+	}
+	free(value);
 	free(tmp);
 	free_tab(arg);
+	free(str);
 	return (variable);
 }
 
@@ -64,7 +96,7 @@ int		check_error_unset(char *variable)
 	i = -1;
 	while (variable[++i])
 	{
-		if (variable[i] == '=')
+		if (variable[i] == '=' || variable[0] == '+')
 		{
 			ft_putstr_fd("unset: invalid parameter name: ", 2);
 			ft_putendl_fd(variable, 2);
@@ -121,7 +153,8 @@ void	unset(t_minishell *shell)
 		while (shell->tab[++i])
 		{
 			variable = unset_variable(shell->tab[i], shell->env);
-			if (variable[0] == '\0' && i == ft_strlen_tab(shell->tab) - 1)
+			if ((variable[0] == '\0' || !ft_strcmp(variable, "-"))
+			&& i == ft_strlen_tab(shell->tab) - 1)
 				ft_putendl_fd("unset: not enough arguments", 2);
 			else if (variable[0] != '\0')
 				research_env(variable, shell);

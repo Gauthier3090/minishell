@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/29 17:29:36 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/31 15:17:23 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct		s_minishell
 	char			*input;
 	int				is_active;
 	int				go_free;
+	int				free_var;
 }					t_minishell;
 
 void				directoryprompt();
@@ -115,5 +116,6 @@ void				unset(t_minishell *shell);
 int					ft_semicolon(t_minishell *minishell, t_struct *glo);
 int					ft_semicolon_sub(t_minishell *minishell, t_struct *glo);
 int					check_fork(int id, t_struct *glo);
+char				*export_value_more(char *value, char *str, int *i);
 
 #endif

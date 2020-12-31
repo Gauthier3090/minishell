@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 14:40:35 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/29 17:23:32 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/31 15:18:47 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,11 @@ void	create_variable_env(char *variable, char *value, t_minishell *shell)
 	{
 		if (ft_strcmp(value, "''"))
 		{
-			free(shell->env[index]);
-			shell->env[index] = ft_strdup(variable);
+			if (shell->free_var)
+				free(shell->env[index]);
+			if (!(shell->env[index] = ft_strdup(variable)))
+				exit(EXIT_FAILURE);
+			shell->free_var = TRUE;
 		}
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 23:09:02 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/29 17:22:54 by gpladet          ###   ########.fr       */
+/*   Updated: 2020/12/31 14:46:36 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int		export_error(char *variable)
 	{
 		if (variable[i] == '+' || variable[i] == '-')
 		{
-			ft_putchar_fd(variable[i], 1);
 			ft_putstr_error("export: not an identifier: ", variable);
 			return (TRUE);
 		}
