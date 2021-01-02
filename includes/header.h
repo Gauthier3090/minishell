@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/31 15:45:58 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/02 14:50:30 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ char				*export_variable_start(char *str, int *i);
 void				unset(t_minishell *shell);
 int					ft_semicolon(t_minishell *minishell, t_struct *glo);
 int					ft_semicolon_sub(t_minishell *minishell, t_struct *glo);
-int					check_fork(int id, t_struct *glo);
+int					ft_check_double_semicolon(t_minishell *minishell, t_struct *glo);
 char				*export_value_more(char *value, char *str, int *i);
 void				research_env_more(char *variable, t_minishell *shell);
 char				*unset_value(char *str, char **env);
