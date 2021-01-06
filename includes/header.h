@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/06 17:17:11 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/06 17:28:28 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,7 @@ void				ft_errno_putstr(int errnumb);
 void				ft_ls_files(void);
 void				ft_putstr_error(char *message, char *variable);
 int					ft_exec(t_minishell *minishell, t_struct *glo);
-char				**ft_exec_env(char **arg, char **env, t_struct *glo);
-int					ft_check_tabs(t_minishell *minishell, t_struct *glo);
+char				*check_dir_bin(char *bin, char *command);
 char				*export_variable(char *str, char **env);
 char				*export_variable_env(char *variable, char **arg,
 					char **env);
@@ -122,16 +121,19 @@ int					export_error(char *variable);
 void				export_more(t_minishell *shell, char *variable, char *value);
 char				*ft_export(char *variable, char *value, char **env);
 int					variable_exist(char **env, char *str);
-int					ft_fork_exec(t_struct *glo);
+int					ft_fork_exec(t_struct *glo, char **bin, char *path);
+void				variable_no_exist(t_minishell *shell, char *variable);
 char				*export_variable_start(char *str, int *i);
 void				unset(t_minishell *shell);
 int					ft_semicolon(t_minishell *minishell, t_struct *glo);
 int					ft_semicolon_sub(t_minishell *minishell, t_struct *glo);
-int					check_fork(int id, t_struct *glo);
+int					ft_check_double_semicolon(t_minishell *minishell, t_struct *glo);
 char				*export_value_more(char *value, char *str, int *i);
 void				research_env_more(char *variable, t_minishell *shell);
 char				*unset_value(char *str, char **env);
 int					check_error_unset(char *variable, char *value);
+void				ft_put_errno(int error_numb);
+char				*path_join(const char *s1, const char *s2);
 char				**delete_env(t_minishell *shell, int index);
 char				*parse_input(t_minishell *shell, char *input, int free_input);
 int					length_input(char *str);
@@ -144,5 +146,6 @@ char				*str_simple_quote(t_minishell *shell, int i);
 char				*ft_strdel(char *str, char c);
 char				*env_start(char *input, int *i);
 char				*env_end(char *input, char **arg, char **env);
+char				*path_join(const char *s1, const char *s2);
 
 #endif

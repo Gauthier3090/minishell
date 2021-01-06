@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 00:11:01 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/05 15:55:25 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/06 17:25:48 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,10 @@ void	ft_putstr_error(char *message, char *variable)
 {
 	ft_putstr_fd(message, 2);
 	ft_putendl_fd(variable, 2);
+}
+
+void	ft_put_errno(int error_numb)
+{
+	ft_putstr_fd(strerror(error_numb), 2);
+		write(1, "\n", 1);
 }
