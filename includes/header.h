@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/06 17:28:28 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/06 17:31:49 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,6 @@ void				research_env_more(char *variable, t_minishell *shell);
 char				*unset_value(char *str, char **env);
 int					check_error_unset(char *variable, char *value);
 void				ft_put_errno(int error_numb);
-char				*path_join(const char *s1, const char *s2);
 char				**delete_env(t_minishell *shell, int index);
 char				*parse_input(t_minishell *shell, char *input, int free_input);
 int					length_input(char *str);
@@ -147,5 +146,6 @@ char				*ft_strdel(char *str, char c);
 char				*env_start(char *input, int *i);
 char				*env_end(char *input, char **arg, char **env);
 char				*path_join(const char *s1, const char *s2);
+char				*check_dir_bin(char *bin, char *command);
 
 #endif
