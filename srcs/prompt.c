@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 21:34:12 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/21 15:51:58 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/06 16:51:55 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*getinput(void)
 	char	buffer;
 	char	*input;
 
-	if (!(input = ft_calloc(1, 2 * sizeof(char))))
+	if (!(input = ft_calloc(2, sizeof(char))))
 		exit(EXIT_FAILURE);
 	i = -1;
 	count = 1;
@@ -49,7 +49,7 @@ char	*getinput(void)
 	{
 		input[++i] = buffer;
 		count++;
-		if (!(input = ft_realloc(input, count + 1)))
+		if (!(input = ft_realloc(input, count)))
 			exit(EXIT_FAILURE);
 	}
 	return (input);
