@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/31 15:45:58 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/05 15:44:21 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,21 @@ typedef struct		s_minishell
 {
 	char			**env;
 	char			**tab;
+	char			**tab_input;
 	char			*input;
-	int				is_active;
+	char			*variable;
+	char			*tmp_variable;
+	char			*value;
+	int				simple_quote;
+	int				simple_quote_left;
+	int				simple_quote_right;
+	int				double_quote;
+	int				double_quote_left;
+	int				double_quote_right;
+	int				len;
+	int				count;
+	int				i;
+	int				quote;
 	int				go_free;
 	int				free_var;
 }					t_minishell;
@@ -57,7 +70,7 @@ typedef struct		s_minishell
 void				directoryprompt();
 void				ft_builtins(t_minishell *minishell, t_struct *glo);
 int					ft_struct_init(t_struct *glo);
-void				echo(char **tab, char **env);
+void				echo(t_minishell *shell);
 char				*delete_char_left(char *str, char c);
 char				*delete_char_right(char *str, char c);
 void				echo_env(char *tab, char **env);
@@ -106,14 +119,10 @@ char				*export_variable(char *str, char **env);
 char				*export_variable_env(char *variable, char **arg,
 					char **env);
 int					export_error(char *variable);
-void				export_more(t_minishell *shell, char *tmp_variable,
-					char *tmp_value);
-void				create_variable_env(char *variable, char *value,
-					t_minishell *shell);
+void				export_more(t_minishell *shell, char *variable, char *value);
 char				*ft_export(char *variable, char *value, char **env);
 int					variable_exist(char **env, char *str);
 int					ft_fork_exec(t_struct *glo);
-void				variable_no_exist(t_minishell *shell, char *variable);
 char				*export_variable_start(char *str, int *i);
 void				unset(t_minishell *shell);
 int					ft_semicolon(t_minishell *minishell, t_struct *glo);
@@ -122,7 +131,18 @@ int					check_fork(int id, t_struct *glo);
 char				*export_value_more(char *value, char *str, int *i);
 void				research_env_more(char *variable, t_minishell *shell);
 char				*unset_value(char *str, char **env);
-int					check_error_unset(char *variable);
+int					check_error_unset(char *variable, char *value);
 char				**delete_env(t_minishell *shell, int index);
+char				*parse_input(t_minishell *shell, char *input, int free_input);
+int					length_input(char *str);
+char				**input_to_tab(char *str, int length, t_minishell *shell);
+int					check_quote_close(t_minishell *shell);
+void				is_quote(char *input, t_minishell *shell);
+char				*add_quote(char *str, char c);
+char				*str_double_quote(t_minishell *shell, int i);
+char				*str_simple_quote(t_minishell *shell, int i);
+char				*ft_strdel(char *str, char c);
+char				*env_start(char *input, int *i);
+char				*env_end(char *input, char **arg, char **env);
 
 #endif
