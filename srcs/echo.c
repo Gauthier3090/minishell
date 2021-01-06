@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 15:46:38 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/04 23:58:54 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/06 18:29:01 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	echo(t_minishell *shell)
 		if (ft_strcmp(shell->variable, "-n"))
 		{
 			ft_putstr_fd(shell->variable, 1);
+			if (shell->tab[shell->i + 1])
+				ft_putchar_fd(' ', 1);
 			if (shell->value)
 			{
 				ft_putchar_fd('=', 1);
@@ -36,6 +38,6 @@ void	echo(t_minishell *shell)
 			}
 		}
 	}
-	if (n_flag == FALSE)
+	if (n_flag == FALSE && !shell->tab[shell->i + 1])
 		ft_putchar_fd('\n', 1);
 }
