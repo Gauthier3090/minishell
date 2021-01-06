@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/02 14:50:30 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/06 17:17:08 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,7 @@ void				ft_errno_putstr(int errnumb);
 void				ft_ls_files(void);
 void				ft_putstr_error(char *message, char *variable);
 int					ft_exec(t_minishell *minishell, t_struct *glo);
-char				**ft_exec_env(char **arg, char **env, t_struct *glo);
-int					ft_check_tabs(t_minishell *minishell, t_struct *glo);
+char				*check_dir_bin(char *bin, char *command);
 char				*export_variable(char *str, char **env);
 char				*export_variable_env(char *variable, char **arg,
 					char **env);
@@ -112,7 +111,7 @@ void				create_variable_env(char *variable, char *value,
 					t_minishell *shell);
 char				*ft_export(char *variable, char *value, char **env);
 int					variable_exist(char **env, char *str);
-int					ft_fork_exec(t_struct *glo);
+int					ft_fork_exec(t_struct *glo, char **bin, char *path);
 void				variable_no_exist(t_minishell *shell, char *variable);
 char				*export_variable_start(char *str, int *i);
 void				unset(t_minishell *shell);
@@ -123,6 +122,8 @@ char				*export_value_more(char *value, char *str, int *i);
 void				research_env_more(char *variable, t_minishell *shell);
 char				*unset_value(char *str, char **env);
 int					check_error_unset(char *variable);
+void				ft_put_errno(int error_numb);
+char				*path_join(const char *s1, const char *s2);
 char				**delete_env(t_minishell *shell, int index);
 
 #endif
