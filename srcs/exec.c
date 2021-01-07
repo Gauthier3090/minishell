@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 15:42:42 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/06 17:18:06 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/07 16:51:01 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,5 +130,9 @@ int			ft_exec(t_minishell *minishell, t_struct *glo)
 	}
 	else if (execve(glo->tab2[0], glo->tab2, minishell->env) == -1)
 		ft_put_errno(errno);
+	free_tab(glo->tab);
+	free_tab(glo->tab2);
+	free_tab(bin);
+	free(path);
 	return (1);
 }

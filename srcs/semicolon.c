@@ -6,64 +6,81 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 14:17:08 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/02 16:55:13 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/07 17:35:41 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
 
-int		ft_semicolon(t_minishell *minishell, t_struct *glo)
+int		ft_semicolon(t_minishell *shell, t_struct *glo)
 {
 	glo->i = 0;
 	if (glo->check == 2)
 		return (TRUE);
-	while (minishell->input && (minishell->input[glo->i] == ' ' || \
-	minishell->input[glo->i] == '\t' || minishell->input[glo->i] == '\v'))
+	while (shell->input && (shell->input[glo->i] == ' ' || \
+	shell->input[glo->i] == '\t' || shell->input[glo->i] == '\v'))
 		glo->i++;
-	if (minishell->input[glo->i] == ';')
+	if (shell->input[glo->i] == ';')
 	{
 		ft_putstr_fd("bash: syntax error near unexpected token `;'\n", 1);
 		return (FALSE);
 	}
-	if (ft_check_double_semicolon(minishell, glo) == FALSE)
+	if (ft_check_double_semicolon(shell, glo) == FALSE)
 		return (FALSE);
 	if (glo->x == 0)
 		return (TRUE);
-	if (ft_semicolon_sub(minishell, glo) == FALSE)
+	if (ft_semicolon_sub(shell, glo) == FALSE)
 		return (FALSE);
 	return (TRUE);
 }
 
-void	ft_loop_sub(t_minishell *minishell, t_struct *glo, int i)
+void	ft_loop_sub(t_minishell *shell, t_struct *glo, int i)
 {
+	int		x;
+	char	*temp;
+
+	x = 0;
 	glo->check = 2;
-	free(minishell->input);
-	if (!(minishell->input = ft_strdup(glo->forked_tab[i])))
+	free(shell->input);
+	if (!(shell->input = ft_strdup(glo->forked_tab[i])))
 		exit(EXIT_FAILURE);
-	free_tab(minishell->tab);
-	if (!(minishell->tab = ft_split(minishell->input, ' ')))
+	free_tab(shell->tab);
+	while (shell->input[x])
+		x++;
+	temp = ft_substr(shell->input, 0, x);
+
+	if (!(shell->tab = ft_split(temp, ' ')))
 		exit(EXIT_FAILURE);
+	free(temp);
 	glo->x--;
-	minishell->input = ft_whitespace(minishell->input);
-	ft_builtins(minishell, glo);
+	shell->input = ft_whitespace(shell->input);
+	shell->i = 0;
+	free(shell->variable);
+	free(shell->value);
+	ft_loop_main(shell, glo);
 }
 
-int		ft_semicolon_sub(t_minishell *minishell, t_struct *glo)
+int		ft_semicolon_sub(t_minishell *shell, t_struct *glo)
 {
 	int		i;
 	int		x;
 
-	i = 0;
+	i = 1;
 	x = 0;
-	if (!(glo->forked_tab = ft_split(minishell->input, ';')))
+	if (!(glo->forked_tab = ft_split(shell->input, ';')))
 		exit(EXIT_FAILURE);
-	if (minishell->input[ft_strlen(minishell->input) - 1] == ';')
-		x = 1;
+	while (shell->input[ft_strlen(shell->input) - i] == ' ' || shell->input[ft_strlen(shell->input) - i] == ';')
+	{
+		if (shell->input[ft_strlen(shell->input) - i] == ';')
+			x = 1;
+		i++;
+	}
+	i = 0;
 	while (glo->x > -1)
 	{
 		if (glo->x == 0 && x == 1)
 			break ;
-		ft_loop_sub(minishell, glo, i);
+		ft_loop_sub(shell, glo, i);
 		i++;
 	}
 	glo->check = 0;
@@ -72,22 +89,22 @@ int		ft_semicolon_sub(t_minishell *minishell, t_struct *glo)
 	return (FALSE);
 }
 
-int		ft_check_double_semicolon(t_minishell *minishell, t_struct *glo)
+int		ft_check_double_semicolon(t_minishell *shell, t_struct *glo)
 {
 	int		y;
 
-	while (minishell->input[glo->i])
+	while (shell->input[glo->i])
 	{
-		if (minishell->input[glo->i] == ';')
+		if (shell->input[glo->i] == ';')
 		{
 			glo->x++;
 			glo->check = 1;
 			y = 1;
-			while (minishell->input && (minishell->input[glo->i + y] == ' ' ||
-				minishell->input[glo->i + y] == '\t' || \
-				minishell->input[glo->i + y] == '\v'))
+			while (shell->input && (shell->input[glo->i + y] == ' ' ||
+				shell->input[glo->i + y] == '\t' || \
+				shell->input[glo->i + y] == '\v'))
 				y++;
-			if (minishell->input[glo->i + y] == ';')
+			if (shell->input[glo->i + y] == ';')
 			{
 				ft_putstr_fd("bash: syntax error near unexpected \
 token `;'\n", 1);
