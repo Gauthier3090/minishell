@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 00:11:01 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/06 17:25:48 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/06 17:47:31 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,5 @@ void	ft_putstr_error(char *message, char *variable)
 void	ft_put_errno(int error_numb)
 {
 	ft_putstr_fd(strerror(error_numb), 2);
-		write(1, "\n", 1);
+		write(1, "\n", 2);
 }
