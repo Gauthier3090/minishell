@@ -6,12 +6,11 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 22:27:21 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/11 14:37:28 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/12 17:09:58 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "../includes/header.h"
 
 int		count_quotes(char *str, int *i)
 {
@@ -53,6 +52,8 @@ int		count_words(char *str)
 	{
 		while (str[i] == ' ')
 			i++;
+		if (!str[i])
+			break ;
 		if (str[i] == '\'')
 			count += count_quotes(str, &i);
 		else if (str[i] == '"')
@@ -162,13 +163,13 @@ char	**split_input(char *str)
 	char	**tab;
 
 	count = count_words(str);
-	if (!(tab = (char **)calloc(count + 1, sizeof(char *))))
+	if (!(tab = (char **)ft_calloc(count + 1, sizeof(char *))))
 		exit(EXIT_FAILURE);
 	i = -1;
 	j = 0;
 	while (++i < count)
 	{
-		if (!(tab[i] = calloc(size_words(&str[j]) + 1, sizeof(char))))
+		if (!(tab[i] = ft_calloc(size_words(&str[j]) + 2, sizeof(char))))
 			exit(EXIT_FAILURE);
 		while (str[j] == ' ')
 			j++;

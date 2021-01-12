@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 14:40:35 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/05 17:15:26 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/12 17:18:54 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	variable_no_exist(t_minishell *shell, char *new_env)
 	char	*str;
 
 	str = tabtostr(shell->env);
-	if (!(str = ft_realloc(str, ft_strlen(str) + ft_strlen(new_env) + 1)))
+	if (!(str = ft_realloc(str, ft_strlen(str) + ft_strlen(new_env) + 2)))
 		exit(EXIT_FAILURE);
 	str = ft_strcat(str, "\n");
 	str = ft_strcat(str, new_env);
@@ -122,7 +122,7 @@ void	create_variable_env(t_minishell *shell, char *variable, char *value)
 	char	*tmp;
 
 	tmp = delete_char_right(shell->tab[shell->i], '=');
-	if (!value || !ft_strcmp(tmp, "$USER"))
+	if (!value)
 	{
 		if (!(value = ft_strdup("''")))
 			exit(EXIT_FAILURE);

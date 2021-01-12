@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 17:15:29 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/12 01:22:41 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/12 17:03:11 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int		check_quotes_close(char *str)
 
 char	*realloc_str(char *dest, char *src)
 {
-	if (!(dest = ft_realloc(dest, ft_strlen(dest) + ft_strlen(src))))
+	if (!(dest = ft_realloc(dest, ft_strlen(dest) + ft_strlen(src) + 1)))
 		exit(EXIT_FAILURE);
 	dest = ft_strcat(dest, src);
 	return (dest);

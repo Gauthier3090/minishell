@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:37:10 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/12 14:59:10 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/12 16:05:09 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*parse_null_quote(char *input, int *i, char **env)
 		}
 		if (!str)
 		{
-			if (!(str = ft_calloc(ft_strlen(tmp), sizeof(char))))
+			if (!(str = ft_calloc(ft_strlen(tmp) + 1, sizeof(char))))
 				exit(EXIT_FAILURE);
 			str = ft_strcat(str, tmp);
 		}
