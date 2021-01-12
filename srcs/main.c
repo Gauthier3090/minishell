@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/07 17:36:38 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/12 15:01:18 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,24 @@
 
 void	ft_loop_main(t_minishell *shell, t_struct *glo)
 {
-	shell->variable = ft_strdup("");
-	shell->value = ft_strdup("");
+	char	*input;
+
 	while (shell->tab[++(shell->i)])
+	{
+		input = delete_char_left(shell->tab[shell->i], '=');
+		shell->variable = parse_input(input, shell->env);
+		free(input);
+		input = delete_char_right(shell->tab[shell->i], '=');
+		shell->value = parse_input(input, shell->env);
+		if (shell->variable)
 		{
-			free(shell->variable);
-			free(shell->value);
-			shell->variable = parse_input(shell,
-			delete_char_left(shell->tab[shell->i], '='), TRUE);
-			shell->value = parse_input(shell,
-			delete_char_right(shell->tab[shell->i], '='), FALSE);
-			if (shell->variable)
-			{
-				if (ft_semicolon(shell, glo) == FALSE)
-					return ;
-				ft_builtins(shell, glo);
-			}
+			if (ft_semicolon(shell, glo) == FALSE)
+				return ;
+			ft_builtins(shell, glo);
 		}
+		free(shell->variable);
+		free(shell->value);
+	}
 	if (ft_strlen_tab(shell->tab) == 1)
 	{
 		if (ft_semicolon(shell, glo) == FALSE)
@@ -39,28 +40,28 @@ void	ft_loop_main(t_minishell *shell, t_struct *glo)
 	}
 }
 
-void	ft_builtins(t_minishell *minishell, t_struct *glo)
+void	ft_builtins(t_minishell *shell, t_struct *glo)
 {
-	if (ft_strcmp(minishell->tab[0], "echo") == 0)
-		echo(minishell);
-	else if (ft_strcmp(minishell->tab[0], "exit") == 0)
-		exit_shell(minishell->tab);
-	else if (ft_strcmp(minishell->tab[0], "env") == 0)
-		ft_env(minishell->tab, minishell->env);
-	else if (ft_strcmp(minishell->tab[0], "export") == 0)
-		export(minishell);
-	else if (ft_strcmp(minishell->tab[0], "unset") == 0)
-		unset(minishell);
-	else if (ft_strcmp(minishell->tab[0], "cd") == 0)
-		ft_cd(minishell->input, minishell->env, glo);
-	else if (ft_strcmp(minishell->tab[0], "pwd") == 0)
-		ft_pwd(minishell->input);
-	else if (ft_exec(minishell, glo) != 0)
+	if (ft_strcmp(shell->tab[0], "echo") == 0)
+		echo(shell);
+	else if (ft_strcmp(shell->tab[0], "exit") == 0)
+		exit_shell(shell->tab);
+	else if (ft_strcmp(shell->tab[0], "env") == 0)
+		ft_env(shell->tab, shell->env);
+	else if (ft_strcmp(shell->tab[0], "export") == 0)
+		export(shell);
+	else if (ft_strcmp(shell->tab[0], "unset") == 0)
+		unset(shell);
+	else if (ft_strcmp(shell->tab[0], "cd") == 0)
+		ft_cd(shell->input, shell->env, glo);
+	else if (ft_strcmp(shell->tab[0], "pwd") == 0)
+		ft_pwd(shell->input);
+	else if (ft_exec(shell, glo) != 0)
 		return ;
 	else
 	{
 		ft_putstr_fd("minishell: command not found: ", 2);
-		ft_putendl_fd(minishell->tab[0], 2);
+		ft_putendl_fd(shell->tab[0], 2);
 	}
 }
 
@@ -83,11 +84,16 @@ int		main(int argc, char **argv, char **env)
 		directoryprompt();
 		shell->input = getinput();
 		shell->input = ft_whitespace(shell->input);
-		if (!(shell->tab = ft_split(shell->input, ' ')))
-			exit(EXIT_FAILURE);
-		shell->i = 0;
-		ft_loop_main(shell, glo);
-		free_tab(shell->tab);
+		if (check_quotes_close(shell->input))
+		{
+			if (!(shell->tab = split_input(shell->input)))
+				exit(EXIT_FAILURE);
+			shell->i = 0;
+			ft_loop_main(shell, glo);
+			free_tab(shell->tab);
+		}
+		else
+			ft_putendl_fd("minishell: quote is not closed", 2);
 		free(shell->input);
 	}
 }

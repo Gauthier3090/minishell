@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/06 18:29:41 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/12 15:00:20 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,23 +48,12 @@ typedef struct		s_minishell
 {
 	char			**env;
 	char			**tab;
-	char			**tab_input;
 	char			*input;
 	char			*variable;
-	char			*tmp_variable;
 	char			*value;
-	int				simple_quote;
-	int				simple_quote_left;
-	int				simple_quote_right;
-	int				double_quote;
-	int				double_quote_left;
-	int				double_quote_right;
-	int				len;
-	int				count;
 	int				i;
-	int				quote;
 	int				go_free;
-	int				free_var;
+	int				free_var;		
 }					t_minishell;
 
 void				directoryprompt();
@@ -134,10 +123,9 @@ char				*unset_value(char *str, char **env);
 int					check_error_unset(char *variable, char *value);
 void				ft_put_errno(int error_numb);
 char				**delete_env(t_minishell *shell, int index);
-char				*parse_input(t_minishell *shell, char *input, int free_input);
+char				*parse_input(char *input, char **env);
 int					length_input(char *str);
 char				**input_to_tab(char *str, int length, t_minishell *shell);
-int					check_quote_close(t_minishell *shell);
 void				is_quote(char *input, t_minishell *shell);
 char				*add_quote(char *str, char c);
 char				*str_double_quote(t_minishell *shell, int i);
@@ -147,5 +135,12 @@ char				*env_start(char *input, int *i);
 char				*env_end(char *input, char **arg, char **env);
 char				*path_join(const char *s1, const char *s2);
 void				ft_loop_main(t_minishell *shell, t_struct *glo);
+char				**split_input(char *str);
+int					check_quotes_close(char *str);
+char				*realloc_str(char *dest, char *src);
+char				*found_env(char *str, char **env);
+char				*parse_null_quote(char *input, int *i, char **env);
+char				*str_env(char *input, int *i, char **env);
+char				*str_not_env(char *input, int *i);
 
 #endif

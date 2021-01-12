@@ -6,189 +6,138 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 14:40:50 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/06 17:17:04 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/12 14:59:05 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
 
-char	*ft_strdel(char *str, char c)
-{
-	int		i;
-	int		len;
-	char	*new_str;
-
-	i = -1;
-	len = 0;
-	while (str[++i])
-	{
-		if (str[i] != c)
-			len++;
-	}
-	if (!(new_str = ft_calloc(len + 1, sizeof(char))))
-		exit(EXIT_FAILURE);
-	i = -1;
-	len = -1;
-	while (str[++i])
-	{
-		if (str[i] != c)
-			new_str[++len] = str[i];
-	}
-	return (new_str);
-}
-
-char	*env_start(char *input, int *i)
+char	*parse_simple_quote(char *input, int *i)
 {
 	char	*str;
-	int		j;
+	int		count;
+	int		len;
 
-	if (!(str = ft_calloc(1, 2 * sizeof(char))))
+	(*i)++;
+	if (!(str = ft_calloc(2, sizeof(char))))
 		exit(EXIT_FAILURE);
-	j = 1;
-	while (input[++(*i)] != '$' && input[*i])
+	count = 1;
+	len = -1;
+	while (input[*i] != '\'')
 	{
-		if (input[*i] != '|' && input[*i] != ';' && input[*i] != '>'
-		&& input[*i] != '<' && input[*i] != '\\')
-		{
-			if (!(str = ft_realloc(str, j + 1)))
-				exit(EXIT_FAILURE);
-			str[*i] = input[*i];
-			j++;
-		}
+		if (input[*i] == '\\' && (input[*i + 1] == '\\'))
+			(*i)++;
+		str[++len] = input[*i];
+		count++;
+		if (!(str = ft_realloc(str, count)))
+			exit(EXIT_FAILURE);
+		(*i)++;
 	}
 	return (str);
 }
 
-char	*found_env(char *input, int j, char **env)
+char	*str_env(char *input, int *i, char **env)
 {
-	char	*tmp2;
-
-	tmp2 = delete_char_right(env[j], '=');
-	if (!(input = ft_realloc(input, ft_strlen(input) + ft_strlen(tmp2))))
-		exit(EXIT_FAILURE);
-	input = ft_strcat(input, tmp2);
-	return (input);
-}
-
-char	*check_symbols(char *str)
-{
-	char	*new_str;
-	int		i;
 	int		len;
 	int		count;
+	char	*str;
 
-	i = -1;
+	if (!(str = ft_calloc(2, sizeof(char))))
+		exit(EXIT_FAILURE);
 	len = -1;
 	count = 1;
-	if (!(new_str = ft_calloc(2, sizeof(char))))
-		exit (EXIT_FAILURE);
-	while (str[++i])
+	while (input[(++(*i))])
 	{
-		if (str[i] != '|' && str[i] != ';' && str[i] != '>'
-		&& str[i] != '<' && str[i] != '\\')
+		if (!ft_isalnum(input[*i]))
+			break ;
+		else
 		{
-			new_str[++len] = str[i];
+			str[++len] = input[*i];
 			count++;
-			if (!(new_str = ft_realloc(new_str, count)))
+			if (!(str = ft_realloc(str, count)))
 				exit(EXIT_FAILURE);
 		}
-		else if (str[i] != '\\')
-			return (NULL);		
 	}
-	return (new_str);
+	str = found_env(str, env);
+	return (str);
 }
 
-char	**check_symbols_str(char *str)
+char	*str_not_env(char *input, int *i)
 {
-	char	**tab;
-	int		i;
+	char	*str;
 	int		count;
 	int		len;
 
-	i = -1;
-	len = 0;
-	count = 2;
-	while (str[++i])
+	if (!(str = ft_calloc(2, sizeof(char))))
+		exit(EXIT_FAILURE);
+	count = 1;
+	len = -1;
+	while (input[*i] != '$' && input[*i] != '"' && input[*i])
 	{
-		if (ft_isalnum(str[i]))
-			len++;
-		else
-		{
-			count = 3;
-			break ;
-		}
+		if (input[*i] == '\\' && (input[*i + 1] == '\\'))
+			(*i)++;
+		str[++len] = input[*i];
+		count++;
+		if (!(str = ft_realloc(str, count)))
+			exit(EXIT_FAILURE);
+		(*i)++;
 	}
-	tab = (char **)ft_calloc(count, sizeof(char *));
-	tab[0] = (char *)ft_calloc(len + 1, sizeof(char));
-	i = -1;
-	while (++i < len)
-		tab[0][i] = str[i];
-	if (count == 3)
-		tab[1] = check_symbols(&str[len]);
-	return (tab);
+	return (str);
 }
 
-char	*env_end(char *input, char **arg, char **env)
+char	*parse_double_quote(char *input, int *i, char **env)
 {
-	char	**tab;
 	char	*tmp;
 	char	*str;
-	int		i;
-	int		j;
 
-	i = -1;
-	while (arg[++i])
+	(*i)++;
+	str = NULL;
+	while (input[*i] != '"')
 	{
-		str = ft_strdel(arg[i], '\'');
-		tab = check_symbols_str(str);
-		j = -1;
-		while (env[++j])
+		if (input[*i] != '$')
+			tmp = str_not_env(input, i);
+		else
 		{
-			tmp = delete_char_left(env[j], '=');
-			if (ft_strcmp(tmp, tab[0]) == 0)
-				input = found_env(input, j, env);
-			free(tmp);
+			tmp = str_env(input, i, env);
+			if (!(tmp = ft_strdup(tmp)))
+				exit(EXIT_FAILURE);
 		}
-		free(str);
+		if (!str)
+		{
+			if (!(str = ft_calloc(ft_strlen(tmp), sizeof(char))))
+				exit(EXIT_FAILURE);
+			str = ft_strcat(str, tmp);
+		}
+		else
+			str = realloc_str(str, tmp);
+		free(tmp);
 	}
-	if (tab[1])
-	{
-		input = ft_realloc(input, ft_strlen(input) + ft_strlen(tab[1]));
-		input = ft_strcat(input, tab[1]);
-	}
-	free_tab(tab);
-	return (input);
+	return (str);
 }
 
-char	*parse_input(t_minishell *shell, char *input, int free_input)
+char	*parse_input(char *input, char **env)
 {
-	char	*variable;
 	int		i;
+	char	*str;
+	char	*parsing_str;
 
 	if (input)
 	{
-		shell->len = length_input(input);
-		if (!(shell->tab_input = input_to_tab(input, shell->len, shell)))
-			return (NULL);
-		shell->tmp_variable = ft_calloc(2, sizeof(char));
+		if (!(parsing_str = ft_calloc(2, sizeof(char))))
+			exit(EXIT_FAILURE);
 		i = -1;
-		while (shell->tab_input[++i])
+		while (input[++i])
 		{
-			is_quote(shell->tab_input[i], shell);
-			if (shell->double_quote)
-				variable = str_double_quote(shell, i);
+			if (input[i] == '\'')
+				str = parse_simple_quote(input, &i);
+			else if (input[i] == '"')
+				str = parse_double_quote(input, &i, env);
 			else
-				variable = str_simple_quote(shell, i);
-			if (!(shell->tmp_variable = ft_realloc(shell->tmp_variable, ft_strlen(variable)
-			+ ft_strlen(shell->tmp_variable) + 1)))
-				exit(EXIT_FAILURE);
-			shell->tmp_variable = ft_strcat(shell->tmp_variable, variable);
-			free(variable);
+				str = parse_null_quote(input, &i, env);
+			parsing_str = realloc_str(parsing_str, str);
+			free(str);
 		}
-		if (free_input)
-			free(input);
-		free_tab(shell->tab_input);
-		return (shell->tmp_variable);
+		return (parsing_str);
 	}
 	return (NULL);
 }
