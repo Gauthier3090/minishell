@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 14:29:15 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/31 15:39:41 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/12 15:28:19 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,4 @@ int		free_tab_ret(char **tab)
 		free(tab[i]);
 	free(tab);
 	return (TRUE);
-}
-
-void	free_var_unset(char **arg, char *value, char *str, char *tmp)
-{
-	free(value);
-	free(tmp);
-	free_tab(arg);
-	free(str);
 }
