@@ -6,11 +6,27 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/12 16:02:34 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/12 17:34:20 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
+
+char	**malloc_tab(char **tab)
+{
+	int		i;
+	char	**new_tab;
+
+	i = -1;
+	if (!(new_tab = ft_calloc(ft_strlen_tab(tab) + 1, sizeof(char *))))
+		exit(EXIT_FAILURE);
+	while (tab[++i])
+	{
+		if (!(new_tab[i] = ft_strdup(tab[i])))
+			exit(EXIT_FAILURE);
+	}
+	return (new_tab);
+}
 
 void	ft_loop_main(t_minishell *shell, t_struct *glo)
 {
@@ -78,7 +94,7 @@ int		main(int argc, char **argv, char **env)
 		exit(EXIT_FAILURE);
 	if (ft_struct_init(glo) == FALSE)
 		exit(EXIT_FAILURE);
-	shell->env = env;
+	shell->env = malloc_tab(env);
 	while (1)
 	{
 		directoryprompt();

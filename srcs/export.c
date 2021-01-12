@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 14:40:35 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/12 17:18:54 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/12 17:45:36 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,9 @@ void	variable_no_exist(t_minishell *shell, char *new_env)
 		exit(EXIT_FAILURE);
 	str = ft_strcat(str, "\n");
 	str = ft_strcat(str, new_env);
-	if (shell->go_free)
-		free_tab(shell->env);
+	free_tab(shell->env);
 	if (!(shell->env = ft_split(str, '\n')))
 		exit(EXIT_FAILURE);
-	shell->go_free = TRUE;
-	shell->free_var = TRUE;
 	free(str);
 }
 
@@ -119,9 +116,7 @@ void	create_variable_env(t_minishell *shell, char *variable, char *value)
 {
 	int		index;
 	char	*new_env;
-	char	*tmp;
 
-	tmp = delete_char_right(shell->tab[shell->i], '=');
 	if (!value)
 	{
 		if (!(value = ft_strdup("''")))
@@ -135,17 +130,17 @@ void	create_variable_env(t_minishell *shell, char *variable, char *value)
 	new_env = ft_strcat(new_env, value);
 	if ((index = variable_exist(shell->env, variable)) != -1)
 	{
-		if (ft_strcmp(value, "''") || (tmp && !ft_strcmp(tmp, "$USER")))
+		if (ft_strcmp(value, "''"))
 		{
-			if (shell->free_var)
-				free(shell->env[index]);
+			free(shell->env[index]);
 			if (!(shell->env[index] = ft_strdup(new_env)))
 				exit(EXIT_FAILURE);
-			shell->free_var = TRUE;
-		}
+		}	
 	}
 	else
 		variable_no_exist(shell, new_env);
+	if (!ft_strcmp(value, "''"))
+		free(value);
 	free(new_env);
 }
 

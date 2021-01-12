@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 15:40:36 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/12 16:29:03 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/12 17:35:51 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ char	**delete_env(t_minishell *shell, int index)
 		if (!(new_tab[index++] = ft_strdup(shell->env[i])))
 			exit(EXIT_FAILURE);
 	}
-	if (shell->go_free)
-		free_tab(shell->env);
+	free_tab(shell->env);
 	return (new_tab);
 }
 
@@ -64,10 +63,7 @@ void	research_env_more(char *variable, t_minishell *shell)
 		{
 			tmp = delete_char_left(shell->env[i], '=');
 			if (ft_strcmp(tmp, variable) == 0)
-			{
 				shell->env = delete_env(shell, i);
-				shell->go_free = TRUE;
-			}
 			free(tmp);
 		}
 	}

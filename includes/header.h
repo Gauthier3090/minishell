@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/12 16:55:59 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/12 17:39:02 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,7 @@ typedef struct		s_minishell
 	char			*input;
 	char			*variable;
 	char			*value;
-	int				i;
-	int				go_free;
-	int				free_var;		
+	int				i;		
 }					t_minishell;
 
 void				directoryprompt();
