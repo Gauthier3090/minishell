@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/12 17:39:02 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/13 14:31:06 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef HEADER_H
 # define HEADER_H
@@ -51,7 +52,13 @@ typedef struct		s_minishell
 	char			*input;
 	char			*variable;
 	char			*value;
-	int				i;		
+<<<<<<< HEAD
+	int				i;
+=======
+	int				i;
+	int				go_free;
+	int				free_var;
+>>>>>>> cd
 }					t_minishell;
 
 void				directoryprompt();
@@ -114,7 +121,7 @@ char				*export_variable_start(char *str, int *i);
 void				unset(t_minishell *shell);
 int					ft_semicolon(t_minishell *minishell, t_struct *glo);
 int					ft_semicolon_sub(t_minishell *minishell, t_struct *glo);
-int					ft_check_double_semicolon(t_minishell *minishell, t_struct *glo);
+int					ft_check_double_char(t_minishell *minishell, t_struct *glo, char c);
 char				*export_value_more(char *value, char *str, int *i);
 void				research_env_more(char *variable, t_minishell *shell);
 char				*unset_value(char *str, char **env);
@@ -140,5 +147,6 @@ char				*found_env(char *str, char **env);
 char				*parse_null_quote(char *input, int *i, char **env);
 char				*str_env(char *input, int *i, char **env);
 char				*str_not_env(char *input, int *i);
+int					ft_pipe_main(t_minishell *shell, t_struct *glo);
 
 #endif
