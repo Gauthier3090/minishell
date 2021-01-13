@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 14:40:50 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/12 17:03:45 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/13 15:13:37 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ char	*parse_input(char *input, char **env)
 				str = parse_double_quote(input, &i, env);
 			else
 				str = parse_null_quote(input, &i, env);
-			parsing_str = realloc_str(parsing_str, str);
+			str ? parsing_str = realloc_str(parsing_str, str) : 0;
 			free(str);
 		}
 		return (parsing_str);

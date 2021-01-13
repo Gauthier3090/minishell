@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/13 14:31:06 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/13 14:34:20 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,7 @@ typedef struct		s_minishell
 	char			*input;
 	char			*variable;
 	char			*value;
-<<<<<<< HEAD
 	int				i;
-=======
-	int				i;
-	int				go_free;
-	int				free_var;
->>>>>>> cd
 }					t_minishell;
 
 void				directoryprompt();

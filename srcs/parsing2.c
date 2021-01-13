@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:37:10 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/12 16:05:09 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/13 15:07:47 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,14 @@ char	*found_env(char *str, char **env)
 		if (!ft_strcmp(str, tmp))
 		{
 			free(str);
+			free(tmp);
 			str = delete_char_right(env[i], '=');
+			return (str);
 		}
 		free(tmp);
 	}
-	return (str);
+	free(str);
+	return (NULL);
 }
 
 char	*parse_null_quote(char *input, int *i, char **env)
@@ -44,16 +47,16 @@ char	*parse_null_quote(char *input, int *i, char **env)
 		else
 		{
 			tmp = str_env(input, i, env);
-			tmp = ft_strdup(tmp);
+			tmp ? tmp = ft_strdup(tmp) : 0;
 		}
-		if (!str)
+		if (!str && tmp)
 		{
 			if (!(str = ft_calloc(ft_strlen(tmp) + 1, sizeof(char))))
 				exit(EXIT_FAILURE);
 			str = ft_strcat(str, tmp);
 		}
 		else
-			str = realloc_str(str, tmp);
+			tmp ? str = realloc_str(str, tmp) : 0;
 		free(tmp);
 	}
 	return (str);

@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/13 14:31:37 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/13 17:55:48 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../includes/header.h"
 
@@ -48,15 +47,15 @@ void	ft_loop_main(t_minishell *shell, t_struct *glo)
 				return ;
 			ft_builtins(shell, glo);
 		}
-		/*free(shell->variable);
-		free(shell->value);*/
+		free(shell->variable);
+		free(shell->value);
 	}
 	if (ft_strlen_tab(shell->tab) == 1)
 	{
 		if (ft_semicolon(shell, glo) == FALSE)
 			return ;
 		if (ft_pipe_main(shell, glo) == FALSE)
-				return ;
+			return ;
 		ft_builtins(shell, glo);
 	}
 }

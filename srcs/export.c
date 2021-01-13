@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 14:40:35 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/12 17:45:36 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/13 16:27:17 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void	create_variable_env(t_minishell *shell, char *variable, char *value)
 	int		index;
 	char	*new_env;
 
-	if (!value)
+	if (!value || value[0] == '\0')
 	{
 		if (!(value = ft_strdup("''")))
 			exit(EXIT_FAILURE);
@@ -130,12 +130,9 @@ void	create_variable_env(t_minishell *shell, char *variable, char *value)
 	new_env = ft_strcat(new_env, value);
 	if ((index = variable_exist(shell->env, variable)) != -1)
 	{
-		if (ft_strcmp(value, "''"))
-		{
-			free(shell->env[index]);
-			if (!(shell->env[index] = ft_strdup(new_env)))
-				exit(EXIT_FAILURE);
-		}	
+		free(shell->env[index]);
+		if (!(shell->env[index] = ft_strdup(new_env)))
+			exit(EXIT_FAILURE);
 	}
 	else
 		variable_no_exist(shell, new_env);
@@ -165,11 +162,6 @@ int		check_error_export(char *variable, char *value)
 	else if (variable[0] == '\0' && value)
 	{
 		ft_putstr_error("export: this value is not found: ", value);
-		return (FALSE);
-	}
-	else if (variable && value && value[0] == '\0')
-	{
-		ft_putstr_error("export: ", "bad assignment");
 		return (FALSE);
 	}
 	return (TRUE);

@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 15:40:36 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/12 17:35:51 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/13 16:19:32 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,26 @@ char	**delete_env(t_minishell *shell, int index)
 
 int		check_error_unset(char *variable, char *value)
 {
-	if (value || variable[0] == '+')
+	int	i;
+
+	i = -1;
+	while (variable[++i])
 	{
-		ft_putstr_fd("unset: invalid parameter name: ", 2);
-		ft_putstr_fd(variable, 2);
-		if (value)
-			ft_putstr_error("=", value);
-		else
-			ft_putchar_fd('\n', 2);
-		return (FALSE);
+		if (value || !ft_isalnum(variable[i]))
+		{
+			ft_putstr_fd("unset: invalid parameter name: ", 2);
+			ft_putstr_fd(variable, 2);
+			if (value)
+				ft_putstr_error("=", value);
+			else
+				ft_putchar_fd('\n', 2);
+			return (FALSE);
+		}
 	}
 	return (TRUE);
 }
 
-void	research_env_more(char *variable, t_minishell *shell)
+void	research_env(char *variable, t_minishell *shell)
 {
 	int		i;
 	char	*tmp;
@@ -69,31 +75,10 @@ void	research_env_more(char *variable, t_minishell *shell)
 	}
 }
 
-void	research_env(char *variable, t_minishell *shell)
-{
-	int		j;
-
-	j = -1;
-	while (shell->tab[shell->i][++j])
-	{
-		if (shell->tab[shell->i][j] == '$')
-		{
-			ft_putstr_error("unset: invalid paramater name: ", variable);
-			return ;
-		}
-	}
-	research_env_more(variable, shell);
-}
-
 void	unset(t_minishell *shell)
 {
 	if (ft_strlen_tab(shell->tab) == 1)
 		ft_putendl_fd("unset: not enough arguments", 2);
 	else
-	{
-		if ((shell->variable[0] == '\0' || !ft_strcmp(shell->variable, "-")))
-			ft_putendl_fd("unset: not enough arguments", 2);
-		else if (shell->variable[0] != '\0')
-			research_env(shell->variable, shell);
-	}
+		research_env(shell->variable, shell);
 }
