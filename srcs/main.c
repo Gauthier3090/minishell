@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/12 15:01:18 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/12 16:34:03 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,19 @@ void	ft_loop_main(t_minishell *shell, t_struct *glo)
 		{
 			if (ft_semicolon(shell, glo) == FALSE)
 				return ;
+			if (ft_pipe_main(shell, glo) == FALSE)
+				return ;
 			ft_builtins(shell, glo);
 		}
-		free(shell->variable);
-		free(shell->value);
+		/*free(shell->variable);
+		free(shell->value);*/
 	}
 	if (ft_strlen_tab(shell->tab) == 1)
 	{
 		if (ft_semicolon(shell, glo) == FALSE)
 			return ;
+		if (ft_pipe_main(shell, glo) == FALSE)
+				return ;
 		ft_builtins(shell, glo);
 	}
 }

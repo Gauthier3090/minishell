@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 14:17:08 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/07 17:35:41 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/12 16:44:18 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		ft_semicolon(t_minishell *shell, t_struct *glo)
 		ft_putstr_fd("bash: syntax error near unexpected token `;'\n", 1);
 		return (FALSE);
 	}
-	if (ft_check_double_semicolon(shell, glo) == FALSE)
+	if (ft_check_double_char(shell, glo, ';') == FALSE)
 		return (FALSE);
 	if (glo->x == 0)
 		return (TRUE);
@@ -48,15 +48,14 @@ void	ft_loop_sub(t_minishell *shell, t_struct *glo, int i)
 	while (shell->input[x])
 		x++;
 	temp = ft_substr(shell->input, 0, x);
-
 	if (!(shell->tab = ft_split(temp, ' ')))
 		exit(EXIT_FAILURE);
 	free(temp);
 	glo->x--;
 	shell->input = ft_whitespace(shell->input);
 	shell->i = 0;
-	free(shell->variable);
-	free(shell->value);
+	/*free(shell->variable);
+	free(shell->value);*/
 	ft_loop_main(shell, glo);
 }
 
@@ -89,13 +88,13 @@ int		ft_semicolon_sub(t_minishell *shell, t_struct *glo)
 	return (FALSE);
 }
 
-int		ft_check_double_semicolon(t_minishell *shell, t_struct *glo)
+int		ft_check_double_char(t_minishell *shell, t_struct *glo, char c)
 {
 	int		y;
 
 	while (shell->input[glo->i])
 	{
-		if (shell->input[glo->i] == ';')
+		if (shell->input[glo->i] == c)
 		{
 			glo->x++;
 			glo->check = 1;
@@ -104,10 +103,11 @@ int		ft_check_double_semicolon(t_minishell *shell, t_struct *glo)
 				shell->input[glo->i + y] == '\t' || \
 				shell->input[glo->i + y] == '\v'))
 				y++;
-			if (shell->input[glo->i + y] == ';')
+			if (shell->input[glo->i + y] == c)
 			{
-				ft_putstr_fd("bash: syntax error near unexpected \
-token `;'\n", 1);
+				ft_putstr_fd("bash: syntax error near unexpected token `", 1);
+				ft_putchar_fd(c, 1);
+				ft_putstr_fd("'\n", 1);
 				glo->x = 0;
 				glo->check = 0;
 				return (FALSE);
