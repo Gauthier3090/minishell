@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/13 17:55:48 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/18 14:52:15 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ void	ft_loop_main(t_minishell *shell, t_struct *glo)
 	while (shell->tab[++(shell->i)])
 	{
 		input = delete_char_left(shell->tab[shell->i], '=');
-		shell->variable = parse_input(input, shell->env);
+		shell->variable = parse_input(input, shell->env, shell->ret);
 		free(input);
 		input = delete_char_right(shell->tab[shell->i], '=');
-		shell->value = parse_input(input, shell->env);
+		shell->value = parse_input(input, shell->env, shell->ret);
 		if (shell->variable)
 		{
 			if (ft_semicolon(shell, glo) == FALSE)
@@ -65,9 +65,9 @@ void	ft_builtins(t_minishell *shell, t_struct *glo)
 	if (ft_strcmp(shell->tab[0], "echo") == 0)
 		echo(shell);
 	else if (ft_strcmp(shell->tab[0], "exit") == 0)
-		exit_shell(shell->tab);
+		exit_shell(shell->tab, shell->ret);
 	else if (ft_strcmp(shell->tab[0], "env") == 0)
-		ft_env(shell->tab, shell->env);
+		ft_env(shell->tab, shell->env, shell);
 	else if (ft_strcmp(shell->tab[0], "export") == 0)
 		export(shell);
 	else if (ft_strcmp(shell->tab[0], "unset") == 0)
@@ -80,8 +80,8 @@ void	ft_builtins(t_minishell *shell, t_struct *glo)
 		return ;
 	else
 	{
-		ft_putstr_fd("minishell: command not found: ", 2);
-		ft_putendl_fd(shell->tab[0], 2);
+		shell->ret = ft_putstr_error("minishell: command not found",
+		shell->tab[0], 127);
 	}
 }
 
@@ -104,16 +104,19 @@ int		main(int argc, char **argv, char **env)
 		directoryprompt();
 		shell->input = getinput();
 		shell->input = ft_whitespace(shell->input);
-		if (check_quotes_close(shell->input))
+		if (shell->input[0] != '\0')
 		{
-			if (!(shell->tab = split_input(shell->input)))
-				exit(EXIT_FAILURE);
-			shell->i = 0;
-			ft_loop_main(shell, glo);
-			free_tab(shell->tab);
+			if (check_quotes_close(shell->input))
+			{
+				if (!(shell->tab = split_input(shell->input)))
+					exit(EXIT_FAILURE);
+				shell->i = 0;
+				ft_loop_main(shell, glo);
+				free_tab(shell->tab);
+			}
+			else
+				shell->ret = ft_putstr_error("minishell: ", "quotes are not closed", 1);
 		}
-		else
-			ft_putendl_fd("minishell: quote is not closed", 2);
 		free(shell->input);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 14:40:35 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/13 16:27:17 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/18 15:20:43 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ void	create_variable_env(t_minishell *shell, char *variable, char *value)
 	free(new_env);
 }
 
-int		check_error_export(char *variable, char *value)
+int		check_error_export(char *variable, char *value, t_minishell *shell)
 {
 	int		i;
 
@@ -150,18 +150,21 @@ int		check_error_export(char *variable, char *value)
 	{
 		if (variable[i] == '+' || variable[i] == '-')
 		{
-			ft_putstr_error("export: not an identifier: ", variable);
+			shell->ret = ft_putstr_error("export: not an identifier: ",
+			variable, 1);
 			return (FALSE);
 		}
 	}
 	if (ft_strisdigit(variable) && variable[0] != '\0')
 	{
-		ft_putstr_error("export: not an identifier: ", variable);
+		shell->ret = ft_putstr_error("export: not an identifier: ",
+		variable, 1);
 		return (FALSE);
 	}
 	else if (variable[0] == '\0' && value)
 	{
-		ft_putstr_error("export: this value is not found: ", value);
+		shell->ret = ft_putstr_error("export: this value is not found: ",
+		value, 1);
 		return (FALSE);
 	}
 	return (TRUE);
@@ -169,16 +172,18 @@ int		check_error_export(char *variable, char *value)
 
 void	export(t_minishell *shell)
 {
-	if (ft_strlen_tab(shell->tab) == 1 || !ft_strcmp(shell->tab[shell->i], "$USER"))
+	shell->ret = 0;
+	if (ft_strlen_tab(shell->tab) == 1
+	|| !ft_strcmp(shell->tab[shell->i], "$USER"))
 		sorting_env(shell->env, ft_strlen_tab(shell->env));
 	else if (!ft_strcmp(shell->tab[shell->i], "="))
 	{
-		ft_putstr_error("export: ", "bad assignment");
+		shell->ret = ft_putstr_error("export: ", "bad assignment", 0);
 		return ;
 	}
 	else
 	{
-		if (check_error_export(shell->variable, shell->value))
+		if (check_error_export(shell->variable, shell->value, shell))
 			create_variable_env(shell, shell->variable, shell->value);
 	}
 }

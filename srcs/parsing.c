@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 14:40:50 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/13 15:13:37 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/18 14:33:41 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*parse_simple_quote(char *input, int *i)
 	return (str);
 }
 
-char	*str_env(char *input, int *i, char **env)
+char	*str_env(char *input, int *i, char **env, int ret)
 {
 	int		len;
 	int		count;
@@ -48,7 +48,7 @@ char	*str_env(char *input, int *i, char **env)
 	count = 1;
 	while (input[(++(*i))])
 	{
-		if (!ft_isalnum(input[*i]))
+		if (!ft_isalnum(input[*i]) && input[*i] != '?')
 			break ;
 		else
 		{
@@ -58,7 +58,7 @@ char	*str_env(char *input, int *i, char **env)
 				exit(EXIT_FAILURE);
 		}
 	}
-	str = found_env(str, env);
+	str = found_env(str, env, ret);
 	return (str);
 }
 
@@ -85,7 +85,7 @@ char	*str_not_env(char *input, int *i)
 	return (str);
 }
 
-char	*parse_double_quote(char *input, int *i, char **env)
+char	*parse_double_quote(char *input, int *i, char **env, int ret)
 {
 	char	*tmp;
 	char	*str;
@@ -97,11 +97,7 @@ char	*parse_double_quote(char *input, int *i, char **env)
 		if (input[*i] != '$')
 			tmp = str_not_env(input, i);
 		else
-		{
-			tmp = str_env(input, i, env);
-			if (!(tmp = ft_strdup(tmp)))
-				exit(EXIT_FAILURE);
-		}
+			tmp = str_env(input, i, env, ret);
 		if (!str)
 		{
 			if (!(str = ft_calloc(ft_strlen(tmp), sizeof(char))))
@@ -115,7 +111,7 @@ char	*parse_double_quote(char *input, int *i, char **env)
 	return (str);
 }
 
-char	*parse_input(char *input, char **env)
+char	*parse_input(char *input, char **env, int ret)
 {
 	int		i;
 	char	*str;
@@ -131,9 +127,9 @@ char	*parse_input(char *input, char **env)
 			if (input[i] == '\'')
 				str = parse_simple_quote(input, &i);
 			else if (input[i] == '"')
-				str = parse_double_quote(input, &i, env);
+				str = parse_double_quote(input, &i, env, ret);
 			else
-				str = parse_null_quote(input, &i, env);
+				str = parse_null_quote(input, &i, env, ret);
 			str ? parsing_str = realloc_str(parsing_str, str) : 0;
 			free(str);
 		}

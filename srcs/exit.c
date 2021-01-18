@@ -6,16 +6,14 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 14:51:37 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/22 23:26:27 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/18 14:51:38 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
 
-void	exit_shell(char **tab)
+void	exit_shell(char **tab, int ret)
 {
-	int	ret;
-
 	ret = 0;
 	if (ft_strlen_tab(tab) > 2)
 	{

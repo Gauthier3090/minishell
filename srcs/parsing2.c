@@ -6,18 +6,23 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:37:10 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/13 15:07:47 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/18 14:35:31 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
 
-char	*found_env(char *str, char **env)
+char	*found_env(char *str, char **env, int ret)
 {
 	char	*tmp;
 	int		i;
 
 	i = -1;
+	if (str[0] == '?')
+	{
+		free(str);
+		return (ft_itoa(ret));
+	}
 	while (env[++i])
 	{
 		tmp = delete_char_left(env[i], '=');
@@ -25,7 +30,8 @@ char	*found_env(char *str, char **env)
 		{
 			free(str);
 			free(tmp);
-			str = delete_char_right(env[i], '=');
+			if (!(str = ft_strdup(delete_char_right(env[i], '='))))
+				exit(EXIT_FAILURE);
 			return (str);
 		}
 		free(tmp);
@@ -34,7 +40,7 @@ char	*found_env(char *str, char **env)
 	return (NULL);
 }
 
-char	*parse_null_quote(char *input, int *i, char **env)
+char	*parse_null_quote(char *input, int *i, char **env, int ret)
 {
 	char	*tmp;
 	char	*str;
@@ -45,10 +51,7 @@ char	*parse_null_quote(char *input, int *i, char **env)
 		if (input[*i] != '$')
 			tmp = str_not_env(input, i);
 		else
-		{
-			tmp = str_env(input, i, env);
-			tmp ? tmp = ft_strdup(tmp) : 0;
-		}
+			tmp = str_env(input, i, env, ret);
 		if (!str && tmp)
 		{
 			if (!(str = ft_calloc(ft_strlen(tmp) + 1, sizeof(char))))

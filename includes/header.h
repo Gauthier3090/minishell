@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/13 14:34:20 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/18 14:59:58 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct		s_minishell
 	char			*variable;
 	char			*value;
 	int				i;
+	int				ret;
 }					t_minishell;
 
 void				directoryprompt();
@@ -74,8 +75,8 @@ int					ft_absolute_path(char *arg, t_struct *glo);
 char				*ft_cd_args_check(char **arg, char **env, t_struct *glo);
 int					ft_strlen_tab(char **tab);
 int					ft_strisdigit(char *str);
-void				exit_shell(char **tab);
-void				ft_env(char **tab, char **env);
+void				exit_shell(char **tab, int ret);
+void				ft_env(char **tab, char **env, t_minishell *shell);
 int					ft_change_dir(char *arg, char **env,
 					t_struct *glo, char **tab);
 int					ft_oldpwd(t_struct *glo, char **arg);
@@ -99,7 +100,7 @@ void				ft_ls(char *input);
 void				ft_ls_sub(struct dirent	*entry);
 void				ft_errno_putstr(int errnumb);
 void				ft_ls_files(void);
-void				ft_putstr_error(char *message, char *variable);
+int					ft_putstr_error(char *message, char *variable, int error);
 int					ft_exec(t_minishell *minishell, t_struct *glo);
 char				*check_dir_bin(char *bin, char *command);
 char				*export_variable(char *str, char **env);
@@ -119,10 +120,9 @@ int					ft_check_double_char(t_minishell *minishell, t_struct *glo, char c);
 char				*export_value_more(char *value, char *str, int *i);
 void				research_env_more(char *variable, t_minishell *shell);
 char				*unset_value(char *str, char **env);
-int					check_error_unset(char *variable, char *value);
 void				ft_put_errno(int error_numb);
 char				**delete_env(t_minishell *shell, int index);
-char				*parse_input(char *input, char **env);
+char				*parse_input(char *input, char **env, int ret);
 int					length_input(char *str);
 char				**input_to_tab(char *str, int length, t_minishell *shell);
 void				is_quote(char *input, t_minishell *shell);
@@ -137,9 +137,9 @@ void				ft_loop_main(t_minishell *shell, t_struct *glo);
 char				**split_input(char *str);
 int					check_quotes_close(char *str);
 char				*realloc_str(char *dest, char *src);
-char				*found_env(char *str, char **env);
-char				*parse_null_quote(char *input, int *i, char **env);
-char				*str_env(char *input, int *i, char **env);
+char				*found_env(char *str, char **env, int ret);
+char				*parse_null_quote(char *input, int *i, char **env, int ret);
+char				*str_env(char *input, int *i, char **env, int ret);
 char				*str_not_env(char *input, int *i);
 int					ft_pipe_main(t_minishell *shell, t_struct *glo);
 

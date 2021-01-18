@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 15:46:38 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/12 15:25:50 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/18 14:37:12 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,5 @@ void	echo(t_minishell *shell)
 	}
 	if (n_flag == FALSE && !shell->tab[shell->i + 1])
 		ft_putchar_fd('\n', 1);
+	shell->ret = 0;
 }
