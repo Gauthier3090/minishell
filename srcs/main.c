@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/19 17:05:05 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/19 17:33:31 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,10 @@ void	ft_loop_main(t_minishell *shell, t_struct *glo)
 				return ;
 			ft_builtins(shell, glo);
 		}
+		shell->variable ? free(shell->variable) : 0;
+		shell->value ? free(shell->value) : 0;
+		shell->variable = NULL;
+		shell->value = NULL;
 		if (shell->ret)
 			break ;
 	}
@@ -115,6 +119,8 @@ int		main(int argc, char **argv, char **env)
 				if (!(shell->tab = split_input(shell->input)))
 					exit(EXIT_FAILURE);
 				shell->i = 0;
+				shell->variable = NULL;
+				shell->value = NULL;
 				ft_loop_main(shell, glo);
 				free_tab(shell->tab);
 			}
