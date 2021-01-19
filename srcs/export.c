@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 14:40:35 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/18 15:20:43 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/19 14:14:33 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ void	export(t_minishell *shell)
 		sorting_env(shell->env, ft_strlen_tab(shell->env));
 	else if (!ft_strcmp(shell->tab[shell->i], "="))
 	{
-		shell->ret = ft_putstr_error("export: ", "bad assignment", 0);
+		shell->ret = ft_putstr_error("export: ", "bad assignment", 1);
 		return ;
 	}
 	else

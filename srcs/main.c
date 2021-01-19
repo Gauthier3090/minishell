@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/18 14:52:15 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/19 14:16:01 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	ft_loop_main(t_minishell *shell, t_struct *glo)
 		}
 		free(shell->variable);
 		free(shell->value);
+		if (shell->ret)
+			break ;
 	}
 	if (ft_strlen_tab(shell->tab) == 1)
 	{

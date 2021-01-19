@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 15:46:38 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/18 14:37:12 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/19 14:15:06 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	echo(t_minishell *shell)
 
 	i = 1;
 	n_flag = FALSE;
+	shell->ret = 0;
 	if (ft_strlen_tab(shell->tab) > 1)
 	{
 		n_flag = check_flag(shell, &i);
@@ -49,5 +50,4 @@ void	echo(t_minishell *shell)
 	}
 	if (n_flag == FALSE && !shell->tab[shell->i + 1])
 		ft_putchar_fd('\n', 1);
-	shell->ret = 0;
 }
