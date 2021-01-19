@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 15:42:42 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/07 16:51:01 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/18 17:01:46 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ int			ft_exec(t_minishell *minishell, t_struct *glo)
 	char			**bin;
 	char			*path;
 
+	if (minishell->i > 1)
+		return (1);
 	glo->i = 0;
 	i = ft_exec_sub(minishell, glo);
 	bin = ft_split(minishell->env[i], ':');
@@ -121,8 +123,16 @@ int			ft_exec(t_minishell *minishell, t_struct *glo)
 	path = check_dir_bin(bin[0] + 5, glo->tab2[0]);
 	while (glo->tab2[0] && bin[i] && path == NULL)
 		path = check_dir_bin(bin[i++], glo->tab2[0]);
-	if (ft_fork_exec(glo, bin, path) == 1)
-		return (1);
+	/*if (glo->pipin != 1)
+	{*/
+		if (ft_fork_exec(glo, bin, path) == 1)
+			return (1);
+	/*}*/
+	/*ft_putstr_fd("path = ", 1);
+	ft_putstr_fd(path, 1);
+	ft_putstr_fd("\nglo->tab = ", 1);
+	ft_putstr_fd(glo->tab2[0], 1);
+	ft_putstr_fd("\n", 1);*/
 	if (path != NULL)
 	{
 		if (execve(path, glo->tab2, minishell->env) == -1)
@@ -134,5 +144,7 @@ int			ft_exec(t_minishell *minishell, t_struct *glo)
 	free_tab(glo->tab2);
 	free_tab(bin);
 	free(path);
+	if (glo->pipin == 1)
+		exit(EXIT_SUCCESS);
 	return (1);
 }

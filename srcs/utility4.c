@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility4.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 17:15:29 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/12 17:03:11 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/18 22:19:40 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,20 @@ char	*realloc_str(char *dest, char *src)
 		exit(EXIT_FAILURE);
 	dest = ft_strcat(dest, src);
 	return (dest);
+}
+
+void	ft_close_fd(t_struct *glo, int *pipefd)
+{
+	int		j;
+
+	j = 0;
+	while (j < 2 * glo->z)
+	{
+		if (close(pipefd[j]) < 0)
+		{
+			ft_put_errno(errno);
+			exit(EXIT_FAILURE);
+		}
+		j++;
+	}
 }

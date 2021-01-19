@@ -6,24 +6,18 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 22:10:02 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/06 17:44:04 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/14 16:12:12 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
 
-void	ft_pwd(char *input)
+void	ft_pwd(t_minishell *shell)
 {
-	int				i;
 	char			*buf;
 
-	i = 3;
-	while (input[i])
-	{
-		if (input[i] != ' ' && input[i] != '\n' && input[i] != '\t')
-			return ;
-		i++;
-	}
+	if (shell->i > 1)
+		return ;
 	if ((buf = getcwd(NULL, 0)) == NULL)
 		ft_putstr_fd(strerror(errno), 1);
 	else

@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/13 14:31:37 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/18 21:54:34 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,19 @@ void	ft_loop_main(t_minishell *shell, t_struct *glo)
 				return ;
 			ft_builtins(shell, glo);
 		}
-		/*free(shell->variable);
-		free(shell->value);*/
 	}
 	if (ft_strlen_tab(shell->tab) == 1)
 	{
 		if (ft_semicolon(shell, glo) == FALSE)
 			return ;
 		if (ft_pipe_main(shell, glo) == FALSE)
-				return ;
+			return ;
 		ft_builtins(shell, glo);
 	}
+	if (glo->pipin == 1)
+		exit(EXIT_SUCCESS);
+	/*free(shell->variable);
+	free(shell->value);*/
 }
 
 void	ft_builtins(t_minishell *shell, t_struct *glo)
@@ -74,9 +76,9 @@ void	ft_builtins(t_minishell *shell, t_struct *glo)
 	else if (ft_strcmp(shell->tab[0], "unset") == 0)
 		unset(shell);
 	else if (ft_strcmp(shell->tab[0], "cd") == 0)
-		ft_cd(shell->input, shell->env, glo);
+		ft_cd(shell->input, shell->env, glo, shell);
 	else if (ft_strcmp(shell->tab[0], "pwd") == 0)
-		ft_pwd(shell->input);
+		ft_pwd(shell);
 	else if (ft_exec(shell, glo) != 0)
 		return ;
 	else

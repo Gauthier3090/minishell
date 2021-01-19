@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/13 14:31:06 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/19 14:32:42 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,15 @@ typedef struct		s_struct
 	int				i;
 	int				y;
 	int				x;
+	int				z;
+	int				p;
+	int				pipin;
 	int				check;
 	char			**tab;
 	char			**tab2;
 	char			**forked_tab;
+	char			**pipe_tab;
+	int				pipe_ite;
 	pid_t			id1;
 	pid_t			id2;
 }					t_struct;
@@ -52,13 +57,7 @@ typedef struct		s_minishell
 	char			*input;
 	char			*variable;
 	char			*value;
-<<<<<<< HEAD
 	int				i;
-=======
-	int				i;
-	int				go_free;
-	int				free_var;
->>>>>>> cd
 }					t_minishell;
 
 void				directoryprompt();
@@ -74,7 +73,7 @@ void				free_var_unset(char **arg, char *value, char *str, char *tmp);
 void				*ft_realloc(void *ptr, size_t size);
 char				*getdirectory(void);
 char				*getinput(void);
-int					ft_cd(char *input, char **env, t_struct *glo);
+int					ft_cd(char *input, char **env, t_struct *glo, t_minishell *shell);
 char				*ft_whitespace(char *input);
 int					ft_absolute_path(char *arg, t_struct *glo);
 char				*ft_cd_args_check(char **arg, char **env, t_struct *glo);
@@ -100,7 +99,7 @@ char				*ft_strcat(char *dest, char *src);
 void				sorting_env(char **env, int size);
 char				*tabtostr(char **tab);
 char				*ft_cd_env_sub(char *arg, char **env, t_struct *glo);
-void				ft_pwd(char *input);
+void				ft_pwd(t_minishell * shell);
 void				ft_ls(char *input);
 void				ft_ls_sub(struct dirent	*entry);
 void				ft_errno_putstr(int errnumb);
@@ -148,5 +147,8 @@ char				*parse_null_quote(char *input, int *i, char **env);
 char				*str_env(char *input, int *i, char **env);
 char				*str_not_env(char *input, int *i);
 int					ft_pipe_main(t_minishell *shell, t_struct *glo);
+void				ft_close_fd(t_struct *glo, int *pipefd);
+void				ft_next_pipe(t_minishell *shell, t_struct *glo);
+int					ft_error_pipe(int error_numb);
 
 #endif
