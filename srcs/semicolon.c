@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   semicolon.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 14:17:08 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/14 22:09:07 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/19 16:53:38 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ void	ft_loop_sub(t_minishell *shell, t_struct *glo, int i)
 	glo->x--;
 	shell->input = ft_whitespace(shell->input);
 	shell->i = 0;
-	/*free(shell->variable);
-	free(shell->value);*/
 	ft_loop_main(shell, glo);
 }
 

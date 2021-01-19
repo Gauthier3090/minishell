@@ -6,10 +6,9 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/19 14:47:21 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/19 17:05:05 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../includes/header.h"
 
@@ -33,6 +32,8 @@ void	ft_loop_main(t_minishell *shell, t_struct *glo)
 {
 	char	*input;
 
+	shell->variable ? free(shell->variable) : 0;
+	shell->value ? free(shell->value) : 0;
 	while (shell->tab[++(shell->i)])
 	{
 		input = delete_char_left(shell->tab[shell->i], '=');
@@ -48,8 +49,6 @@ void	ft_loop_main(t_minishell *shell, t_struct *glo)
 				return ;
 			ft_builtins(shell, glo);
 		}
-		free(shell->variable);
-		free(shell->value);
 		if (shell->ret)
 			break ;
 	}
