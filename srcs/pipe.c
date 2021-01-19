@@ -6,132 +6,135 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 16:53:51 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/13 14:29:04 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/19 14:37:13 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
 
-void ft_pipe(t_minishell *shell, t_struct *glo)
+int		ft_multi_pipe_sub(t_minishell *shell, t_struct *glo, int *pipefd)
 {
-	// 0 is read end, 1 is write end
-	int pipefd[2];
-/*	pid_t p1, p2;*/
+	pid_t	pid;
 
-	if (pipe(pipefd) < 0) {
-		printf("\nPipe could not be initialized");
-		return;
+	while (glo->p < (glo->z * 2) + 1)
+	{
+		ft_next_pipe(shell, glo);
+		if ((pid = fork()) < 0)
+			return (ft_error_pipe(errno));
+		if (pid == 0)
+		{
+			if (glo->p != (glo->z * 2))
+			{
+				if (dup2(pipefd[glo->p + 1], 1) < 0)
+					return (ft_error_pipe(errno));
+			}
+			if (glo->p != 0)
+			{
+				if (dup2(pipefd[glo->p - 2], 0) < 0)
+					return (ft_error_pipe(errno));
+			}
+			ft_close_fd(glo, pipefd);
+			ft_loop_main(shell, glo);
+		}
+		glo->p = glo->p + 2;
 	}
-	/*if (p1 == 0) {*/
-		// Child 1 executing..
-		// It only needs to write at the write end
-			/*ft_putstr_fd("input = ", 1);
-		ft_putstr_fd(shell->input, 1);
-		ft_putstr_fd("\n", 1);*/
-		close(pipefd[0]);
-		dup2(pipefd[1], STDOUT_FILENO);
-		close(pipefd[1]);
-		shell->input = ft_strdup(glo->forked_tab[0]);
-		ft_putstr_fd("input pipin= ", 1);
-		ft_putstr_fd(shell->input, 1);
-		ft_builtins(shell, glo);
-	/*	}
-	else {
-		if (p2 == 0) {*/
-			close(pipefd[1]);
-			dup2(pipefd[0], STDIN_FILENO);
-			close(pipefd[0]);
-		/*ft_putstr_fd("parsedpipe = ", 1);
-		ft_putstr_fd(parsedpipe[0], 1);
-		ft_putstr_fd("\n", 1);
-		ft_putstr_fd("parsedpipe[1] = ", 1);
-		ft_putstr_fd(parsedpipe[1], 1);
-		ft_putstr_fd("\n", 1);
-		ft_putstr_fd("parsedpipe[2] = ", 1);
-		ft_putstr_fd(parsedpipe[2], 1);
-		ft_putstr_fd("\n", 1);*/
-
-		shell->input = ft_strdup(glo->forked_tab[1]);
-		ft_putstr_fd("input pipout= ", 1);
-		ft_putstr_fd(shell->input, 1);
-		ft_builtins(shell, glo);
+	return (TRUE);
 }
 
-void	ft_loop_pipe(t_minishell *shell, t_struct *glo, int i)
+int		ft_multi_pipe(t_minishell *shell, t_struct *glo)
 {
-	int		x;
-	char	*temp;
+	int		i;
+	int		pipefd[glo->z * 2];
 
-	x = 0;
-	glo->check = 2;
-	free(shell->input);
-	if (!(shell->input = ft_strdup(glo->forked_tab[i])))
-		exit(EXIT_FAILURE);
-	free_tab(shell->tab);
-	while (shell->input[x])
-		x++;
-	temp = ft_substr(shell->input, 0, x);
-	if (!(shell->tab = ft_split(temp, ' ')))
-		exit(EXIT_FAILURE);
-	free(temp);
-	glo->x--;
-	shell->input = ft_whitespace(shell->input);
-	shell->i = 0;
-	/*ft_putstr_fd("\n", 1);
-	ft_putstr_fd(ft_itoa(glo->x), 1);
-	ft_putstr_fd("\n", 1);*/
-	ft_pipe(shell, glo);
+	i = 0;
+	while (i < glo->z)
+	{
+		if (pipe(pipefd + i * 2) < 0)
+			return (ft_error_pipe(errno));
+		i++;
+	}
+	glo->pipin = 1;
+	glo->p = 0;
+	if (ft_multi_pipe_sub(shell, glo, pipefd) == FALSE)
+		return (FALSE);
+	ft_close_fd(glo, pipefd);
+	i = 0;
+	while (i++ < glo->z + 1)
+		wait(NULL);
+	return (TRUE);
 }
 
 int		ft_pipe_sub(t_minishell *shell, t_struct *glo)
 {
 	int		i;
-	/*int		x;*/
 
 	i = 1;
-	/*x = 0;*/
-	while (shell->input[ft_strlen(shell->input) - i] == ' ' || shell->input[ft_strlen(shell->input) - i] == '|')
+	while (shell->input[ft_strlen(shell->input) - i] == ' ' \
+		|| shell->input[ft_strlen(shell->input) - i] == '|')
 	{
 		if (shell->input[ft_strlen(shell->input) - i] == '|')
-			{
-				ft_putstr_fd("No multiline supported\n", 1);
-				return (FALSE);
-			}
+		{
+			ft_putstr_fd("No multiline supported\n", 1);
+			return (FALSE);
+		}
 		i++;
 	}
-	if (!(glo->forked_tab = ft_split(shell->input, '|')))
+	if (!(glo->pipe_tab = ft_split(shell->input, '|')))
 		exit(EXIT_FAILURE);
 	i = 0;
-	/*while (glo->x > -1)
-	{
-		if (glo->x == 0 && x == 1)
-			break ;
-		ft_loop_pipe(shell, glo, i);
-		i++;
-	}*/
-	ft_pipe(shell, glo);
-	glo->check = 0;
-	glo->x = 0;
-	free_tab(glo->forked_tab);
+	if (ft_multi_pipe(shell, glo) == FALSE)
+		return (FALSE);
+	glo->z = 0;
+	glo->pipin = 0;
+	free_tab(glo->pipe_tab);
 	return (FALSE);
 }
 
+int		ft_check_pipe(t_minishell *shell, t_struct *glo, char c)
+{
+	int		y;
+
+	while (shell->input[glo->i])
+	{
+		if (shell->input[glo->i] == c)
+		{
+			glo->z++;
+			y = 1;
+			while (shell->input && (shell->input[glo->i + y] == ' ' ||
+				shell->input[glo->i + y] == '\t' || \
+				shell->input[glo->i + y] == '\v'))
+				y++;
+			if (shell->input[glo->i + y] == c)
+			{
+				ft_putstr_fd("bash: syntax error near unexpected token `", 1);
+				ft_putchar_fd(c, 1);
+				ft_putstr_fd("'\n", 1);
+				glo->z = 0;
+				return (FALSE);
+			}
+		}
+		glo->i++;
+	}
+	return (TRUE);
+}
 
 int		ft_pipe_main(t_minishell *shell, t_struct *glo)
 {
 	glo->i = 0;
+	glo->pipe_ite = 0;
 	while (shell->input && (shell->input[glo->i] == ' ' || \
 	shell->input[glo->i] == '\t' || shell->input[glo->i] == '\v'))
 		glo->i++;
-	/*ft_putstr_fd("entering pipe main\n", 1);*/
 	if (shell->input[glo->i] == '|')
 	{
 		ft_putstr_fd("bash: syntax error near unexpected token `|'\n", 1);
 		return (FALSE);
 	}
-	if (ft_check_double_char(shell, glo, '|') == FALSE)
+	if (glo->z != 0)
+		return (TRUE);
+	if (ft_check_pipe(shell, glo, '|') == FALSE)
 		return (FALSE);
-	if (glo->x == 0)
+	if (glo->z == 0)
 		return (TRUE);
 	if (ft_pipe_sub(shell, glo) == FALSE)
 		return (FALSE);
