@@ -6,16 +6,18 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 15:44:55 by ldavids           #+#    #+#             */
-/*   Updated: 2020/12/16 23:20:52 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/14 16:13:23 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
 
-int		ft_cd(char *input, char **env, t_struct *glo)
+int		ft_cd(char *input, char **env, t_struct *glo, t_minishell *shell)
 {
 	char	**arg;
 
+	if (shell->i > 1)
+		return (0);
 	if (!(glo->temp = ft_substr(input, 2, ft_strlen(input))))
 		exit(EXIT_FAILURE);
 	if (!(arg = ft_split(glo->temp, ' ')))
