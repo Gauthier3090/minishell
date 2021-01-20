@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 14:40:50 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/18 14:33:41 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/20 14:27:45 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ char	*parse_double_quote(char *input, int *i, char **env, int ret)
 			tmp = str_env(input, i, env, ret);
 		if (!str)
 		{
-			if (!(str = ft_calloc(ft_strlen(tmp), sizeof(char))))
+			if (!(str = ft_calloc(ft_strlen(tmp) + 1, sizeof(char))))
 				exit(EXIT_FAILURE);
 			str = ft_strcat(str, tmp);
 		}
