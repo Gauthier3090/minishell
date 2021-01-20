@@ -6,33 +6,11 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 14:17:08 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/19 17:24:29 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/20 11:30:38 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
-
-int		ft_semicolon(t_minishell *shell, t_struct *glo)
-{
-	glo->i = 0;
-	if (glo->check == 2)
-		return (TRUE);
-	while (shell->input && (shell->input[glo->i] == ' ' || \
-	shell->input[glo->i] == '\t' || shell->input[glo->i] == '\v'))
-		glo->i++;
-	if (shell->input[glo->i] == ';')
-	{
-		ft_putstr_fd("bash: syntax error near unexpected token `;'\n", 1);
-		return (FALSE);
-	}
-	if (ft_check_double_char(shell, glo, ';') == FALSE)
-		return (FALSE);
-	if (glo->x == 0)
-		return (TRUE);
-	if (ft_semicolon_sub(shell, glo) == FALSE)
-		return (FALSE);
-	return (TRUE);
-}
 
 void	ft_loop_sub(t_minishell *shell, t_struct *glo, int i)
 {
@@ -82,6 +60,8 @@ int		ft_semicolon_sub(t_minishell *shell, t_struct *glo)
 	}
 	glo->check = 0;
 	glo->x = 0;
+	/*shell->variable = NULL;
+	shell->value = NULL;*/
 	free_tab(glo->forked_tab);
 	return (FALSE);
 }
@@ -113,5 +93,28 @@ int		ft_check_double_char(t_minishell *shell, t_struct *glo, char c)
 		}
 		glo->i++;
 	}
+	return (TRUE);
+}
+
+
+int		ft_semicolon(t_minishell *shell, t_struct *glo)
+{
+	glo->i = 0;
+	if (glo->check == 2)
+		return (TRUE);
+	while (shell->input && (shell->input[glo->i] == ' ' || \
+	shell->input[glo->i] == '\t' || shell->input[glo->i] == '\v'))
+		glo->i++;
+	if (shell->input[glo->i] == ';')
+	{
+		ft_putstr_fd("bash: syntax error near unexpected token `;'\n", 1);
+		return (FALSE);
+	}
+	if (ft_check_double_char(shell, glo, ';') == FALSE)
+		return (FALSE);
+	if (glo->x == 0)
+		return (TRUE);
+	if (ft_semicolon_sub(shell, glo) == FALSE)
+		return (FALSE);
 	return (TRUE);
 }

@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/19 17:33:31 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/20 12:15:21 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,12 @@ void	ft_loop_main(t_minishell *shell, t_struct *glo)
 		free(input);
 		input = delete_char_right(shell->tab[shell->i], '=');
 		shell->value = parse_input(input, shell->env, shell->ret);
+		ft_putstr_fd("\nvariable = ", 1);
+		ft_putstr_fd(shell->variable, 1);
+		ft_putstr_fd("\n", 1);
+		ft_putstr_fd("value = ", 1);
+		ft_putstr_fd(shell->variable, 1);
+		ft_putstr_fd("\n", 1);
 		if (shell->variable)
 		{
 			if (ft_semicolon(shell, glo) == FALSE)
@@ -58,6 +64,8 @@ void	ft_loop_main(t_minishell *shell, t_struct *glo)
 	}
 	if (ft_strlen_tab(shell->tab) == 1)
 	{
+		shell->variable = NULL;
+		shell->value = NULL;
 		if (ft_semicolon(shell, glo) == FALSE)
 			return ;
 		if (ft_pipe_main(shell, glo) == FALSE)
