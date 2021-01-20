@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 15:42:42 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/18 17:01:46 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/20 12:29:40 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,15 +87,15 @@ int			ft_exec_sub(t_minishell *minishell, t_struct *glo)
 	i = 0;
 	if (!(glo->tab = ft_split(minishell->input, ' ')))
 		exit(EXIT_FAILURE);
-	while (glo->tab[glo->i])
+	while (glo->tab && glo->tab[glo->i])
 		glo->i++;
-	glo->tab = ft_exec_env(glo->tab, minishell->env, glo);
 	if (!(glo->tab2 = ft_calloc(sizeof(char *), glo->i + 3)))
 		exit(EXIT_FAILURE);
+	glo->tab = ft_exec_env(glo->tab, minishell->env, glo);
 	if (!(glo->tab2[0] = ft_strdup(glo->tab[0])))
 		exit(EXIT_FAILURE);
 	glo->i = 1;
-	while (glo->tab[glo->i])
+	while (glo->tab && glo->tab[glo->i])
 	{
 		if (!(glo->tab2[glo->i] = ft_strdup(glo->tab[glo->i])))
 			exit(EXIT_FAILURE);

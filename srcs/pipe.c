@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 16:53:51 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/19 14:37:13 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/20 11:42:36 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,10 @@ int		ft_pipe_sub(t_minishell *shell, t_struct *glo)
 	glo->z = 0;
 	glo->pipin = 0;
 	free_tab(glo->pipe_tab);
+	shell->variable ? free(shell->variable) : 0;
+	shell->value ? free(shell->value) : 0;
+	shell->variable = NULL;
+	shell->value = NULL;
 	return (FALSE);
 }
 
