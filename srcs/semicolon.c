@@ -6,11 +6,54 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 14:17:08 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/20 11:30:38 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/20 15:10:40 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
+
+int		ft_quotes_check(t_minishell *shell, t_struct *glo)
+{
+	int		i;
+	int		j;
+	int		k;
+
+	i = 0;
+	j = 0;
+	k = 0;
+	while (shell->input && shell->input[i])
+	{
+		if (shell->input[i] == '"')
+		{
+			j = i;
+			while (shell->input && shell->input[i])
+			{
+				if (shell->input[i] == '"')
+				{
+					k = i;
+					if (glo->i < k && glo->i > j)
+					{
+						ft_putstr_fd("j = ", 1);
+						ft_putnbr_fd(j, 1);
+						ft_putstr_fd("\nk = ", 1);
+						ft_putnbr_fd(k, 1);
+						return (TRUE);
+					}
+					else
+					{
+						j = 0;
+						k = 0;
+						i = k;
+						break ;
+					}
+
+				}
+			}
+		}
+		i++;
+	}
+	return (FALSE);
+}
 
 void	ft_loop_sub(t_minishell *shell, t_struct *glo, int i)
 {
@@ -72,7 +115,7 @@ int		ft_check_double_char(t_minishell *shell, t_struct *glo, char c)
 
 	while (shell->input[glo->i])
 	{
-		if (shell->input[glo->i] == c)
+		if ((shell->input[glo->i] == c) && (ft_quotes_check(shell, glo) == TRUE))
 		{
 			glo->x++;
 			glo->check = 1;
@@ -86,6 +129,10 @@ int		ft_check_double_char(t_minishell *shell, t_struct *glo, char c)
 				ft_putstr_fd("bash: syntax error near unexpected token `", 1);
 				ft_putchar_fd(c, 1);
 				ft_putstr_fd("'\n", 1);
+				shell->variable ? free(shell->variable) : 0;
+				shell->value ? free(shell->value) : 0;
+				shell->variable = NULL;
+				shell->value = NULL;
 				glo->x = 0;
 				glo->check = 0;
 				return (FALSE);

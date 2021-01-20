@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   utility4.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 17:15:29 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/20 14:58:39 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/20 15:13:23 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../includes/header.h"
 
