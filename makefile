@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+         #
+#    By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/04 15:34:54 by gpladet           #+#    #+#              #
-#    Updated: 2021/01/18 22:32:15 by ldavids          ###   ########.fr        #
+#    Updated: 2021/01/20 13:46:34 by gpladet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,8 @@ PATH_LIBFT = libft
 
 # List of sources
 SRCS = main.c prompt.c free.c cd.c cd2.c utility.c echo.c exit.c env.c \
-export.c utility2.c utility3.c pwd.c exec.c unset.c pipe.c pipe2.c\
-semicolon.c parsing.c parsing2.c utility4.c split.c
+export.c export2.c utility2.c utility3.c pwd.c exec.c unset.c pipe.c pipe2.c\
+semicolon.c parsing.c parsing2.c utility4.c split.c split2.c
 OBJS = ${addprefix ${PATH_OBJ}, ${SRCS:.c=.o}}
 INCS = ${addprefix ${PATH_INC}, header.h}
 

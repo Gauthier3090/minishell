@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 15:40:36 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/18 15:30:14 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/20 13:44:51 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	research_env(char *variable, t_minishell *shell)
 	}
 }
 
-void	unset(t_minishell * shell)
+void	unset(t_minishell *shell)
 {
 	if (ft_strlen_tab(shell->tab) == 1)
 		shell->ret = ft_putstr_error("unset: ", "not enough arguments", 1);

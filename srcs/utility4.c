@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility4.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 17:15:29 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/18 22:19:40 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/20 13:57:01 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,19 @@ char	*path_join(const char *s1, const char *s2)
 	return (path);
 }
 
-int		quotes_close(char *str, int *i, char c, char c2, int *quote, int *quote2)
+int		quotes_close(int *i, char c, char c2, t_minishell *shell)
 {
-	if (str[*i] == c)
+	if (shell->input[*i] == c)
 	{
-		(*quote)++;
-		while (str[++(*i)])
+		shell->quote++;
+		while (shell->input[++(*i)])
 		{
-			if (str[*i] == c2)
-				(*quote2)++;
-			else if (str[*i] == c)
+			if (shell->input[*i] == c2)
+				shell->quote2++;
+			else if (shell->input[*i] == c)
 			{
-				(*quote)++;
-				if (*quote2 % 2 != 0)
+				shell->quote++;
+				if (shell->quote2 % 2 != 0)
 					return (0);
 				else
 					break ;
@@ -45,29 +45,27 @@ int		quotes_close(char *str, int *i, char c, char c2, int *quote, int *quote2)
 	return (1);
 }
 
-int		check_quotes_close(char *str)
+int		check_quotes_close(t_minishell *shell)
 {
 	int	i;
-	int	quote;
-	int	quote2;
 
-	quote = 0;
-	quote2 = 0;
+	shell->quote = 0;
+	shell->quote2 = 0;
 	i = -1;
-	while (str[++i])
+	while (shell->input[++i])
 	{
-		if (str[i] == '\'')
+		if (shell->input[i] == '\'')
 		{
-			if (!quotes_close(str, &i, '\'', '"', &quote, &quote2))
+			if (!quotes_close(&i, '\'', '"', shell))
 				return (0);
 		}
-		if (str[i] == '"')
+		if (shell->input[i] == '"')
 		{
-			if (!quotes_close(str, &i, '"', '\'', &quote, &quote2))
+			if (!quotes_close(&i, '"', '\'', shell))
 				return (0);
 		}
 	}
-	if (quote % 2 != 0 || quote2 % 2 != 0)
+	if (shell->quote % 2 != 0 || shell->quote2 % 2 != 0)
 		return (0);
 	return (1);
 }
