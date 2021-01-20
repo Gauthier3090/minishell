@@ -6,11 +6,9 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/20 13:55:01 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/20 14:03:17 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #ifndef HEADER_H
 # define HEADER_H
@@ -73,11 +71,11 @@ char				*delete_char_right(char *str, char c);
 void				echo_env(char *tab, char **env);
 void				save_env(char *tab, char **env, t_struct *glo);
 void				free_tab(char **tab);
-void				free_var_unset(char **arg, char *value, char *str, char *tmp);
 void				*ft_realloc(void *ptr, size_t size);
 char				*getdirectory(void);
 char				*getinput(void);
-int					ft_cd(char *input, char **env, t_struct *glo, t_minishell *shell);
+int					ft_cd(char *input, char **env,
+					t_struct *glo, t_minishell *shell);
 char				*ft_whitespace(char *input);
 int					ft_absolute_path(char *arg, t_struct *glo);
 char				*ft_cd_args_check(char **arg, char **env, t_struct *glo);
@@ -103,7 +101,7 @@ char				*ft_strcat(char *dest, char *src);
 void				sorting_env(char **env, int size);
 char				*tabtostr(char **tab);
 char				*ft_cd_env_sub(char *arg, char **env, t_struct *glo);
-void				ft_pwd(t_minishell * shell);
+void				ft_pwd(t_minishell *shell);
 void				ft_ls(char *input);
 void				ft_ls_sub(struct dirent	*entry);
 void				ft_errno_putstr(int errnumb);
@@ -115,7 +113,8 @@ char				*export_variable(char *str, char **env);
 char				*export_variable_env(char *variable, char **arg,
 					char **env);
 int					export_error(char *variable);
-void				export_more(t_minishell *shell, char *variable, char *value);
+void				export_more(t_minishell *shell,
+					char *variable, char *value);
 char				*ft_export(char *variable, char *value, char **env);
 int					variable_exist(char **env, char *str);
 int					ft_fork_exec(t_struct *glo, char **bin, char *path);
@@ -124,7 +123,8 @@ char				*export_variable_start(char *str, int *i);
 void				unset(t_minishell *shell);
 int					ft_semicolon(t_minishell *minishell, t_struct *glo);
 int					ft_semicolon_sub(t_minishell *minishell, t_struct *glo);
-int					ft_check_double_char(t_minishell *minishell, t_struct *glo, char c);
+int					ft_check_double_char(t_minishell *minishell,
+					t_struct *glo, char c);
 char				*export_value_more(char *value, char *str, int *i);
 void				research_env_more(char *variable, t_minishell *shell);
 char				*unset_value(char *str, char **env);
