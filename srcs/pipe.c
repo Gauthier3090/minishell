@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 16:53:51 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/20 11:42:36 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/20 14:24:46 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,10 @@ int		ft_check_pipe(t_minishell *shell, t_struct *glo, char c)
 				ft_putstr_fd("bash: syntax error near unexpected token `", 1);
 				ft_putchar_fd(c, 1);
 				ft_putstr_fd("'\n", 1);
+				shell->variable ? free(shell->variable) : 0;
+				shell->value ? free(shell->value) : 0;
+				shell->variable = NULL;
+				shell->value = NULL;
 				glo->z = 0;
 				return (FALSE);
 			}
