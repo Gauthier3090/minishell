@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/20 14:03:17 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/23 17:08:54 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ typedef struct		s_struct
 	char			**forked_tab;
 	char			**pipe_tab;
 	int				pipe_ite;
+	char			*save_old_pwd;
+	int				semi[100];
 	pid_t			id1;
 	pid_t			id2;
 }					t_struct;
@@ -78,29 +80,28 @@ int					ft_cd(char *input, char **env,
 					t_struct *glo, t_minishell *shell);
 char				*ft_whitespace(char *input);
 int					ft_absolute_path(char *arg, t_struct *glo);
-char				*ft_cd_args_check(char **arg, char **env, t_struct *glo);
+char				*ft_cd_check(t_minishell *shell, char **env, t_struct *glo, char **arg);
 int					ft_strlen_tab(char **tab);
 int					ft_strisdigit(char *str);
 void				exit_shell(char **tab, int ret);
 void				ft_env(char **tab, char **env, t_minishell *shell);
-int					ft_change_dir(char *arg, char **env,
-					t_struct *glo, char **tab);
-int					ft_oldpwd(t_struct *glo, char **arg);
+int					ft_change_dir(char *arg, char **env, t_struct *glo);
+int					ft_oldpwd(t_struct *glo);
 int					ft_cd_error(char *arg);
 void				export(t_minishell *minishell);
 int					ft_strcmp(const char *s1, const char *s2);
 char				*ft_strcpy(char *dest, char *src);
 void				ft_print_tab(char **tab);
 int					ft_strhomelen(t_struct *glo);
-int					ft_home_dir(t_struct *glo, char **env, char **arg);
+int					ft_home_dir(t_struct *glo, char **env);
 int					free_tab_ret(char **tab);
-int					ft_tilde(char **arg, char **env, t_struct *glo);
-char				*ft_cd_env(char **arg, char **env, t_struct *glo);
+int					ft_tilde(t_minishell *shell, char **env, t_struct *glo);
+char				*ft_cd_env(t_minishell *shell, char **env, t_struct *glo);
 void				ft_path_len(char *arg, t_struct *glo);
 char				*ft_strcat(char *dest, char *src);
 void				sorting_env(char **env, int size);
 char				*tabtostr(char **tab);
-char				*ft_cd_env_sub(char *arg, char **env, t_struct *glo);
+char				*ft_cd_env_sub(char *variable, char **env, t_struct *glo);
 void				ft_pwd(t_minishell *shell);
 void				ft_ls(char *input);
 void				ft_ls_sub(struct dirent	*entry);

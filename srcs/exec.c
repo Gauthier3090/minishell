@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 15:42:42 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/20 12:29:40 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/23 15:06:38 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char		*check_dir_bin(char *bin, char *command)
 	return (path);
 }
 
-char		**ft_exec_env(char **tab, char **env, t_struct *glo)
+/*char		**ft_exec_env(char **tab, char **env, t_struct *glo)
 {
 	int				j;
 
@@ -78,7 +78,7 @@ char		**ft_exec_env(char **tab, char **env, t_struct *glo)
 		j++;
 	}
 	return (tab);
-}
+}*/
 
 int			ft_exec_sub(t_minishell *minishell, t_struct *glo)
 {
@@ -91,7 +91,7 @@ int			ft_exec_sub(t_minishell *minishell, t_struct *glo)
 		glo->i++;
 	if (!(glo->tab2 = ft_calloc(sizeof(char *), glo->i + 3)))
 		exit(EXIT_FAILURE);
-	glo->tab = ft_exec_env(glo->tab, minishell->env, glo);
+	/*glo->tab = ft_exec_env(glo->tab, minishell->env, glo);*/
 	if (!(glo->tab2[0] = ft_strdup(glo->tab[0])))
 		exit(EXIT_FAILURE);
 	glo->i = 1;

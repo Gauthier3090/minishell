@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 15:44:55 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/14 16:13:23 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/23 17:08:38 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,26 +23,25 @@ int		ft_cd(char *input, char **env, t_struct *glo, t_minishell *shell)
 	if (!(arg = ft_split(glo->temp, ' ')))
 		exit(EXIT_FAILURE);
 	free(glo->temp);
-	if (arg[0] == NULL)
-		return (ft_home_dir(glo, env, arg));
-	if (((ft_strncmp(arg[0], " ", 1) != 0) && input[2] != ' ' && \
-		input[2] != '\t' && input[2] != '\v'))
-		return (free_tab_ret(arg));
-	arg[0] = ft_cd_args_check(arg, env, glo);
+	if (shell->variable == NULL)
+	{
+		free_tab(arg);
+		return (ft_home_dir(glo, env));
+	}
+	shell->variable = ft_cd_check(shell, env, glo, arg);
 	if (glo->i == FALSE)
-		return (free_tab_ret(arg));
-	if (arg[0][0] == '-' && (arg[0][1] == ' ' || arg[0][1] == '\t' \
-		|| arg[0][1] == '\v' || arg[0][1] == '\f' || arg[0][1] == 0))
-		return (ft_oldpwd(glo, arg));
+		return (FALSE);
+	if (ft_strncmp(shell->variable, "-", 2) == 0)
+		return (ft_oldpwd(glo));
 	free(glo->oldpwd);
 	if (!(glo->oldpwd = getcwd(NULL, 0)))
-		return (free_tab_ret(arg));
-	if (ft_strncmp(arg[0], "--", 3) == 0 || ft_strncmp(arg[0], " ", 1) == 0)
-		return (ft_home_dir(glo, env, arg));
-	return (ft_change_dir(arg[0], env, glo, arg));
+		return (FALSE);
+	if (ft_strncmp(shell->variable, "--", 3) == 0)
+		return (ft_home_dir(glo, env));
+	return (ft_change_dir(shell->variable, env, glo));
 }
 
-int		ft_oldpwd(t_struct *glo, char **arg)
+int		ft_oldpwd(t_struct *glo)
 {
 	char		*buf;
 
@@ -50,13 +49,13 @@ int		ft_oldpwd(t_struct *glo, char **arg)
 	{
 		ft_putstr_fd(strerror(errno), 1);
 		free(buf);
-		return (TRUE);
+		return (FALSE);
 	}
 	if (glo->cd_count == 0)
 	{
 		ft_putstr_fd("OLDPWD not set\n", 1);
 		free(buf);
-		return (free_tab_ret(arg));
+		return (FALSE);
 	}
 	ft_cd_error(glo->oldpwd);
 	ft_putstr_fd(glo->oldpwd, 1);
@@ -66,13 +65,12 @@ int		ft_oldpwd(t_struct *glo, char **arg)
 		exit(EXIT_FAILURE);
 	glo->cd_count++;
 	free(buf);
-	free_tab_ret(arg);
 	return (TRUE);
 }
 
-int		ft_cd_error(char *arg)
+int		ft_cd_error(char *variable)
 {
-	if (chdir(arg) == -1)
+	if (chdir(variable) == -1)
 	{
 		ft_putstr_fd(strerror(errno), 1);
 		write(1, "\n", 1);
@@ -80,37 +78,24 @@ int		ft_cd_error(char *arg)
 	return (TRUE);
 }
 
-char	*ft_cd_args_check(char **arg, char **env, t_struct *glo)
+char	*ft_cd_check(t_minishell *shell, char **env, t_struct *glo, char **arg)
 {
-	if (arg[1] != NULL)
+	if (arg[1])
 	{
 		ft_putstr_fd("too many arguments", 1);
 		write(1, "\n", 1);
 		glo->i = FALSE;
-		return (arg[0]);
+		free_tab(arg);
+		return (shell->variable);
 	}
-	if (arg[0][0] == '~')
+	free_tab(arg);
+	if (shell->variable[0] == '~')
 	{
-		if (!(ft_tilde(arg, env, glo)))
+		if (!(ft_tilde(shell, env, glo)))
 			exit(EXIT_FAILURE);
 	}
 	glo->i = TRUE;
-	return (ft_cd_env(arg, env, glo));
-}
-
-char	*ft_cd_env(char **arg, char **env, t_struct *glo)
-{
-	glo->i = 0;
-	while (arg[0][glo->i])
-	{
-		if (arg[0][glo->i] == '$')
-		{
-			glo->y = glo->i;
-			while (arg[0][glo->y] && arg[0][glo->y] != '/')
-				glo->y++;
-			arg[0] = ft_cd_env_sub(arg[0], env, glo);
-		}
-		glo->i++;
-	}
-	return (arg[0]);
+	free(glo->save_old_pwd);
+	glo->save_old_pwd = ft_strdup(glo->oldpwd);
+	return (shell->variable);
 }
