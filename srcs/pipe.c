@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 16:53:51 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/20 14:24:46 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/25 15:59:23 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,21 +67,38 @@ int		ft_multi_pipe(t_minishell *shell, t_struct *glo)
 int		ft_pipe_sub(t_minishell *shell, t_struct *glo)
 {
 	int		i;
+	int		x;
+	int		z;
 
 	i = 1;
+	x = 0;
+	z = 0;
+	glo->pipe_tab = malloc((glo->z + 2) * sizeof(char*));
+	while (x < glo->z)
+	{
+		glo->pipe_tab[x] = ft_substr(shell->input, z, (glo->pipe[x]) - z);
+		z = glo->pipe[x] + 1;
+		x++;
+	}
+	glo->pipe_tab[x] = ft_substr(shell->input, z, ft_strlen(shell->input) - z);
+	glo->pipe_tab[x + 1] = NULL;
+	x = 0;
 	while (shell->input[ft_strlen(shell->input) - i] == ' ' \
 		|| shell->input[ft_strlen(shell->input) - i] == '|')
 	{
 		if (shell->input[ft_strlen(shell->input) - i] == '|')
 		{
 			ft_putstr_fd("No multiline supported\n", 1);
+			shell->variable ? free(shell->variable) : 0;
+			shell->value ? free(shell->value) : 0;
+			shell->variable = NULL;
+			shell->value = NULL;
+			glo->z = 0;
 			return (FALSE);
 		}
 		i++;
 	}
-	if (!(glo->pipe_tab = ft_split(shell->input, '|')))
-		exit(EXIT_FAILURE);
-	i = 0;
+
 	if (ft_multi_pipe(shell, glo) == FALSE)
 		return (FALSE);
 	glo->z = 0;
@@ -98,17 +115,18 @@ int		ft_check_pipe(t_minishell *shell, t_struct *glo, char c)
 {
 	int		y;
 
-	while (shell->input[glo->i])
+	while (shell->input[glo->j])
 	{
-		if (shell->input[glo->i] == c)
+		if ((shell->input[glo->j] == c) && (ft_double_quotes_check(shell, glo->j) == FALSE))
 		{
+			glo->pipe[glo->z] = glo->j;
 			glo->z++;
 			y = 1;
-			while (shell->input && (shell->input[glo->i + y] == ' ' ||
-				shell->input[glo->i + y] == '\t' || \
-				shell->input[glo->i + y] == '\v'))
+			while (shell->input && (shell->input[glo->j + y] == ' ' ||
+				shell->input[glo->j + y] == '\t' || \
+				shell->input[glo->j + y] == '\v'))
 				y++;
-			if (shell->input[glo->i + y] == c)
+			if (shell->input[glo->j + y] == c)
 			{
 				ft_putstr_fd("bash: syntax error near unexpected token `", 1);
 				ft_putchar_fd(c, 1);
@@ -121,19 +139,19 @@ int		ft_check_pipe(t_minishell *shell, t_struct *glo, char c)
 				return (FALSE);
 			}
 		}
-		glo->i++;
+		glo->j++;
 	}
 	return (TRUE);
 }
 
 int		ft_pipe_main(t_minishell *shell, t_struct *glo)
 {
-	glo->i = 0;
+	glo->j = 0;
 	glo->pipe_ite = 0;
-	while (shell->input && (shell->input[glo->i] == ' ' || \
-	shell->input[glo->i] == '\t' || shell->input[glo->i] == '\v'))
-		glo->i++;
-	if (shell->input[glo->i] == '|')
+	while (shell->input && (shell->input[glo->j] == ' ' || \
+	shell->input[glo->j] == '\t' || shell->input[glo->j] == '\v'))
+		glo->j++;
+	if (shell->input[glo->j] == '|')
 	{
 		ft_putstr_fd("bash: syntax error near unexpected token `|'\n", 1);
 		return (FALSE);

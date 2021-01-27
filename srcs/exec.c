@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 15:42:42 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/23 15:06:38 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/25 14:47:34 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int			ft_fork_exec(t_struct *glo, char **bin, char *path)
 	if (id == -1)
 	{
 		ft_put_errno(errno);
-		free_tab(glo->tab);
 		free_tab(glo->tab2);
 		return (1);
 	}
@@ -28,7 +27,6 @@ int			ft_fork_exec(t_struct *glo, char **bin, char *path)
 	{
 		if (wait(NULL) == -1)
 			ft_put_errno(errno);
-		free_tab(glo->tab);
 		free_tab(glo->tab2);
 		free_tab(bin);
 		free(path);
@@ -56,69 +54,44 @@ char		*check_dir_bin(char *bin, char *command)
 	return (path);
 }
 
-/*char		**ft_exec_env(char **tab, char **env, t_struct *glo)
-{
-	int				j;
 
-	j = 0;
-	while (tab[j])
-	{
-		glo->i = 0;
-		while (tab[j][glo->i])
-		{
-			if (tab[j][glo->i] == '$')
-			{
-				glo->y = glo->i;
-				while (tab[j][glo->y] && tab[j][glo->y] != '/')
-					glo->y++;
-				tab[j] = ft_cd_env_sub(tab[j], env, glo);
-			}
-			glo->i++;
-		}
-		j++;
-	}
-	return (tab);
-}*/
-
-int			ft_exec_sub(t_minishell *minishell, t_struct *glo)
+int			ft_exec_sub(t_minishell *shell, t_struct *glo)
 {
 	int				i;
+	char			*temp;
 
 	i = 0;
-	if (!(glo->tab = ft_split(minishell->input, ' ')))
+	while (shell->tab[i])
+		i++;
+	if (!(glo->tab2 = ft_calloc(sizeof(char *), i + 3)))
 		exit(EXIT_FAILURE);
-	while (glo->tab && glo->tab[glo->i])
-		glo->i++;
-	if (!(glo->tab2 = ft_calloc(sizeof(char *), glo->i + 3)))
-		exit(EXIT_FAILURE);
-	/*glo->tab = ft_exec_env(glo->tab, minishell->env, glo);*/
-	if (!(glo->tab2[0] = ft_strdup(glo->tab[0])))
-		exit(EXIT_FAILURE);
-	glo->i = 1;
-	while (glo->tab && glo->tab[glo->i])
+	i = 0;
+	while (shell->tab[i])
 	{
-		if (!(glo->tab2[glo->i] = ft_strdup(glo->tab[glo->i])))
-			exit(EXIT_FAILURE);
-		glo->i++;
+		temp = delete_char_left(shell->tab[i], '=');
+		glo->tab2[i] = parse_input(temp, shell->env, shell->ret);
+		free(temp);
+		i++;
 	}
-	glo->tab2[++glo->i] = NULL;
-	while (minishell->env && minishell->env[i] && ft_strncmp(\
-		minishell->env[i], "PATH=", 5) != 0)
+	i = 0;
+	while (shell->env && shell->env[i] && ft_strncmp(\
+		shell->env[i], "PATH=", 5) != 0)
 		i++;
 	return (i);
 }
 
-int			ft_exec(t_minishell *minishell, t_struct *glo)
+int			ft_exec(t_minishell *shell, t_struct *glo)
 {
 	int				i;
 	char			**bin;
 	char			*path;
 
-	if (minishell->i > 1)
+	i = 0;
+	if (shell->i > 1)
 		return (1);
 	glo->i = 0;
-	i = ft_exec_sub(minishell, glo);
-	bin = ft_split(minishell->env[i], ':');
+	i = ft_exec_sub(shell, glo);
+	bin = ft_split(shell->env[i], ':');
 	i = 0;
 	path = check_dir_bin(bin[0] + 5, glo->tab2[0]);
 	while (glo->tab2[0] && bin[i] && path == NULL)
@@ -135,10 +108,10 @@ int			ft_exec(t_minishell *minishell, t_struct *glo)
 	ft_putstr_fd("\n", 1);*/
 	if (path != NULL)
 	{
-		if (execve(path, glo->tab2, minishell->env) == -1)
+		if (execve(path, glo->tab2, shell->env) == -1)
 			ft_put_errno(errno);
 	}
-	else if (execve(glo->tab2[0], glo->tab2, minishell->env) == -1)
+	else if (execve(glo->tab2[0], glo->tab2, shell->env) == -1)
 		ft_put_errno(errno);
 	free_tab(glo->tab);
 	free_tab(glo->tab2);

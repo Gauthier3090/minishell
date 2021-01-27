@@ -6,13 +6,13 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 14:17:08 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/21 17:16:37 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/25 17:05:33 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
 
-int		ft_simple_quotes_check(t_minishell *shell, t_struct *glo)
+int		ft_simple_quotes_check(t_minishell *shell, int var)
 {
 	int		i;
 	int		j;
@@ -32,11 +32,10 @@ int		ft_simple_quotes_check(t_minishell *shell, t_struct *glo)
 				if (shell->input[i] == '\'')
 				{
 					k = i;
-					if (glo->i < k && glo->i > j)
+					if (var < k && var > j)
 						return (TRUE);
 					else
 					{
-						i = k + 1;
 						j = 0;
 						k = 0;
 						break ;
@@ -50,7 +49,7 @@ int		ft_simple_quotes_check(t_minishell *shell, t_struct *glo)
 	return (FALSE);
 }
 
-int		ft_double_quotes_check(t_minishell *shell, t_struct *glo)
+int		ft_double_quotes_check(t_minishell *shell, int var)
 {
 	int		i;
 	int		j;
@@ -59,31 +58,23 @@ int		ft_double_quotes_check(t_minishell *shell, t_struct *glo)
 	i = 0;
 	j = 0;
 	k = 0;
-	while (shell->input && shell->input[i])
+	while (shell->input[i] && i < ((int)ft_strlen(shell->input) - 1))
 	{
 		if (shell->input[i] == '"')
 		{
 			j = i;
 			i++;
-			while (shell->input && shell->input[i])
+			while (shell->input[i] && i < ((int)ft_strlen(shell->input)))
 			{
 				if (shell->input[i] == '"')
 				{
 					k = i;
-					if (glo->i < k && glo->i > j)
-					{
-						/*ft_putstr_fd("j = ", 1);
-						ft_putnbr_fd(j, 1);
-						ft_putstr_fd("\nk = ", 1);
-						ft_putnbr_fd(k, 1);*/
+					if (var < k && var > j)
 						return (TRUE);
-					}
 					else
 					{
-						i = k + 1;
 						j = 0;
 						k = 0;
-						/*ft_putstr_fd("\nbreak\n", 1);*/
 						break ;
 					}
 				}
@@ -92,29 +83,18 @@ int		ft_double_quotes_check(t_minishell *shell, t_struct *glo)
 		}
 		i++;
 	}
-	if (ft_simple_quotes_check(shell, glo) == TRUE)
+	if (ft_simple_quotes_check(shell, var) == TRUE)
 		return (TRUE);
-	/*ft_putstr_fd("quit = ", 1);*/
 	return (FALSE);
 }
 
 void	ft_loop_sub(t_minishell *shell, t_struct *glo, int i)
 {
 	int		x;
-	/*char	*temp;*/
 
 	x = 0;
 	glo->check = 2;
-	/*while (shell->tab && shell->tab[x])
-	{
-	ft_putstr_fd("\nshell->tab[x] = ", 1);
-		ft_putstr_fd(shell->tab[x], 1);
-		x++;
-	}
-	x = 0;*/
 	free(shell->input);
-	/*ft_putstr_fd("\ni = ", 1);
-	ft_putnbr_fd(i, 1);*/
 	if (!(shell->input = ft_strdup(glo->forked_tab[i])))
 		exit(EXIT_FAILURE);
 	free_tab(shell->tab);
@@ -122,16 +102,8 @@ void	ft_loop_sub(t_minishell *shell, t_struct *glo, int i)
 		x++;
 	if (!(shell->tab = split_input(shell->input)))
 			exit(EXIT_FAILURE);
-	/*ft_putstr_fd("\nshell->input = ", 1);
-	ft_putstr_fd(shell->input, 1);*/
-	/*temp = ft_substr(shell->input, 0, x);
-	if (!(shell->tab = ft_split(temp, ' ')))
-		exit(EXIT_FAILURE);
-	free(temp);*/
 	glo->x--;
 	shell->input = ft_whitespace(shell->input);
-	/*ft_putstr_fd("input_semi = ", 1);
-	ft_putstr_fd(shell->input, 1);*/
 	shell->i = 0;
 	ft_loop_main(shell, glo);
 }
@@ -148,25 +120,13 @@ int		ft_semicolon_sub(t_minishell *shell, t_struct *glo)
 	glo->forked_tab = malloc((glo->x + 2) * sizeof(char*));
 	while (x < glo->x)
 	{
-		/*ft_putstr_fd("\nx = ", 1);
-		ft_putnbr_fd(glo->semi[x], 1);*/
 		glo->forked_tab[x] = ft_substr(shell->input, z, (glo->semi[x]) - z);
 		z = glo->semi[x] + 1;
-		/*ft_putstr_fd("\nz = ", 1);
-		ft_putnbr_fd(z, 1);*/
 		x++;
 	}
 	glo->forked_tab[x] = ft_substr(shell->input, z, ft_strlen(shell->input) - z);
 	glo->forked_tab[x + 1] = NULL;
 	x = 0;
-	/*while (glo->forked_tab && glo->forked_tab[x])
-	{
-		ft_putstr_fd(" \nglo->forked_tab ", 1);
-		ft_putnbr_fd(x, 1);
-		ft_putstr_fd(glo->forked_tab[x], 1);
-		x++;
-	}
-	x = 0;*/
 	while (shell->input[ft_strlen(shell->input) - i] == ' ' || shell->input[ft_strlen(shell->input) - i] == ';')
 	{
 		if (shell->input[ft_strlen(shell->input) - i] == ';')
@@ -193,7 +153,7 @@ int		ft_check_double_char(t_minishell *shell, t_struct *glo, char c)
 
 	while (shell->input[glo->i])
 	{
-		if ((shell->input[glo->i] == c) && (ft_double_quotes_check(shell, glo) == FALSE))
+		if ((shell->input[glo->i] == c) && (ft_double_quotes_check(shell, glo->i) == FALSE))
 		{
 			glo->semi[glo->x] = glo->i;
 			glo->x++;
@@ -219,14 +179,11 @@ int		ft_check_double_char(t_minishell *shell, t_struct *glo, char c)
 		}
 		glo->i++;
 	}
-	/*ft_putstr_fd("quit check \n ", 1);*/
 	return (TRUE);
 }
 
-
 int		ft_semicolon(t_minishell *shell, t_struct *glo)
 {
-	/*ft_putstr_fd("IN SEMI ", 1);*/
 	glo->i = 0;
 	if (glo->check == 2)
 		return (TRUE);

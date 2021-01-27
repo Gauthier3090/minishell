@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/23 15:14:39 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/23 17:37:09 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ void	ft_loop_main(t_minishell *shell, t_struct *glo)
 		ft_putstr_fd(shell->variable, 1);*/
 		if (shell->variable)
 		{
-			/*if (ft_semicolon(shell, glo) == FALSE)
+			if (ft_semicolon(shell, glo) == FALSE)
 				return ;
 			if (ft_pipe_main(shell, glo) == FALSE)
-				return ;*/
+				return ;
 			ft_builtins(shell, glo);
 		}
 		shell->variable ? free(shell->variable) : 0;
@@ -66,10 +66,10 @@ void	ft_loop_main(t_minishell *shell, t_struct *glo)
 	{
 		shell->variable = NULL;
 		shell->value = NULL;
-		/*if (ft_semicolon(shell, glo) == FALSE)
+		if (ft_semicolon(shell, glo) == FALSE)
 			return ;
 		if (ft_pipe_main(shell, glo) == FALSE)
-			return ;*/
+			return ;
 		ft_builtins(shell, glo);
 	}
 	if (glo->pipin == 1)

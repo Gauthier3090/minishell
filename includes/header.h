@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/23 17:08:54 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/25 15:53:36 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct		s_struct
 	char			*temp2;
 	char			*arg;
 	int				i;
+	int				j;
 	int				y;
 	int				x;
 	int				z;
@@ -47,6 +48,7 @@ typedef struct		s_struct
 	int				pipe_ite;
 	char			*save_old_pwd;
 	int				semi[100];
+	int				pipe[100];
 	pid_t			id1;
 	pid_t			id2;
 }					t_struct;
@@ -155,5 +157,6 @@ void				ft_close_fd(t_struct *glo, int *pipefd);
 void				ft_next_pipe(t_minishell *shell, t_struct *glo);
 int					ft_error_pipe(int error_numb);
 int					count_words(char *str);
+int					ft_double_quotes_check(t_minishell *shell, int var);
 
 #endif
