@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/27 15:06:51 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/27 15:26:13 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,10 +158,7 @@ void				ft_close_fd(t_struct *glo, int *pipefd);
 void				ft_next_pipe(t_minishell *shell, t_struct *glo);
 int					ft_error_pipe(int error_numb);
 int					count_words(char *str);
-<<<<<<< HEAD
 int					ft_redirection(t_minishell *shell);
-=======
 int					ft_double_quotes_check(t_minishell *shell, int var);
->>>>>>> main
 
 #endif
