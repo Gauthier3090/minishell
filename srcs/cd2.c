@@ -6,71 +6,43 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 17:38:20 by ldavids           #+#    #+#             */
-/*   Updated: 2020/12/16 23:14:01 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/23 17:12:22 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
 
-char	*ft_cd_env_sub(char *arg, char **env, t_struct *glo)
-{
-	if (!(glo->temp = ft_substr(arg, glo->i, glo->y)))
-		exit(EXIT_FAILURE);
-	save_env(glo->temp, env, glo);
-	free(glo->temp);
-	if (ft_strncmp(glo->env, " ", ft_strlen(glo->env)) != 0)
-	{
-		if (!(glo->temp = ft_substr(arg, 0, glo->i)))
-			exit(EXIT_FAILURE);
-		if (!(glo->temp2 = ft_strjoin(glo->temp, glo->env)))
-			exit(EXIT_FAILURE);
-		free(glo->temp);
-		if (!(glo->temp = ft_substr(arg, glo->y, ft_strlen(arg) - glo->y)))
-			exit(EXIT_FAILURE);
-		free(arg);
-		if (!(arg = ft_strjoin(glo->temp2, glo->temp)))
-			exit(EXIT_FAILURE);
-		free(glo->temp2);
-		free(glo->temp);
-		return (arg);
-	}
-	free(arg);
-	if (!(arg = ft_strdup(" ")))
-		exit(EXIT_FAILURE);
-	return (arg);
-}
-
-int		ft_tilde(char **arg, char **env, t_struct *glo)
+int		ft_tilde(t_minishell *shell, char **env, t_struct *glo)
 {
 	char	*temp;
 
-	temp = ft_substr(arg[0], 1, ft_strlen(arg[0]));
+	temp = ft_substr(shell->variable, 1, ft_strlen(shell->variable));
 	save_env("$HOME", env, glo);
-	free(arg[0]);
-	arg[0] = ft_strjoin(glo->env, temp);
+	free(shell->variable);
+	shell->variable = ft_strjoin(glo->env, temp);
 	free(temp);
 	return (TRUE);
 }
 
-int		ft_change_dir(char *arg, char **env, t_struct *glo, char **tab)
+int		ft_change_dir(char *variable, char **env, t_struct *glo)
 {
 	save_env("$HOME", env, glo);
 	ft_strhomelen(glo);
-	if (ft_strncmp(arg, "..", 3) == 0 && ft_strncmp(glo->oldpwd, \
+	if (ft_strncmp(variable, "..", 3) == 0 && ft_strncmp(glo->oldpwd, \
 		glo->env, glo->cd_len + 1) == 0)
 	{
 		glo->cd_count++;
-		free_tab(tab);
 		return (TRUE);
 	}
-	if (chdir(arg) == -1)
+	if (chdir(variable) == -1)
 	{
 		ft_putstr_fd(strerror(errno), 1);
 		glo->cd_count = 0;
 		write(1, "\n", 1);
+		free(glo->oldpwd);
+		glo->oldpwd = ft_strdup(glo->save_old_pwd);
 	}
 	glo->cd_count++;
-	free_tab(tab);
 	return (TRUE);
 }
 
@@ -90,7 +62,7 @@ int		ft_strhomelen(t_struct *glo)
 	return (TRUE);
 }
 
-int		ft_home_dir(t_struct *glo, char **env, char **arg)
+int		ft_home_dir(t_struct *glo, char **env)
 {
 	save_env("$HOME", env, glo);
 	if (chdir(glo->env) == -1)
@@ -100,6 +72,5 @@ int		ft_home_dir(t_struct *glo, char **env, char **arg)
 		glo->cd_count = 0;
 	}
 	glo->cd_count++;
-	free_tab(arg);
 	return (TRUE);
 }

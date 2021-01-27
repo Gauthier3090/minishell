@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 16:21:04 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/19 14:32:25 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/23 17:09:38 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,6 @@ int		ft_struct_init(t_struct *glo)
 	glo->check = 0;
 	glo->pipin = 0;
 	glo->p = 0;
+	glo->save_old_pwd = ft_strdup("");
 	return (TRUE);
 }

@@ -6,9 +6,10 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/20 16:13:30 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/27 15:07:09 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 
 #include "../includes/header.h"
@@ -42,6 +43,10 @@ void	ft_loop_main(t_minishell *shell, t_struct *glo)
 		free(input);
 		input = delete_char_right(shell->tab[shell->i], '=');
 		shell->value = parse_input(input, shell->env, shell->ret);
+		/*ft_putstr_fd("\nshell variable = ", 1);
+		ft_putstr_fd(shell->variable, 1);
+		ft_putstr_fd("\nshell value = ", 1);
+		ft_putstr_fd(shell->variable, 1);*/
 		if (shell->variable)
 		{
 			if (ft_semicolon(shell, glo) == FALSE)

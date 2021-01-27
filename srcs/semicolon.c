@@ -6,16 +6,91 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 14:17:08 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/20 11:30:38 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/25 17:05:33 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
 
+int		ft_simple_quotes_check(t_minishell *shell, int var)
+{
+	int		i;
+	int		j;
+	int		k;
+
+	i = 0;
+	j = 0;
+	k = 0;
+	while (shell->input && shell->input[i])
+	{
+		if (shell->input[i] == '\'')
+		{
+			j = i;
+			i++;
+			while (shell->input && shell->input[i])
+			{
+				if (shell->input[i] == '\'')
+				{
+					k = i;
+					if (var < k && var > j)
+						return (TRUE);
+					else
+					{
+						j = 0;
+						k = 0;
+						break ;
+					}
+				}
+				i++;
+			}
+		}
+		i++;
+	}
+	return (FALSE);
+}
+
+int		ft_double_quotes_check(t_minishell *shell, int var)
+{
+	int		i;
+	int		j;
+	int		k;
+
+	i = 0;
+	j = 0;
+	k = 0;
+	while (shell->input[i] && i < ((int)ft_strlen(shell->input) - 1))
+	{
+		if (shell->input[i] == '"')
+		{
+			j = i;
+			i++;
+			while (shell->input[i] && i < ((int)ft_strlen(shell->input)))
+			{
+				if (shell->input[i] == '"')
+				{
+					k = i;
+					if (var < k && var > j)
+						return (TRUE);
+					else
+					{
+						j = 0;
+						k = 0;
+						break ;
+					}
+				}
+				i++;
+			}
+		}
+		i++;
+	}
+	if (ft_simple_quotes_check(shell, var) == TRUE)
+		return (TRUE);
+	return (FALSE);
+}
+
 void	ft_loop_sub(t_minishell *shell, t_struct *glo, int i)
 {
 	int		x;
-	char	*temp;
 
 	x = 0;
 	glo->check = 2;
@@ -25,10 +100,8 @@ void	ft_loop_sub(t_minishell *shell, t_struct *glo, int i)
 	free_tab(shell->tab);
 	while (shell->input[x])
 		x++;
-	temp = ft_substr(shell->input, 0, x);
-	if (!(shell->tab = ft_split(temp, ' ')))
-		exit(EXIT_FAILURE);
-	free(temp);
+	if (!(shell->tab = split_input(shell->input)))
+			exit(EXIT_FAILURE);
 	glo->x--;
 	shell->input = ft_whitespace(shell->input);
 	shell->i = 0;
@@ -39,11 +112,21 @@ int		ft_semicolon_sub(t_minishell *shell, t_struct *glo)
 {
 	int		i;
 	int		x;
+	int		z;
 
 	i = 1;
 	x = 0;
-	if (!(glo->forked_tab = ft_split(shell->input, ';')))
-		exit(EXIT_FAILURE);
+	z = 0;
+	glo->forked_tab = malloc((glo->x + 2) * sizeof(char*));
+	while (x < glo->x)
+	{
+		glo->forked_tab[x] = ft_substr(shell->input, z, (glo->semi[x]) - z);
+		z = glo->semi[x] + 1;
+		x++;
+	}
+	glo->forked_tab[x] = ft_substr(shell->input, z, ft_strlen(shell->input) - z);
+	glo->forked_tab[x + 1] = NULL;
+	x = 0;
 	while (shell->input[ft_strlen(shell->input) - i] == ' ' || shell->input[ft_strlen(shell->input) - i] == ';')
 	{
 		if (shell->input[ft_strlen(shell->input) - i] == ';')
@@ -60,9 +143,7 @@ int		ft_semicolon_sub(t_minishell *shell, t_struct *glo)
 	}
 	glo->check = 0;
 	glo->x = 0;
-	/*shell->variable = NULL;
-	shell->value = NULL;*/
-	free_tab(glo->forked_tab);
+	glo->forked_tab ? free_tab(glo->forked_tab) : 0;
 	return (FALSE);
 }
 
@@ -72,8 +153,9 @@ int		ft_check_double_char(t_minishell *shell, t_struct *glo, char c)
 
 	while (shell->input[glo->i])
 	{
-		if (shell->input[glo->i] == c)
+		if ((shell->input[glo->i] == c) && (ft_double_quotes_check(shell, glo->i) == FALSE))
 		{
+			glo->semi[glo->x] = glo->i;
 			glo->x++;
 			glo->check = 1;
 			y = 1;
@@ -86,6 +168,10 @@ int		ft_check_double_char(t_minishell *shell, t_struct *glo, char c)
 				ft_putstr_fd("bash: syntax error near unexpected token `", 1);
 				ft_putchar_fd(c, 1);
 				ft_putstr_fd("'\n", 1);
+				shell->variable ? free(shell->variable) : 0;
+				shell->value ? free(shell->value) : 0;
+				shell->variable = NULL;
+				shell->value = NULL;
 				glo->x = 0;
 				glo->check = 0;
 				return (FALSE);
@@ -95,7 +181,6 @@ int		ft_check_double_char(t_minishell *shell, t_struct *glo, char c)
 	}
 	return (TRUE);
 }
-
 
 int		ft_semicolon(t_minishell *shell, t_struct *glo)
 {
