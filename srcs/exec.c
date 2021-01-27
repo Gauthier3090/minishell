@@ -6,11 +6,23 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 15:42:42 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/25 14:47:34 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/27 15:28:55 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
+
+void		ft_cmn_not_found(int err_nmb, t_minishell *shell)
+{
+	if (err_nmb != 2)
+		ft_put_errno(err_nmb);
+	else
+	{
+		shell->ret = ft_putstr_error("minishell: command not found ",
+		shell->tab[0], 127);
+		exit(EXIT_SUCCESS);
+	}
+}
 
 int			ft_fork_exec(t_struct *glo, char **bin, char *path)
 {
@@ -54,13 +66,13 @@ char		*check_dir_bin(char *bin, char *command)
 	return (path);
 }
 
-
 int			ft_exec_sub(t_minishell *shell, t_struct *glo)
 {
 	int				i;
 	char			*temp;
 
 	i = 0;
+	ft_putstr_fd("check", 1);
 	while (shell->tab[i])
 		i++;
 	if (!(glo->tab2 = ft_calloc(sizeof(char *), i + 3)))
@@ -86,7 +98,6 @@ int			ft_exec(t_minishell *shell, t_struct *glo)
 	char			**bin;
 	char			*path;
 
-	i = 0;
 	if (shell->i > 1)
 		return (1);
 	glo->i = 0;
@@ -96,28 +107,15 @@ int			ft_exec(t_minishell *shell, t_struct *glo)
 	path = check_dir_bin(bin[0] + 5, glo->tab2[0]);
 	while (glo->tab2[0] && bin[i] && path == NULL)
 		path = check_dir_bin(bin[i++], glo->tab2[0]);
-	/*if (glo->pipin != 1)
-	{*/
-		if (ft_fork_exec(glo, bin, path) == 1)
-			return (1);
-	/*}*/
-	/*ft_putstr_fd("path = ", 1);
-	ft_putstr_fd(path, 1);
-	ft_putstr_fd("\nglo->tab = ", 1);
-	ft_putstr_fd(glo->tab2[0], 1);
-	ft_putstr_fd("\n", 1);*/
+	if (ft_fork_exec(glo, bin, path) == 1)
+		return (1);
 	if (path != NULL)
 	{
 		if (execve(path, glo->tab2, shell->env) == -1)
 			ft_put_errno(errno);
 	}
 	else if (execve(glo->tab2[0], glo->tab2, shell->env) == -1)
-		ft_put_errno(errno);
-	free_tab(glo->tab);
-	free_tab(glo->tab2);
-	free_tab(bin);
-	free(path);
-	if (glo->pipin == 1)
-		exit(EXIT_SUCCESS);
+		ft_cmn_not_found(errno, shell);
+	ft_free_exec(glo, bin, path);
 	return (1);
 }
