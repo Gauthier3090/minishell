@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/27 15:07:09 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/27 15:43:36 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 
 #include "../includes/header.h"
@@ -43,10 +42,6 @@ void	ft_loop_main(t_minishell *shell, t_struct *glo)
 		free(input);
 		input = delete_char_right(shell->tab[shell->i], '=');
 		shell->value = parse_input(input, shell->env, shell->ret);
-		/*ft_putstr_fd("\nshell variable = ", 1);
-		ft_putstr_fd(shell->variable, 1);
-		ft_putstr_fd("\nshell value = ", 1);
-		ft_putstr_fd(shell->variable, 1);*/
 		if (shell->variable)
 		{
 			if (ft_semicolon(shell, glo) == FALSE)
@@ -94,13 +89,8 @@ void	ft_builtins(t_minishell *shell, t_struct *glo)
 		ft_cd(shell->input, shell->env, glo, shell);
 	else if (ft_strcmp(shell->tab[0], "pwd") == 0)
 		ft_pwd(shell);
-	else if (ft_exec(shell, glo) != 0)
-		return ;
 	else
-	{
-		shell->ret = ft_putstr_error("minishell: command not found",
-		shell->tab[0], 127);
-	}
+		ft_exec(shell, glo);
 }
 
 int		main(int argc, char **argv, char **env)

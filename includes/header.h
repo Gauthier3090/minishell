@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/27 15:40:33 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/27 15:43:11 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,17 @@ typedef struct		s_minishell
 	int				quote2;
 }					t_minishell;
 
+/*
+** main.c
+*/
 void				directoryprompt();
 void				ft_builtins(t_minishell *minishell, t_struct *glo);
+void				ft_loop_main(t_minishell *shell, t_struct *glo);
+int					ft_strlen_tab(char **tab);
+
+/*
+** utility.c
+*/
 int					ft_struct_init(t_struct *glo);
 void				echo(t_minishell *shell);
 char				*delete_char_left(char *str, char c);
@@ -84,7 +93,7 @@ int					ft_cd(char *input, char **env,
 char				*ft_whitespace(char *input);
 int					ft_absolute_path(char *arg, t_struct *glo);
 char				*ft_cd_check(t_minishell *shell, char **env, t_struct *glo, char **arg);
-int					ft_strlen_tab(char **tab);
+
 int					ft_strisdigit(char *str);
 void				exit_shell(char **tab, int ret);
 void				ft_env(char **tab, char **env, t_minishell *shell);
@@ -145,7 +154,7 @@ char				*ft_strdel(char *str, char c);
 char				*env_start(char *input, int *i);
 char				*env_end(char *input, char **arg, char **env);
 char				*path_join(const char *s1, const char *s2);
-void				ft_loop_main(t_minishell *shell, t_struct *glo);
+
 char				**split_input(char *str);
 int					check_quotes_close(t_minishell *shell);
 char				*realloc_str(char *dest, char *src);
@@ -160,5 +169,6 @@ int					ft_error_pipe(int error_numb);
 int					count_words(char *str);
 int					ft_redirection(t_minishell *shell);
 int					ft_double_quotes_check(t_minishell *shell, int var);
+void				ft_free_exec(t_struct *glo, char **bin, char *path);
 
 #endif

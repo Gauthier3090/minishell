@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 14:40:50 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/27 15:07:13 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/27 15:43:41 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../includes/header.h"
 
@@ -94,10 +95,6 @@ char	*parse_double_quote(char *input, int *i, char **env, int ret)
 	str = NULL;
 	while (input[*i] != '"')
 	{
-
-		/*ft_putstr_fd("input = ", 1);
-		ft_putstr_fd(input, 1);
-		ft_putnbr_fd(*i, 1);*/
 		if (input[*i] != '$')
 			tmp = str_not_env(input, i);
 		else
