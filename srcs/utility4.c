@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 17:15:29 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/27 15:04:02 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/27 15:53:32 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,14 +92,4 @@ void	ft_close_fd(t_struct *glo, int *pipefd)
 		}
 		j++;
 	}
-}
-
-void		ft_free_exec(t_struct *glo, char **bin, char *path)
-{
-	free_tab(glo->tab);
-	free_tab(glo->tab2);
-	free_tab(bin);
-	free(path);
-	if (glo->pipin == 1)
-		exit(EXIT_SUCCESS);
 }

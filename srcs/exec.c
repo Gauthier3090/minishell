@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 15:42:42 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/27 15:28:55 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/27 15:55:10 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int			ft_exec_sub(t_minishell *shell, t_struct *glo)
 	char			*temp;
 
 	i = 0;
-	ft_putstr_fd("check", 1);
 	while (shell->tab[i])
 		i++;
 	if (!(glo->tab2 = ft_calloc(sizeof(char *), i + 3)))

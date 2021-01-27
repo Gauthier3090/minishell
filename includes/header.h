@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/27 15:43:11 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/27 16:22:14 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,105 +70,166 @@ typedef struct		s_minishell
 /*
 ** main.c
 */
-void				directoryprompt();
 void				ft_builtins(t_minishell *minishell, t_struct *glo);
 void				ft_loop_main(t_minishell *shell, t_struct *glo);
-int					ft_strlen_tab(char **tab);
 
 /*
 ** utility.c
 */
 int					ft_struct_init(t_struct *glo);
-void				echo(t_minishell *shell);
+void				save_env(char *tab, char **env, t_struct *glo);
+int					ft_strisdigit(char *str);
+int					ft_strlen_tab(char **tab);
+char				*ft_whitespace(char *input);
+
+/*
+** utility2.c
+*/
+char				*ft_strcat(char *dest, char *src);
+void				ft_print_tab(char **tab);
+void				*ft_realloc(void *ptr, size_t size);
+char				*ft_strcpy(char *dest, char *src);
+int					ft_strcmp(const char *s1, const char *s2);
+
+/*
+** utility3.c
+*/
+void				ft_put_errno(int error_numb);
+int					ft_putstr_error(char *message, char *variable, int error);
 char				*delete_char_left(char *str, char c);
 char				*delete_char_right(char *str, char c);
-void				echo_env(char *tab, char **env);
-void				save_env(char *tab, char **env, t_struct *glo);
-void				free_tab(char **tab);
-void				*ft_realloc(void *ptr, size_t size);
-char				*getdirectory(void);
-char				*getinput(void);
-int					ft_cd(char *input, char **env,
-					t_struct *glo, t_minishell *shell);
-char				*ft_whitespace(char *input);
-int					ft_absolute_path(char *arg, t_struct *glo);
-char				*ft_cd_check(t_minishell *shell, char **env, t_struct *glo, char **arg);
 
-int					ft_strisdigit(char *str);
-void				exit_shell(char **tab, int ret);
-void				ft_env(char **tab, char **env, t_minishell *shell);
-int					ft_change_dir(char *arg, char **env, t_struct *glo);
-int					ft_oldpwd(t_struct *glo);
-int					ft_cd_error(char *arg);
-void				export(t_minishell *minishell);
-int					ft_strcmp(const char *s1, const char *s2);
-char				*ft_strcpy(char *dest, char *src);
-void				ft_print_tab(char **tab);
-int					ft_strhomelen(t_struct *glo);
-int					ft_home_dir(t_struct *glo, char **env);
-int					free_tab_ret(char **tab);
-int					ft_tilde(t_minishell *shell, char **env, t_struct *glo);
-char				*ft_cd_env(t_minishell *shell, char **env, t_struct *glo);
-void				ft_path_len(char *arg, t_struct *glo);
-char				*ft_strcat(char *dest, char *src);
-void				sorting_env(char **env, int size);
-char				*tabtostr(char **tab);
-char				*ft_cd_env_sub(char *variable, char **env, t_struct *glo);
-void				ft_pwd(t_minishell *shell);
-void				ft_ls(char *input);
-void				ft_ls_sub(struct dirent	*entry);
-void				ft_errno_putstr(int errnumb);
-void				ft_ls_files(void);
-int					ft_putstr_error(char *message, char *variable, int error);
-int					ft_exec(t_minishell *minishell, t_struct *glo);
-char				*check_dir_bin(char *bin, char *command);
-char				*export_variable(char *str, char **env);
-char				*export_variable_env(char *variable, char **arg,
-					char **env);
-int					export_error(char *variable);
-void				export_more(t_minishell *shell,
-					char *variable, char *value);
-char				*ft_export(char *variable, char *value, char **env);
-int					variable_exist(char **env, char *str);
-int					ft_fork_exec(t_struct *glo, char **bin, char *path);
-void				variable_no_exist(t_minishell *shell, char *variable);
-char				*export_variable_start(char *str, int *i);
-void				unset(t_minishell *shell);
-int					ft_semicolon(t_minishell *minishell, t_struct *glo);
-int					ft_semicolon_sub(t_minishell *minishell, t_struct *glo);
-int					ft_check_double_char(t_minishell *minishell,
-					t_struct *glo, char c);
-char				*export_value_more(char *value, char *str, int *i);
-void				research_env_more(char *variable, t_minishell *shell);
-char				*unset_value(char *str, char **env);
-void				ft_put_errno(int error_numb);
-char				**delete_env(t_minishell *shell, int index);
-char				*parse_input(char *input, char **env, int ret);
-int					length_input(char *str);
-char				**input_to_tab(char *str, int length, t_minishell *shell);
-void				is_quote(char *input, t_minishell *shell);
-char				*add_quote(char *str, char c);
-char				*str_double_quote(t_minishell *shell, int i);
-char				*str_simple_quote(t_minishell *shell, int i);
-char				*ft_strdel(char *str, char c);
-char				*env_start(char *input, int *i);
-char				*env_end(char *input, char **arg, char **env);
+/*
+** utility4.c
+*/
 char				*path_join(const char *s1, const char *s2);
-
-char				**split_input(char *str);
 int					check_quotes_close(t_minishell *shell);
 char				*realloc_str(char *dest, char *src);
-char				*found_env(char *str, char **env, int ret);
-char				*parse_null_quote(char *input, int *i, char **env, int ret);
-char				*str_env(char *input, int *i, char **env, int ret);
-char				*str_not_env(char *input, int *i);
-int					ft_pipe_main(t_minishell *shell, t_struct *glo);
 void				ft_close_fd(t_struct *glo, int *pipefd);
+
+/*
+** cd.c
+*/
+int					ft_cd(char *input, char **env,
+					t_struct *glo, t_minishell *shell);
+char				*ft_cd_check(t_minishell *shell, char **env,\
+					t_struct *glo, char **arg);
+int					ft_cd_error(char *arg);
+int					ft_oldpwd(t_struct *glo);
+
+/*
+** cd2.c
+*/
+int					ft_home_dir(t_struct *glo, char **env);
+int					ft_tilde(t_minishell *shell, char **env, t_struct *glo);
+int					ft_change_dir(char *arg, char **env, t_struct *glo);
+int					ft_strhomelen(t_struct *glo);
+
+/*
+** echo.c
+*/
+void				echo(t_minishell *shell);
+
+/*
+** env.c
+*/
+void				ft_env(char **tab, char **env, t_minishell *shell);
+
+/*
+** exec.c
+*/
+int					ft_exec(t_minishell *minishell, t_struct *glo);
+char				*check_dir_bin(char *bin, char *command);
+int					ft_fork_exec(t_struct *glo, char **bin, char *path);
+
+/*
+** exit.c
+*/
+void				exit_shell(char **tab, int ret);
+
+/*
+** export.c
+*/
+void				export(t_minishell *minishell);
+int					variable_exist(char **env, char *str);
+void				variable_no_exist(t_minishell *shell, char *variable);
+
+/*
+** export2.c
+*/
+void				sorting_env(char **env, int size);
+char				*tabtostr(char **tab);
+
+/*
+** free.c
+*/
+void				free_tab(char **tab);
+int					free_tab_ret(char **tab);
+void				ft_free_exec(t_struct *glo, char **bin, char *path);
+
+/*
+** parsing.c
+*/
+char				*parse_input(char *input, char **env, int ret);
+char				*str_not_env(char *input, int *i);
+char				*str_env(char *input, int *i, char **env, int ret);
+
+/*
+** parsing2.c
+*/
+char				*parse_null_quote(char *input, int *i, char **env, int ret);
+char				*found_env(char *str, char **env, int ret);
+
+/*
+** pipe.c
+*/
+int					ft_pipe_main(t_minishell *shell, t_struct *glo);
+
+/*
+** pipe2.c
+*/
 void				ft_next_pipe(t_minishell *shell, t_struct *glo);
 int					ft_error_pipe(int error_numb);
-int					count_words(char *str);
+
+/*
+** prompt.c
+*/
+char				*getinput(void);
+void				directoryprompt();
+
+/*
+** prompt.c
+*/
+void				ft_pwd(t_minishell *shell);
+
+/*
+** redirection.c
+*/
 int					ft_redirection(t_minishell *shell);
+
+/*
+** semicolon.c
+*/
+int					ft_semicolon(t_minishell *minishell, t_struct *glo);
+int					ft_check_double_char(t_minishell *minishell,
+					t_struct *glo, char c);
+int					ft_semicolon_sub(t_minishell *minishell, t_struct *glo);
 int					ft_double_quotes_check(t_minishell *shell, int var);
-void				ft_free_exec(t_struct *glo, char **bin, char *path);
+
+/*
+** split.c
+*/
+char				**split_input(char *str);
+
+/*
+** split2.c
+*/
+int					count_words(char *str);
+
+/*
+** unset.c
+*/
+void				unset(t_minishell *shell);
+char				**delete_env(t_minishell *shell, int index);
 
 #endif
