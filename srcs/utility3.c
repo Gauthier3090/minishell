@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 00:11:01 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/27 16:05:56 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/27 16:26:31 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,18 @@ char	*delete_char_right(char *str, char c)
 	i = -1;
 	while (str[++i])
 	{
+		if (str[i] == '\'')
+		{
+			i++;
+			while (str[i] != '\'')
+				i++;
+		}
+		if (str[i] == '"')
+		{
+			i++;
+			while (str[i] != '"')
+				i++;
+		}
 		if (str[i] == c)
 			return (&str[i + 1]);
 	}
@@ -28,19 +40,50 @@ char	*delete_char_right(char *str, char c)
 char	*delete_char_left(char *str, char c)
 {
 	int		i;
+	int		j;
 	int		count;
 	char	*new_str;
 
 	i = -1;
+	j = -1;
 	count = 1;
 	if (!(new_str = ft_calloc(1, 2 * sizeof(char))))
 		exit(EXIT_FAILURE);
-	while (str[++i] && str[i] != c)
+	while (str[++i])
 	{
-		if (!(new_str = ft_realloc(new_str, count + 2)))
-			exit(EXIT_FAILURE);
-		new_str[i] = str[i];
-		count++;
+		if (str[i] == '\'')
+		{
+			i++;
+			while (str[i] != '\'')
+			{
+				if (!(new_str = ft_realloc(new_str, count + 2)))
+					exit(EXIT_FAILURE);
+				new_str[++j] = str[i];
+				count++;
+				i++;
+			}
+		}
+		else if (str[i] == '"')
+		{
+			i++;
+			while (str[i] != '"')
+			{
+				if (!(new_str = ft_realloc(new_str, count + 2)))
+					exit(EXIT_FAILURE);
+				new_str[++j] = str[i];
+				count++;
+				i++;
+			}
+		}
+		else if (str[i] != c)
+		{
+			if (!(new_str = ft_realloc(new_str, count + 2)))
+				exit(EXIT_FAILURE);
+			new_str[++j] = str[i];
+			count++;
+		}
+		else if (str[i] == c)
+			break ;
 	}
 	return (new_str);
 }

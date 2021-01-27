@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/27 16:22:14 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/01/27 16:26:18 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,46 +190,8 @@ int					ft_pipe_main(t_minishell *shell, t_struct *glo);
 */
 void				ft_next_pipe(t_minishell *shell, t_struct *glo);
 int					ft_error_pipe(int error_numb);
-
-/*
-** prompt.c
-*/
-char				*getinput(void);
-void				directoryprompt();
-
-/*
-** prompt.c
-*/
-void				ft_pwd(t_minishell *shell);
-
-/*
-** redirection.c
-*/
-int					ft_redirection(t_minishell *shell);
-
-/*
-** semicolon.c
-*/
-int					ft_semicolon(t_minishell *minishell, t_struct *glo);
-int					ft_check_double_char(t_minishell *minishell,
-					t_struct *glo, char c);
-int					ft_semicolon_sub(t_minishell *minishell, t_struct *glo);
-int					ft_double_quotes_check(t_minishell *shell, int var);
-
-/*
-** split.c
-*/
-char				**split_input(char *str);
-
-/*
-** split2.c
-*/
 int					count_words(char *str);
-
-/*
-** unset.c
-*/
-void				unset(t_minishell *shell);
-char				**delete_env(t_minishell *shell, int index);
+int					ft_redirection(t_minishell *shell);
+int					ft_double_quotes_check(t_minishell *shell, int var);
 
 #endif
