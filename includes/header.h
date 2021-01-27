@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/20 14:03:17 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/20 15:28:55 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <dirent.h>
 # include <sys/time.h>
 # include <sys/resource.h>
+# include <fcntl.h>
 
 typedef struct		s_struct
 {
@@ -154,5 +155,6 @@ void				ft_close_fd(t_struct *glo, int *pipefd);
 void				ft_next_pipe(t_minishell *shell, t_struct *glo);
 int					ft_error_pipe(int error_numb);
 int					count_words(char *str);
+int					ft_redirection(t_minishell *shell);
 
 #endif

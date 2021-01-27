@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/20 14:26:58 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/01/20 16:13:30 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	ft_loop_main(t_minishell *shell, t_struct *glo)
 			if (ft_semicolon(shell, glo) == FALSE)
 				return ;
 			if (ft_pipe_main(shell, glo) == FALSE)
+				return ;
+			if (ft_redirection(shell) == TRUE)
 				return ;
 			ft_builtins(shell, glo);
 		}
