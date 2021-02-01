@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility4.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 17:15:29 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/27 15:53:32 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/01 15:50:14 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,26 +23,20 @@ char	*path_join(const char *s1, const char *s2)
 	return (path);
 }
 
-int		quotes_close(int *i, char c, char c2, t_minishell *shell)
+void	quotes_close(int *i, char c, t_minishell *shell)
 {
 	if (shell->input[*i] == c)
 	{
 		shell->quote++;
 		while (shell->input[++(*i)])
 		{
-			if (shell->input[*i] == c2)
-				shell->quote2++;
-			else if (shell->input[*i] == c)
+			if (shell->input[*i] == c)
 			{
 				shell->quote++;
-				if (shell->quote2 % 2 != 0)
-					return (0);
-				else
-					break ;
+				break ;
 			}
 		}
 	}
-	return (1);
 }
 
 int		check_quotes_close(t_minishell *shell)
@@ -50,22 +44,15 @@ int		check_quotes_close(t_minishell *shell)
 	int	i;
 
 	shell->quote = 0;
-	shell->quote2 = 0;
 	i = -1;
 	while ((size_t)++i < ft_strlen(shell->input))
 	{
 		if (shell->input[i] == '\'')
-		{
-			if (!quotes_close(&i, '\'', '"', shell))
-				return (0);
-		}
+			quotes_close(&i, '\'', shell);
 		if (shell->input[i] == '"')
-		{
-			if (!quotes_close(&i, '"', '\'', shell))
-				return (0);
-		}
+			quotes_close(&i, '"', shell);
 	}
-	if (shell->quote % 2 != 0 || shell->quote2 % 2 != 0)
+	if (shell->quote % 2 != 0)
 		return (0);
 	return (1);
 }
