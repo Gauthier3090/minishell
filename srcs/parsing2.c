@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:37:10 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/18 14:35:31 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/01 16:04:09 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*parse_null_quote(char *input, int *i, char **env, int ret)
 	char	*str;
 
 	str = NULL;
-	while (input[*i])
+	while (input[*i] && input[*i] != '"' && input[*i] != '\'')
 	{
 		if (input[*i] != '$')
 			tmp = str_not_env(input, i);
