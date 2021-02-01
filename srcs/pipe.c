@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 16:53:51 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/25 15:59:23 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/01 16:19:25 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,9 @@ int		ft_multi_pipe(t_minishell *shell, t_struct *glo)
 
 int		ft_pipe_sub(t_minishell *shell, t_struct *glo)
 {
-	int		i;
 	int		x;
 	int		z;
 
-	i = 1;
 	x = 0;
 	z = 0;
 	glo->pipe_tab = malloc((glo->z + 2) * sizeof(char*));
@@ -83,31 +81,14 @@ int		ft_pipe_sub(t_minishell *shell, t_struct *glo)
 	glo->pipe_tab[x] = ft_substr(shell->input, z, ft_strlen(shell->input) - z);
 	glo->pipe_tab[x + 1] = NULL;
 	x = 0;
-	while (shell->input[ft_strlen(shell->input) - i] == ' ' \
-		|| shell->input[ft_strlen(shell->input) - i] == '|')
-	{
-		if (shell->input[ft_strlen(shell->input) - i] == '|')
-		{
-			ft_putstr_fd("No multiline supported\n", 1);
-			shell->variable ? free(shell->variable) : 0;
-			shell->value ? free(shell->value) : 0;
-			shell->variable = NULL;
-			shell->value = NULL;
-			glo->z = 0;
-			return (FALSE);
-		}
-		i++;
-	}
-
+	if (ft_pipe_loop(shell, glo) == FALSE)
+		return (FALSE);
 	if (ft_multi_pipe(shell, glo) == FALSE)
 		return (FALSE);
 	glo->z = 0;
 	glo->pipin = 0;
 	free_tab(glo->pipe_tab);
-	shell->variable ? free(shell->variable) : 0;
-	shell->value ? free(shell->value) : 0;
-	shell->variable = NULL;
-	shell->value = NULL;
+	ft_free_args(shell);
 	return (FALSE);
 }
 
@@ -115,9 +96,10 @@ int		ft_check_pipe(t_minishell *shell, t_struct *glo, char c)
 {
 	int		y;
 
-	while (shell->input[glo->j])
+	while (shell->input[++glo->j])
 	{
-		if ((shell->input[glo->j] == c) && (ft_double_quotes_check(shell, glo->j) == FALSE))
+		if ((shell->input[glo->j] == c) && \
+		(ft_double_quotes_check(shell, glo->j) == FALSE))
 		{
 			glo->pipe[glo->z] = glo->j;
 			glo->z++;
@@ -128,18 +110,13 @@ int		ft_check_pipe(t_minishell *shell, t_struct *glo, char c)
 				y++;
 			if (shell->input[glo->j + y] == c)
 			{
-				ft_putstr_fd("bash: syntax error near unexpected token `", 1);
-				ft_putchar_fd(c, 1);
-				ft_putstr_fd("'\n", 1);
-				shell->variable ? free(shell->variable) : 0;
-				shell->value ? free(shell->value) : 0;
-				shell->variable = NULL;
-				shell->value = NULL;
+				ft_putstr_fd(\
+				"bash: syntax error near unexpected token `|'\n", 1);
+				ft_free_args(shell);
 				glo->z = 0;
 				return (FALSE);
 			}
 		}
-		glo->j++;
 	}
 	return (TRUE);
 }

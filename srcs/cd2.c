@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 17:38:20 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/23 17:12:22 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/01 15:28:21 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ int		ft_tilde(t_minishell *shell, char **env, t_struct *glo)
 {
 	char	*temp;
 
-	temp = ft_substr(shell->variable, 1, ft_strlen(shell->variable));
+	temp = ft_substr(shell->arg, 1, ft_strlen(shell->arg));
 	save_env("$HOME", env, glo);
-	free(shell->variable);
-	shell->variable = ft_strjoin(glo->env, temp);
+	free(shell->arg);
+	shell->arg = ft_strjoin(glo->env, temp);
 	free(temp);
 	return (TRUE);
 }

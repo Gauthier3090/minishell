@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 15:42:42 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/27 15:55:10 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/01 16:16:05 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ int			ft_fork_exec(t_struct *glo, char **bin, char *path)
 	if (id == -1)
 	{
 		ft_put_errno(errno);
-		free_tab(glo->tab2);
+		free_tab(glo->exec);
 		return (1);
 	}
 	if (id != 0)
 	{
 		if (wait(NULL) == -1)
 			ft_put_errno(errno);
-		free_tab(glo->tab2);
+		free_tab(glo->exec);
 		free_tab(bin);
 		free(path);
 		return (1);
@@ -69,19 +69,16 @@ char		*check_dir_bin(char *bin, char *command)
 int			ft_exec_sub(t_minishell *shell, t_struct *glo)
 {
 	int				i;
-	char			*temp;
 
 	i = 0;
 	while (shell->tab[i])
 		i++;
-	if (!(glo->tab2 = ft_calloc(sizeof(char *), i + 3)))
+	if (!(glo->exec = ft_calloc(sizeof(char *), i + 3)))
 		exit(EXIT_FAILURE);
 	i = 0;
 	while (shell->tab[i])
 	{
-		temp = delete_char_left(shell->tab[i], '=');
-		glo->tab2[i] = parse_input(temp, shell->env, shell->ret);
-		free(temp);
+		glo->exec[i] = parse_input(shell->tab[i], shell->env, shell->ret);
 		i++;
 	}
 	i = 0;
@@ -103,17 +100,17 @@ int			ft_exec(t_minishell *shell, t_struct *glo)
 	i = ft_exec_sub(shell, glo);
 	bin = ft_split(shell->env[i], ':');
 	i = 0;
-	path = check_dir_bin(bin[0] + 5, glo->tab2[0]);
-	while (glo->tab2[0] && bin[i] && path == NULL)
-		path = check_dir_bin(bin[i++], glo->tab2[0]);
+	path = check_dir_bin(bin[0] + 5, glo->exec[0]);
+	while (glo->exec[0] && bin[i] && path == NULL)
+		path = check_dir_bin(bin[i++], glo->exec[0]);
 	if (ft_fork_exec(glo, bin, path) == 1)
 		return (1);
 	if (path != NULL)
 	{
-		if (execve(path, glo->tab2, shell->env) == -1)
+		if (execve(path, glo->exec, shell->env) == -1)
 			ft_put_errno(errno);
 	}
-	else if (execve(glo->tab2[0], glo->tab2, shell->env) == -1)
+	else if (execve(glo->exec[0], glo->exec, shell->env) == -1)
 		ft_cmn_not_found(errno, shell);
 	ft_free_exec(glo, bin, path);
 	return (1);

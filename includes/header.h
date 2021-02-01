@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/27 16:22:14 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/01 16:10:06 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ typedef struct		s_struct
 	int				pipin;
 	int				check;
 	char			**tab;
-	char			**tab2;
-	char			**forked_tab;
+	char			**exec;
+	char			**semico;
 	char			**pipe_tab;
 	int				pipe_ite;
 	char			*save_old_pwd;
@@ -61,51 +61,12 @@ typedef struct		s_minishell
 	char			*input;
 	char			*variable;
 	char			*value;
+	char			*arg;
 	int				i;
 	int				ret;
 	int				quote;
 	int				quote2;
 }					t_minishell;
-
-/*
-** main.c
-*/
-void				ft_builtins(t_minishell *minishell, t_struct *glo);
-void				ft_loop_main(t_minishell *shell, t_struct *glo);
-
-/*
-** utility.c
-*/
-int					ft_struct_init(t_struct *glo);
-void				save_env(char *tab, char **env, t_struct *glo);
-int					ft_strisdigit(char *str);
-int					ft_strlen_tab(char **tab);
-char				*ft_whitespace(char *input);
-
-/*
-** utility2.c
-*/
-char				*ft_strcat(char *dest, char *src);
-void				ft_print_tab(char **tab);
-void				*ft_realloc(void *ptr, size_t size);
-char				*ft_strcpy(char *dest, char *src);
-int					ft_strcmp(const char *s1, const char *s2);
-
-/*
-** utility3.c
-*/
-void				ft_put_errno(int error_numb);
-int					ft_putstr_error(char *message, char *variable, int error);
-char				*delete_char_left(char *str, char c);
-char				*delete_char_right(char *str, char c);
-
-/*
-** utility4.c
-*/
-char				*path_join(const char *s1, const char *s2);
-int					check_quotes_close(t_minishell *shell);
-char				*realloc_str(char *dest, char *src);
-void				ft_close_fd(t_struct *glo, int *pipefd);
 
 /*
 ** cd.c
@@ -166,6 +127,13 @@ char				*tabtostr(char **tab);
 void				free_tab(char **tab);
 int					free_tab_ret(char **tab);
 void				ft_free_exec(t_struct *glo, char **bin, char *path);
+void				ft_free_args(t_minishell *shell);
+
+/*
+** main.c
+*/
+void				ft_builtins(t_minishell *minishell, t_struct *glo);
+void				ft_loop_main(t_minishell *shell, t_struct *glo);
 
 /*
 ** parsing.c
@@ -190,6 +158,7 @@ int					ft_pipe_main(t_minishell *shell, t_struct *glo);
 */
 void				ft_next_pipe(t_minishell *shell, t_struct *glo);
 int					ft_error_pipe(int error_numb);
+int					ft_pipe_loop(t_minishell *shell, t_struct *glo);
 
 /*
 ** prompt.c
@@ -198,7 +167,7 @@ char				*getinput(void);
 void				directoryprompt();
 
 /*
-** prompt.c
+** pwd.c
 */
 void				ft_pwd(t_minishell *shell);
 
@@ -217,6 +186,12 @@ int					ft_semicolon_sub(t_minishell *minishell, t_struct *glo);
 int					ft_double_quotes_check(t_minishell *shell, int var);
 
 /*
+** semicolon2.c
+*/
+void		ft_check_double_char_sub(t_minishell *shell, t_struct *glo, char c);
+void		ft_semico_malloc(t_minishell* shell, t_struct *glo);
+
+/*
 ** split.c
 */
 char				**split_input(char *str);
@@ -231,5 +206,39 @@ int					count_words(char *str);
 */
 void				unset(t_minishell *shell);
 char				**delete_env(t_minishell *shell, int index);
+
+/*
+** utility.c
+*/
+int					ft_struct_init(t_struct *glo);
+void				save_env(char *tab, char **env, t_struct *glo);
+int					ft_strisdigit(char *str);
+int					ft_strlen_tab(char **tab);
+char				*ft_whitespace(char *input);
+
+/*
+** utility2.c
+*/
+char				*ft_strcat(char *dest, char *src);
+void				ft_print_tab(char **tab);
+void				*ft_realloc(void *ptr, size_t size);
+char				*ft_strcpy(char *dest, char *src);
+int					ft_strcmp(const char *s1, const char *s2);
+
+/*
+** utility3.c
+*/
+void				ft_put_errno(int error_numb);
+int					ft_putstr_error(char *message, char *variable, int error);
+char				*delete_char_left(char *str, char c);
+char				*delete_char_right(char *str, char c);
+
+/*
+** utility4.c
+*/
+char				*path_join(const char *s1, const char *s2);
+int					check_quotes_close(t_minishell *shell);
+char				*realloc_str(char *dest, char *src);
+void				ft_close_fd(t_struct *glo, int *pipefd);
 
 #endif
