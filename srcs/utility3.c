@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 00:11:01 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/01 16:27:31 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/01 17:09:35 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*delete_char_left(char *str, char c)
 			count++;
 			while (str[i] != '\'')
 			{
-				if (!(new_str = ft_realloc(new_str, count + 3)))
+				if (!(new_str = ft_realloc(new_str, count + 4)))
 					exit(EXIT_FAILURE);
 				new_str[++j] = str[i];
 				count++;
@@ -73,7 +73,7 @@ char	*delete_char_left(char *str, char c)
 			count++;
 			while (str[i] != '"')
 			{
-				if (!(new_str = ft_realloc(new_str, count + 3)))
+				if (!(new_str = ft_realloc(new_str, count + 4)))
 					exit(EXIT_FAILURE);
 				new_str[++j] = str[i];
 				count++;
@@ -83,7 +83,7 @@ char	*delete_char_left(char *str, char c)
 		}
 		else if (str[i] != c)
 		{
-			if (!(new_str = ft_realloc(new_str, count + 2)))
+			if (!(new_str = ft_realloc(new_str, count + 4)))
 				exit(EXIT_FAILURE);
 			new_str[++j] = str[i];
 			count++;

@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 15:02:31 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/21 17:32:30 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/01 16:48:23 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ int		ft_redirection(t_minishell *shell)
 		if (shell->input[i] == '>')
 		{
 			if (ft_count_redirection(shell->input, &i, shell->input[i]) > 2)
-				shell->ret = ft_putstr_error("minishell: parse error near ", "`>'", 1);
+				shell->ret = ft_putstr_error("minishell: parse error near ",
+				"`>'", 1);
 			return (TRUE);
 		}
 	}

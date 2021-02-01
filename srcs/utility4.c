@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 17:15:29 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/01 15:50:14 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/01 17:02:33 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,36 +23,37 @@ char	*path_join(const char *s1, const char *s2)
 	return (path);
 }
 
-void	quotes_close(int *i, char c, t_minishell *shell)
+void	quotes_close(char *str, int *i, char c, int *quote)
 {
-	if (shell->input[*i] == c)
+	if (str[*i] == c)
 	{
-		shell->quote++;
-		while (shell->input[++(*i)])
+		(*quote)++;
+		while (str[++(*i)])
 		{
-			if (shell->input[*i] == c)
+			if (str[*i] == c)
 			{
-				shell->quote++;
+				(*quote)++;
 				break ;
 			}
 		}
 	}
 }
 
-int		check_quotes_close(t_minishell *shell)
+int		check_quotes_close(char *str)
 {
 	int	i;
+	int	quote;
 
-	shell->quote = 0;
+	quote = 0;
 	i = -1;
-	while ((size_t)++i < ft_strlen(shell->input))
+	while ((size_t)++i < ft_strlen(str))
 	{
-		if (shell->input[i] == '\'')
-			quotes_close(&i, '\'', shell);
-		if (shell->input[i] == '"')
-			quotes_close(&i, '"', shell);
+		if (str[i] == '\'')
+			quotes_close(str, &i, '\'', &quote);
+		if (str[i] == '"')
+			quotes_close(str, &i, '"', &quote);
 	}
-	if (shell->quote % 2 != 0)
+	if (quote % 2 != 0)
 		return (0);
 	return (1);
 }

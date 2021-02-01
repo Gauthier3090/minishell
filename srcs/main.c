@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/01 16:01:36 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/01 16:46:47 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int		main(int argc, char **argv, char **env)
 		shell->input = ft_whitespace(shell->input);
 		if (shell->input[0] != '\0')
 		{
-			if (check_quotes_close(shell))
+			if (check_quotes_close(shell->input))
 			{
 				if (!(shell->tab = split_input(shell->input)))
 					exit(EXIT_FAILURE);
