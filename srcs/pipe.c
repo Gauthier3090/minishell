@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 16:53:51 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/01 16:19:25 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/01 16:27:44 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int		ft_check_pipe(t_minishell *shell, t_struct *glo, char c)
 			if (shell->input[glo->j + y] == c)
 			{
 				ft_putstr_fd(\
-				"bash: syntax error near unexpected token `|'\n", 1);
+				"bash: syntax error near unexpected token `|'\n", 2);
 				ft_free_args(shell);
 				glo->z = 0;
 				return (FALSE);

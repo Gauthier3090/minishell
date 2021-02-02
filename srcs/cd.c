@@ -6,29 +6,30 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 15:44:55 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/01 15:28:00 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/01 17:07:47 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
 
-int		ft_oldpwd(t_struct *glo)
+int		ft_oldpwd(t_struct *glo, t_minishell *shell)
 {
 	char		*buf;
 
 	if ((buf = getcwd(NULL, 0)) == NULL)
 	{
-		ft_putstr_fd(strerror(errno), 1);
+		ft_putstr_fd(strerror(errno), 2);
+		shell->ret = 1;
 		free(buf);
 		return (FALSE);
 	}
 	if (glo->cd_count == 0)
 	{
-		ft_putstr_fd("OLDPWD not set\n", 1);
+		shell->ret = ft_putstr_error("OLDPWD not set\n", NULL, 1);
 		free(buf);
 		return (FALSE);
 	}
-	ft_cd_error(glo->oldpwd);
+	ft_cd_error(glo->oldpwd, shell);
 	ft_putstr_fd(glo->oldpwd, 1);
 	write(1, "\n", 1);
 	free(glo->oldpwd);
@@ -39,12 +40,13 @@ int		ft_oldpwd(t_struct *glo)
 	return (TRUE);
 }
 
-int		ft_cd_error(char *variable)
+int		ft_cd_error(char *variable, t_minishell *shell)
 {
 	if (chdir(variable) == -1)
 	{
-		ft_putstr_fd(strerror(errno), 1);
-		write(1, "\n", 1);
+		ft_putstr_fd(strerror(errno), 2);
+		write(2, "\n", 1);
+		shell->ret = 1;
 	}
 	return (TRUE);
 }
@@ -53,8 +55,7 @@ char	*ft_cd_check(t_minishell *shell, char **env, t_struct *glo, char **arg)
 {
 	if (arg[1])
 	{
-		ft_putstr_fd("too many arguments", 1);
-		write(1, "\n", 1);
+		shell->ret = ft_putstr_error("too many arguments\n", NULL, 1);
 		glo->i = FALSE;
 		free_tab(arg);
 		return (shell->arg);
@@ -91,7 +92,7 @@ int		ft_cd(char *input, char **env, t_struct *glo, t_minishell *shell)
 	if (glo->i == FALSE)
 		return (FALSE);
 	if (ft_strncmp(shell->arg, "-", 2) == 0)
-		return (ft_oldpwd(glo));
+		return (ft_oldpwd(glo, shell));
 	free(glo->oldpwd);
 	if (!(glo->oldpwd = getcwd(NULL, 0)))
 		return (FALSE);
