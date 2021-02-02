@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:37:10 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/01 16:04:09 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/02 19:01:07 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,27 +40,83 @@ char	*found_env(char *str, char **env, int ret)
 	return (NULL);
 }
 
-char	*parse_null_quote(char *input, int *i, char **env, int ret)
+char	*str_not_env_double_quotes(char *input, int *i)
 {
-	char	*tmp;
+	char	*str;
+	int		len;
+	int		j;
+
+	j = *i;
+	len = 0;
+	while (input[j] && input[j] != '$' && input[j] != '"')
+	{
+		j++;
+		len++;
+	}
+	if (!(str = ft_calloc(len + 1, sizeof(char))))
+		exit(EXIT_FAILURE);
+	j = -1;
+	while (input[*i] && input[*i] != '$' && input[*i] != '"')
+	{
+		if (input[*i] == '\\' && input[*i + 1] == '\\')
+			(*i)++;
+		str[++j] = input[*i];
+		(*i)++;
+	}
+	return (str);
+}
+
+char	*str_not_env(char *input, int *i)
+{
+	char	*str;
+	int		len;
+	int		j;
+
+	j = *i;
+	len = 0;
+	while (input[j] && input[j] != '$' && input[j] != '"' && input[j] != '\'')
+	{
+		j++;
+		len++;
+	}
+	if (!(str = ft_calloc(len + 1, sizeof(char))))
+		exit(EXIT_FAILURE);
+	j = -1;
+	while (input[*i] && input[*i] != '$' && input[*i] != '"'
+	&& input[*i] != '\'')
+	{
+		if (input[*i] == '\\' && input[*i + 1] == '\\')
+			(*i)++;
+		str[++j] = input[(*i)++];
+	}
+	return (str);
+}
+
+char	*str_env(char *input, int *i, char **env, int ret)
+{
+	int		len;
+	int		j;
 	char	*str;
 
-	str = NULL;
-	while (input[*i] && input[*i] != '"' && input[*i] != '\'')
+	j = *i;
+	len = 0;
+	while (input[++j])
 	{
-		if (input[*i] != '$')
-			tmp = str_not_env(input, i);
+		if (!ft_isalnum(input[j]) && input[j] != '?')
+			break ;
 		else
-			tmp = str_env(input, i, env, ret);
-		if (!str && tmp)
-		{
-			if (!(str = ft_calloc(ft_strlen(tmp) + 1, sizeof(char))))
-				exit(EXIT_FAILURE);
-			str = ft_strcat(str, tmp);
-		}
-		else
-			tmp ? str = realloc_str(str, tmp) : 0;
-		free(tmp);
+			len++;
 	}
+	if (!(str = ft_calloc(len + 1, sizeof(char))))
+		exit(EXIT_FAILURE);
+	j = -1;
+	while (input[++(*i)])
+	{
+		if (!ft_isalnum(input[*i]) && input[*i] != '?')
+			break ;
+		else
+			str[++j] = input[*i];
+	}
+	str = found_env(str, env, ret);
 	return (str);
 }
