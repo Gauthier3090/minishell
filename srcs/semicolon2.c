@@ -6,17 +6,16 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 16:35:00 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/01 15:26:43 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/02 22:21:05 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
 
-void		ft_check_double_char_sub(t_minishell *shell, t_struct *glo, char c)
+void		ft_check_double_char_sub(t_minishell *shell, t_struct *glo)
 {
-	ft_putstr_fd("bash: syntax error near unexpected token `", 1);
-	ft_putchar_fd(c, 1);
-	ft_putstr_fd("'\n", 1);
+	shell->ret = ft_putstr_error("bash: syntax error near \
+	unexpected token `;'\n", NULL, 2);
 	shell->variable ? free(shell->variable) : 0;
 	shell->value ? free(shell->value) : 0;
 	shell->arg ? free(shell->arg) : 0;
