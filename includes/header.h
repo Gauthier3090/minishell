@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/01 16:46:33 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/02 17:17:28 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,14 +139,13 @@ void				ft_loop_main(t_minishell *shell, t_struct *glo);
 ** parsing.c
 */
 char				*parse_input(char *input, char **env, int ret);
-char				*str_not_env(char *input, int *i);
-char				*str_env(char *input, int *i, char **env, int ret);
 
 /*
 ** parsing2.c
 */
-char				*parse_null_quote(char *input, int *i, char **env, int ret);
-char				*found_env(char *str, char **env, int ret);
+char				*str_not_env_double_quotes(char *input, int *i);
+char				*str_not_env(char *input, int *i);
+char				*str_env(char *input, int *i, char **env, int ret);
 
 /*
 ** pipe.c

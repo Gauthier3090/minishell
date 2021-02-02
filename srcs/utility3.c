@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 00:11:01 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/01 17:09:35 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/02 18:09:11 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,59 +37,41 @@ char	*delete_char_right(char *str, char c)
 	return (NULL);
 }
 
+int		ft_strlen_split(char *str, char c)
+{
+	int	i;
+	int	len;
+
+	len = 0;
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] == c)
+			break ;
+		else
+			len++;
+	}
+	return (len);
+}
+
 char	*delete_char_left(char *str, char c)
 {
 	int		i;
 	int		j;
-	int		count;
+	int		len;
 	char	*new_str;
 
+	len = ft_strlen_split(str, c);
+	if (!(new_str = calloc(len + 1, sizeof(char))))
+		exit(EXIT_FAILURE);
 	i = -1;
 	j = -1;
-	count = 1;
-	if (!(new_str = ft_calloc(1, 2 * sizeof(char))))
-		exit(EXIT_FAILURE);
 	while (str[++i])
 	{
-		if (str[i] == '\'')
-		{
-			new_str[++j] = str[i];
-			i++;
-			count++;
-			while (str[i] != '\'')
-			{
-				if (!(new_str = ft_realloc(new_str, count + 4)))
-					exit(EXIT_FAILURE);
-				new_str[++j] = str[i];
-				count++;
-				i++;
-			}
-			new_str[++j] = str[i];
-		}
-		else if (str[i] == '"')
-		{
-			new_str[++j] = str[i];
-			i++;
-			count++;
-			while (str[i] != '"')
-			{
-				if (!(new_str = ft_realloc(new_str, count + 4)))
-					exit(EXIT_FAILURE);
-				new_str[++j] = str[i];
-				count++;
-				i++;
-			}
-			new_str[++j] = str[i];
-		}
-		else if (str[i] != c)
-		{
-			if (!(new_str = ft_realloc(new_str, count + 4)))
-				exit(EXIT_FAILURE);
-			new_str[++j] = str[i];
-			count++;
-		}
-		else if (str[i] == c)
+		if (str[i] == c)
 			break ;
+		else
+			new_str[++j] = str[i];
 	}
 	return (new_str);
 }
