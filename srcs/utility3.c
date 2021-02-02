@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   utility3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 00:11:01 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/02 18:09:11 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/02 22:28:17 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../includes/header.h"
 
@@ -83,8 +84,9 @@ int		ft_putstr_error(char *message, char *variable, int error)
 	return (error);
 }
 
-void	ft_put_errno(int error_numb)
+void	ft_put_errno(int error_numb, t_minishell *shell)
 {
 	ft_putstr_fd(strerror(error_numb), 2);
 	write(1, "\n", 2);
+	shell->ret = 2;
 }

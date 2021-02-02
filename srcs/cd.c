@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 15:44:55 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/01 17:07:47 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/02 21:49:30 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ char	*ft_cd_check(t_minishell *shell, char **env, t_struct *glo, char **arg)
 	}
 	glo->i = TRUE;
 	free(glo->save_old_pwd);
-	glo->save_old_pwd = ft_strdup(glo->oldpwd);
+	if (!(glo->save_old_pwd = ft_strdup(glo->oldpwd)))
+		exit(EXIT_FAILURE);
 	return (shell->arg);
 }
 
@@ -86,7 +87,7 @@ int		ft_cd(char *input, char **env, t_struct *glo, t_minishell *shell)
 	if (shell->arg == NULL)
 	{
 		free_tab(arg);
-		return (ft_home_dir(glo, env));
+		return (ft_home_dir(glo, env, shell));
 	}
 	shell->arg = ft_cd_check(shell, env, glo, arg);
 	if (glo->i == FALSE)
@@ -97,6 +98,6 @@ int		ft_cd(char *input, char **env, t_struct *glo, t_minishell *shell)
 	if (!(glo->oldpwd = getcwd(NULL, 0)))
 		return (FALSE);
 	if (ft_strncmp(shell->arg, "--", 3) == 0)
-		return (ft_home_dir(glo, env));
-	return (ft_change_dir(shell->arg, env, glo));
+		return (ft_home_dir(glo, env, shell));
+	return (ft_change_dir(shell->arg, env, glo, shell));
 }

@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 15:42:42 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/01 17:13:08 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/02 22:10:26 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,7 @@
 void		ft_cmn_not_found(int err_nmb, t_minishell *shell)
 {
 	if (err_nmb != 2)
-	{
-		ft_put_errno(err_nmb);
-		shell->ret = 1;
-	}
+		ft_put_errno(err_nmb, shell);
 	else
 	{
 		shell->ret = ft_putstr_error("minishell: command not found ",
@@ -27,21 +24,22 @@ void		ft_cmn_not_found(int err_nmb, t_minishell *shell)
 	}
 }
 
-int			ft_fork_exec(t_struct *glo, char **bin, char *path)
+int			ft_fork_exec(t_struct *glo, char **bin, char *path, \
+			t_minishell *shell)
 {
 	int				id;
 
 	id = fork();
 	if (id == -1)
 	{
-		ft_put_errno(errno);
+		ft_put_errno(errno, shell);
 		free_tab(glo->exec);
 		return (1);
 	}
 	if (id != 0)
 	{
 		if (wait(NULL) == -1)
-			ft_put_errno(errno);
+			ft_put_errno(errno, shell);
 		free_tab(glo->exec);
 		free_tab(bin);
 		free(path);
@@ -101,17 +99,18 @@ int			ft_exec(t_minishell *shell, t_struct *glo)
 		return (1);
 	glo->i = 0;
 	i = ft_exec_sub(shell, glo);
-	bin = ft_split(shell->env[i], ':');
+	if (!(bin = ft_split(shell->env[i], ':')))
+		exit(EXIT_FAILURE);
 	i = 0;
 	path = check_dir_bin(bin[0] + 5, glo->exec[0]);
 	while (glo->exec[0] && bin[i] && path == NULL)
 		path = check_dir_bin(bin[i++], glo->exec[0]);
-	if (ft_fork_exec(glo, bin, path) == 1)
+	if (ft_fork_exec(glo, bin, path, shell) == 1)
 		return (1);
 	if (path != NULL)
 	{
 		if (execve(path, glo->exec, shell->env) == -1)
-			ft_put_errno(errno);
+			ft_put_errno(errno, shell);
 	}
 	else if (execve(glo->exec[0], glo->exec, shell->env) == -1)
 		ft_cmn_not_found(errno, shell);

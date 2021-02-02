@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/02 22:26:02 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/02 22:27:52 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 
 
@@ -82,9 +83,9 @@ int					ft_oldpwd(t_struct *glo, t_minishell *shell);
 /*
 ** cd2.c
 */
-int					ft_home_dir(t_struct *glo, char **env);
+int					ft_home_dir(t_struct *glo, char **env, t_minishell *shell);
 int					ft_tilde(t_minishell *shell, char **env, t_struct *glo);
-int					ft_change_dir(char *arg, char **env, t_struct *glo);
+int					ft_change_dir(char *arg, char **env, t_struct *glo,  t_minishell *shell);
 int					ft_strhomelen(t_struct *glo);
 
 /*
@@ -102,7 +103,8 @@ void				ft_env(char **tab, char **env, t_minishell *shell);
 */
 int					ft_exec(t_minishell *minishell, t_struct *glo);
 char				*check_dir_bin(char *bin, char *command);
-int					ft_fork_exec(t_struct *glo, char **bin, char *path);
+int					ft_fork_exec(t_struct *glo, char **bin, char *path, \
+					t_minishell *shell);
 
 /*
 ** exit.c
@@ -157,7 +159,7 @@ int					ft_pipe_main(t_minishell *shell, t_struct *glo);
 ** pipe2.c
 */
 void				ft_next_pipe(t_minishell *shell, t_struct *glo);
-int					ft_error_pipe(int error_numb);
+int					ft_error_pipe(int error_numb, t_minishell *shell);
 int					ft_pipe_loop(t_minishell *shell, t_struct *glo);
 
 /*
@@ -188,7 +190,7 @@ int					ft_double_quotes_check(t_minishell *shell, int var);
 /*
 ** semicolon2.c
 */
-void		ft_check_double_char_sub(t_minishell *shell, t_struct *glo, char c);
+void		ft_check_double_char_sub(t_minishell *shell, t_struct *glo);
 void		ft_semico_malloc(t_minishell* shell, t_struct *glo);
 
 /*
@@ -228,7 +230,7 @@ int					ft_strcmp(const char *s1, const char *s2);
 /*
 ** utility3.c
 */
-void				ft_put_errno(int error_numb);
+void				ft_put_errno(int error_numb, t_minishell *shell);
 int					ft_putstr_error(char *message, char *variable, int error);
 char				*delete_char_left(char *str, char c);
 char				*delete_char_right(char *str, char c);
@@ -239,6 +241,6 @@ char				*delete_char_right(char *str, char c);
 char				*path_join(const char *s1, const char *s2);
 int					check_quotes_close(char *str);
 char				*realloc_str(char *dest, char *src);
-void				ft_close_fd(t_struct *glo, int *pipefd);
+void				ft_close_fd(t_struct *glo, int *pipefd, t_minishell *shell);
 
 #endif

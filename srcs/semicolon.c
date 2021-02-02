@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 14:17:08 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/27 16:58:59 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/02 22:23:18 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int		ft_check_double_char(t_minishell *shell, t_struct *glo, char c)
 				y++;
 			if (shell->input[glo->i + y] == c)
 			{
-				ft_check_double_char_sub(shell, glo, c);
+				ft_check_double_char_sub(shell, glo);
 				return (FALSE);
 			}
 		}
@@ -99,7 +99,8 @@ int		ft_semicolon(t_minishell *shell, t_struct *glo)
 		glo->i++;
 	if (shell->input[glo->i] == ';')
 	{
-		ft_putstr_fd("bash: syntax error near unexpected token `;'\n", 1);
+		shell->ret = ft_putstr_error\
+		("bash: syntax error near unexpected token `;'\n", NULL, 2);
 		return (FALSE);
 	}
 	if (ft_check_double_char(shell, glo, ';') == FALSE)

@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   utility4.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 17:15:29 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/02 17:04:53 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/02 22:28:23 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../includes/header.h"
 
@@ -17,8 +18,10 @@ char	*path_join(const char *s1, const char *s2)
 	char	*tmp;
 	char	*path;
 
-	tmp = ft_strjoin(s1, "/");
-	path = ft_strjoin(tmp, s2);
+	if (!(tmp = ft_strjoin(s1, "/")))
+		exit(EXIT_FAILURE);
+	if (!(path = ft_strjoin(tmp, s2)))
+		exit(EXIT_FAILURE);
 	free(tmp);
 	return (path);
 }
@@ -74,7 +77,7 @@ char	*realloc_str(char *dest, char *src)
 	return (dest);
 }
 
-void	ft_close_fd(t_struct *glo, int *pipefd)
+void	ft_close_fd(t_struct *glo, int *pipefd, t_minishell *shell)
 {
 	int		j;
 
@@ -83,7 +86,7 @@ void	ft_close_fd(t_struct *glo, int *pipefd)
 	{
 		if (close(pipefd[j]) < 0)
 		{
-			ft_put_errno(errno);
+			ft_put_errno(errno, shell);
 			exit(EXIT_FAILURE);
 		}
 		j++;
