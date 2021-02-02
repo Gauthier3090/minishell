@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 15:42:42 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/01 16:16:05 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/01 17:13:08 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 void		ft_cmn_not_found(int err_nmb, t_minishell *shell)
 {
 	if (err_nmb != 2)
+	{
 		ft_put_errno(err_nmb);
+		shell->ret = 1;
+	}
 	else
 	{
 		shell->ret = ft_putstr_error("minishell: command not found ",

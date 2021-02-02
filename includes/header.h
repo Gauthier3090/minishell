@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/01 16:21:23 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/01 16:44:29 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ int					ft_cd(char *input, char **env,
 					t_struct *glo, t_minishell *shell);
 char				*ft_cd_check(t_minishell *shell, char **env,\
 					t_struct *glo, char **arg);
-int					ft_cd_error(char *arg);
-int					ft_oldpwd(t_struct *glo);
+int					ft_cd_error(char *arg, t_minishell *shell);
+int					ft_oldpwd(t_struct *glo, t_minishell *shell);
 
 /*
 ** cd2.c
