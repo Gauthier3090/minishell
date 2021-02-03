@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 14:40:50 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/02 22:24:56 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/03 16:16:52 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*parse_simple_quote(char *input, int *i)
 	(*i)++;
 	j = *i;
 	len = 0;
-	while (input[j] != '\'')
+	while (input[j] && input[j] != '\'')
 	{
 		len++;
 		j++;
@@ -29,7 +29,7 @@ char	*parse_simple_quote(char *input, int *i)
 	if (!(str = ft_calloc(len + 1, sizeof(char))))
 		exit(EXIT_FAILURE);
 	j = -1;
-	while (input[*i] != '\'')
+	while (input[*i] && input[*i] != '\'')
 		str[++j] = input[(*i)++];
 	return (str);
 }
@@ -41,7 +41,7 @@ char	*parse_double_quote(char *input, int *i, char **env, int ret)
 
 	(*i)++;
 	str = NULL;
-	while (input[*i] != '"')
+	while (input[*i] && input[*i] != '"')
 	{
 		if (input[*i] != '$')
 			tmp = str_not_env_double_quotes(input, i);
@@ -68,6 +68,7 @@ char	*parse_null_quote(char *input, int *i, char **env, int ret)
 		tmp ? str = realloc_str(str, tmp) : 0;
 		free(tmp);
 	}
+	(*i)--;
 	return (str);
 }
 
@@ -81,7 +82,7 @@ char	*parse_input(char *input, char **env, int ret)
 	if (input)
 	{
 		i = 0;
-		while ((size_t)i < ft_strlen(input) - 1)
+		while ((size_t)i < ft_strlen(input))
 		{
 			if (input[i] == '\'')
 				str = parse_simple_quote(input, &i);
@@ -91,6 +92,7 @@ char	*parse_input(char *input, char **env, int ret)
 				str = parse_null_quote(input, &i, env, ret);
 			str ? final_str = realloc_str(final_str, str) : 0;
 			free(str);
+			i++;
 		}
 		if (!final_str)
 		{
