@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/04 17:13:29 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/04 17:28:44 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,17 @@ typedef struct		s_minishell
 {
 	char			**env;
 	char			**tab;
+	char			**redir_tab;
 	char			*input;
 	char			*variable;
 	char			*value;
 	char			*arg;
 	int				i;
+	int				index;
+	int				index_tab;
 	int				ret;
 	int				quote;
+	int				redir[100];
 }					t_minishell;
 
 /*
