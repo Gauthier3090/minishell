@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 16:21:04 by ldavids           #+#    #+#             */
-/*   Updated: 2021/01/23 17:09:38 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/03 16:57:40 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,9 @@ int		ft_strisdigit(char *str)
 	return (TRUE);
 }
 
-void	save_env(char *tab, char **env, t_struct *glo)
+int		save_env_sub(char *tab)
 {
 	int		i;
-	char	*tmp;
 
 	i = -1;
 	while (tab[++i])
@@ -66,40 +65,32 @@ void	save_env(char *tab, char **env, t_struct *glo)
 		else
 			break ;
 	}
-	tmp = ft_substr(tab, i + 1, ft_strlen(tab));
+	return (i);
+}
+
+void	save_env(char *tab, char **env, t_struct *glo)
+{
+	int		i;
+	char	*tmp;
+
+	i = save_env_sub(tab);
+	if (!(tmp = ft_substr(tab, i + 1, ft_strlen(tab))))
+		exit(EXIT_FAILURE);
 	while (env[++i])
 	{
 		free(glo->env);
 		if (ft_strnstr(env[i], tmp, ft_strlen(tmp)))
 		{
-			glo->env = ft_strdup(delete_char_right(env[i], '='));
+			if (!(glo->env = ft_strdup(delete_char_right(env[i], '='))))
+				exit(EXIT_FAILURE);
 			free(tmp);
 			return ;
 		}
 		else
-			glo->env = ft_strdup(" ");
+		{
+			if (!(glo->env = ft_strdup(" ")))
+				exit(EXIT_FAILURE);
+		}
 	}
 	free(tmp);
-}
-
-int		ft_struct_init(t_struct *glo)
-{
-	char		buf[200];
-
-	glo->env = ft_strdup("");
-	glo->arg = ft_strdup("");
-	if (getcwd(buf, 200) == NULL)
-	{
-		ft_putendl_fd(strerror(errno), 1);
-		return (FALSE);
-	}
-	glo->oldpwd = ft_strdup(buf);
-	glo->cd_count = 0;
-	glo->x = 0;
-	glo->z = 0;
-	glo->check = 0;
-	glo->pipin = 0;
-	glo->p = 0;
-	glo->save_old_pwd = ft_strdup("");
-	return (TRUE);
 }

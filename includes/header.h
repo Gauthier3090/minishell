@@ -6,12 +6,9 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/02 22:27:52 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/04 17:13:29 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
-
 
 #ifndef HEADER_H
 # define HEADER_H
@@ -85,7 +82,8 @@ int					ft_oldpwd(t_struct *glo, t_minishell *shell);
 */
 int					ft_home_dir(t_struct *glo, char **env, t_minishell *shell);
 int					ft_tilde(t_minishell *shell, char **env, t_struct *glo);
-int					ft_change_dir(char *arg, char **env, t_struct *glo,  t_minishell *shell);
+int					ft_change_dir(char *arg, char **env, t_struct *glo, \
+					t_minishell *shell);
 int					ft_strhomelen(t_struct *glo);
 
 /*
@@ -191,7 +189,12 @@ int					ft_double_quotes_check(t_minishell *shell, int var);
 ** semicolon2.c
 */
 void		ft_check_double_char_sub(t_minishell *shell, t_struct *glo);
-void		ft_semico_malloc(t_minishell* shell, t_struct *glo);
+void		ft_semico_malloc(t_minishell *shell, t_struct *glo);
+
+/*
+** utility5.c
+*/
+void		ft_signal_hand();
 
 /*
 ** split.c
@@ -212,7 +215,7 @@ char				**delete_env(t_minishell *shell, int index);
 /*
 ** utility.c
 */
-int					ft_struct_init(t_struct *glo);
+int					ft_struct_init(t_struct *glo, t_minishell *shell);
 void				save_env(char *tab, char **env, t_struct *glo);
 int					ft_strisdigit(char *str);
 int					ft_strlen_tab(char **tab);
@@ -242,5 +245,13 @@ char				*path_join(const char *s1, const char *s2);
 int					check_quotes_close(char *str);
 char				*realloc_str(char *dest, char *src);
 void				ft_close_fd(t_struct *glo, int *pipefd, t_minishell *shell);
+
+/*
+** utility5.c
+*/
+int		ft_quotes_check_sub(t_minishell *shell, int i, int var, char c);
+int		ft_simple_quotes_check(t_minishell *shell, int var);
+int		ft_double_quotes_check(t_minishell *shell, int var);
+int		ft_struct_init(t_struct *glo, t_minishell *shell);
 
 #endif

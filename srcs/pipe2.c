@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 22:27:48 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/02 22:24:42 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/03 16:45:06 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ void	ft_next_pipe(t_minishell *shell, t_struct *glo)
 		x++;
 	if (!(temp = ft_substr(shell->input, 0, x)))
 		exit(EXIT_FAILURE);
-	/*if (!(shell->tab = ft_split(temp, ' ')))
-		exit(EXIT_FAILURE);*/
 	if (!(shell->tab = split_input(temp)))
 		exit(EXIT_FAILURE);
 	free(temp);
