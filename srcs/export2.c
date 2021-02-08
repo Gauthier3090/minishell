@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 13:45:47 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/27 16:04:57 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/06 17:05:29 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ size_t	ft_tablen(char **tab)
 	return (length);
 }
 
-char	*tabtostr(char **tab)
+char	*tabtostr(char **tab, int return_line)
 {
 	char	*str;
 	int		i;
@@ -43,7 +43,7 @@ char	*tabtostr(char **tab)
 		j = -1;
 		while (tab[i][++j])
 			str[++index] = tab[i][j];
-		if (i != ft_strlen_tab(tab) - 1)
+		if (i != ft_strlen_tab(tab) - 1 && return_line)
 			str[++index] = '\n';
 	}
 	return (str);
@@ -56,7 +56,7 @@ void	sorting_env(char **env, int size)
 	char	*tmp;
 	char	**tab;
 
-	tmp = tabtostr(env);
+	tmp = tabtostr(env, TRUE);
 	if (!(tab = ft_split(tmp, '\n')))
 		exit(EXIT_FAILURE);
 	free(tmp);

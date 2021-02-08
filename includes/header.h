@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/04 17:28:44 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/06 17:18:05 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void				variable_no_exist(t_minishell *shell, char *variable);
 ** export2.c
 */
 void				sorting_env(char **env, int size);
-char				*tabtostr(char **tab);
+char				*tabtostr(char **tab, int return_line);
 
 /*
 ** free.c
@@ -178,7 +178,7 @@ void				ft_pwd(t_minishell *shell);
 /*
 ** redirection.c
 */
-int					ft_redirection(t_minishell *shell);
+int					ft_redirection(t_minishell *shell, t_struct *glo);
 
 /*
 ** semicolon.c
