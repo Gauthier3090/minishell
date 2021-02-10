@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 14:40:35 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/20 13:46:16 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/08 18:01:08 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	variable_no_exist(t_minishell *shell, char *new_env)
 {
 	char	*str;
 
-	str = tabtostr(shell->env);
+	str = tabtostr(shell->env, TRUE);
 	if (!(str = ft_realloc(str, ft_strlen(str) + ft_strlen(new_env) + 2)))
 		exit(EXIT_FAILURE);
 	str = ft_strcat(str, "\n");
