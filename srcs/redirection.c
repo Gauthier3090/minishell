@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 15:02:31 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/11 18:10:20 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/11 22:29:40 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,25 +122,11 @@ char	*ft_redirection_pipe(char **redir_tab)
 		tmp = NULL;
 		if (redir_tab[i][0] == '<')
 		{
-			if (redirection_read)
-				redirection_read = TRUE;
 			redir_tab[i][0] = ' ';
-			if ((!ft_strncmp(redir_tab[0], "sort", 4) || !ft_strncmp(redir_tab[0], "cat", 3) ||
-			!ft_strncmp(redir_tab[0], "tail", 4)) && ft_strlen_tab(tab_command) == 1)
-			{
-				tmp = realloc_str(redir_tab[0], redir_tab[i]);
-				redir_tab[0] = ft_strdup(tmp);
-				free(redir_tab[i]);
-				redir_tab[i] = ft_strdup(tmp);
-				free(tmp);
-			}
-			else
-			{
-				tmp = realloc_str(tmp, redir_tab[0]);
-				free(redir_tab[i]);
-				redir_tab[i] = ft_strdup(tmp);
-				free(tmp);
-			}
+			tmp = ft_strdup(tab_command[0]);
+			redir_tab[0] = ft_strjoin("cat", redir_tab[i]);
+			redir_tab[i] = ft_strdup(tmp);
+			free(tmp);
 		}
 		else
 		{

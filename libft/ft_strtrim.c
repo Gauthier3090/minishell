@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 15:16:00 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/11 17:42:05 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/11 21:32:28 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,16 @@ static char		*ft_trim(char const *s1, char const *set)
 	return (ft_strdup(s1));
 }
 
+static void		ft_trimend_more(char *newstr, char const *set,
+				int *indexstr, int *indexset)
+{
+	if (newstr[*indexstr] == set[*indexset])
+	{
+		*indexset = -1;
+		(*indexstr)--;
+	}
+}
+
 static char		*ft_trimend(char *newstr, char const *set)
 {
 	int		indexset;
@@ -53,11 +63,7 @@ static char		*ft_trimend(char *newstr, char const *set)
 		indexset = 0;
 		while (set[indexset])
 		{
-			if (newstr[indexstr] == set[indexset])
-			{
-				indexset = -1;
-				indexstr--;
-			}
+			ft_trimend_more(newstr, set, &indexstr, &indexset);
 			indexset++;
 			if (set[indexset] == '\0')
 			{
