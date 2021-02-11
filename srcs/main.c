@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/08 18:02:01 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/11 14:55:20 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,5 +136,6 @@ int		main(int argc, char **argv, char **env)
 				shell->ret = ft_putstr_error("minishell: ", "quotes are not closed", 1);
 		}
 		free(shell->input);
+		getchar();
 	}
 }
