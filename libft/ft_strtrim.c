@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 15:16:00 by ldavids           #+#    #+#             */
-/*   Updated: 2019/10/24 13:04:09 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/11 17:42:05 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ static char		*ft_trimend(char *newstr, char const *set)
 {
 	int		indexset;
 	int		indexstr;
+	char	*tmp;
 
 	indexstr = ft_strlen(newstr) - 1;
 	while (newstr[indexstr])
@@ -60,9 +61,10 @@ static char		*ft_trimend(char *newstr, char const *set)
 			indexset++;
 			if (set[indexset] == '\0')
 			{
-				if (!(newstr = ft_substr(newstr, 0, indexstr + 1)))
+				if (!(tmp = ft_substr(newstr, 0, indexstr + 1)))
 					return (NULL);
-				return (newstr);
+				free(newstr);
+				return (tmp);
 			}
 		}
 		indexstr--;

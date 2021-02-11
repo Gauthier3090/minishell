@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 15:02:31 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/11 15:10:57 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/11 18:10:20 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,18 +115,16 @@ char	*ft_redirection_pipe(char **redir_tab)
 
 	i = 0;
 	append = FALSE;
+	redirection_read = TRUE;
 	tab_command = ft_split(redir_tab[0], ' ');
 	while (redir_tab[++i])
 	{
+		tmp = NULL;
 		if (redir_tab[i][0] == '<')
 		{
-			redirection_read = TRUE;
-			if (!(tmp = ft_strtrim(redir_tab[i], "<")))
-				exit(EXIT_FAILURE);
-			free(redir_tab[i]);
-			redir_tab[i] = ft_strdup(tmp);
-			free(tmp);
-			tmp = NULL;
+			if (redirection_read)
+				redirection_read = TRUE;
+			redir_tab[i][0] = ' ';
 			if ((!ft_strncmp(redir_tab[0], "sort", 4) || !ft_strncmp(redir_tab[0], "cat", 3) ||
 			!ft_strncmp(redir_tab[0], "tail", 4)) && ft_strlen_tab(tab_command) == 1)
 			{
@@ -149,8 +147,7 @@ char	*ft_redirection_pipe(char **redir_tab)
 			redirection_read = FALSE;
 			if (redir_tab[i][0] == '>')
 			{
-				if (!(redir_tab[i] = ft_strtrim(redir_tab[i], ">")))
-					exit(EXIT_FAILURE);
+				redir_tab[i][0] = ' ';
 				append = TRUE;
 			}
 			if (!(tab = ft_split(redir_tab[i], ' ')))
@@ -172,7 +169,6 @@ char	*ft_redirection_pipe(char **redir_tab)
 			if (!(redir_tab[i] = ft_strdup(tmp)))
 				exit(EXIT_FAILURE);
 			free(tmp);
-			free(command);
 			free_tab(tab);
 			append = FALSE;
 		}
@@ -202,10 +198,20 @@ char	*ft_redirection_pipe(char **redir_tab)
 
 int		ft_count_redirection(char *str)
 {
-	int	i;
-	int	count;
+	int		i;
+	int		count;
+	char	*tmp;
 
 	i = -1;
+	if (!(tmp = ft_strtrim(str, " ")))
+		exit(EXIT_FAILURE);
+	if (tmp[ft_strlen(tmp) - 1] == '>' || tmp[ft_strlen(tmp) - 1] == '<')
+	{
+		free(tmp);
+		ft_putstr_error("minishell: parse error near `\\n'\n", NULL, 1);
+		return (FALSE);		
+	}
+	free(tmp);
 	while (str[++i])
 	{
 		if (str[0] == '>')
@@ -225,6 +231,23 @@ int		ft_count_redirection(char *str)
 			{
 				count++;
 				i++;
+				while (str[i] == ' ')
+					i++;
+				if (str[i] == '>' && str[i + 1] == '>')
+				{
+					ft_putstr_error("minishell: parse error near `>>'\n", NULL, 1);
+					return (FALSE);
+				}
+				else if (str[i] == '>')
+				{
+					ft_putstr_error("minishell: parse error near `>'\n", NULL, 1);
+					return (FALSE);
+				}
+				else if (str[i] == '<')
+				{
+					ft_putstr_error("minishell: parse error near `<'\n", NULL, 1);
+					return (FALSE);
+				}
 			}
 			if (count == 3)
 			{
@@ -244,6 +267,18 @@ int		ft_count_redirection(char *str)
 			{
 				count++;
 				i++;
+				while (str[i] == ' ')
+					i++;
+				if (str[i] == '>' && str[i + 1] == '>')
+				{
+					ft_putstr_error("minishell: parse error near `>>'\n", NULL, 1);
+					return (FALSE);
+				}
+				else if (str[i] == '>')
+				{
+					ft_putstr_error("minishell: parse error near `>'\n", NULL, 1);
+					return (FALSE);
+				}
 			}
 			if (count > 1)
 			{
@@ -291,7 +326,10 @@ int		ft_redirection(t_minishell *shell, t_struct *glo)
 {
 	shell->index = 0;
 	if (ft_count_redirection(shell->input) == FALSE)
+	{
+		ft_free_args(shell);
 		return (FALSE);
+	}
 	shell->input = ft_create_redirection(shell->input);
 	if (ft_check_redirection(shell, '>', '<') == FALSE)
 		return (FALSE);
