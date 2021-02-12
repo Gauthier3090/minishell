@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 15:02:31 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/11 22:29:40 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/12 17:02:35 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ char	*ft_redirection_pipe(char **redir_tab)
 {
 	char	*command;
 	char	*tmp;
+	char	*tmp2;
 	char	*str;
 	char	**tab;
 	char	**tab_command;
@@ -123,10 +124,35 @@ char	*ft_redirection_pipe(char **redir_tab)
 		if (redir_tab[i][0] == '<')
 		{
 			redir_tab[i][0] = ' ';
-			tmp = ft_strdup(tab_command[0]);
-			redir_tab[0] = ft_strjoin("cat", redir_tab[i]);
-			redir_tab[i] = ft_strdup(tmp);
-			free(tmp);
+			if (i >= 2)
+			{
+				tmp = ft_strdup(redir_tab[i - 1]);
+				tmp2 = ft_strdup(redir_tab[0]);
+				free(redir_tab[0]);
+				redir_tab[0] = ft_strjoin(tmp2, redir_tab[i]);
+				free(tmp2);
+				free(redir_tab[i]);
+				redir_tab[i] = ft_strdup(tmp);
+				free(tmp);
+			}
+			else if (ft_strlen_tab(tab_command) == 1)
+			{
+				tmp = ft_strdup(tab_command[0]);
+				free(redir_tab[0]);
+				redir_tab[0] = ft_strjoin("cat", redir_tab[i]);
+				free(redir_tab[i]);
+				redir_tab[i] = ft_strdup(tmp);
+				free(tmp);
+			}
+			else
+			{
+				tmp = ft_strdup(redir_tab[0]);
+				free(redir_tab[0]);
+				redir_tab[0] = ft_strjoin("cat", redir_tab[i]);
+				free(redir_tab[i]);
+				redir_tab[i] = ft_strdup(tmp);
+				free(tmp);
+			}
 		}
 		else
 		{
@@ -222,11 +248,6 @@ int		ft_count_redirection(char *str)
 				if (str[i] == '>' && str[i + 1] == '>')
 				{
 					ft_putstr_error("minishell: parse error near `>>'\n", NULL, 1);
-					return (FALSE);
-				}
-				else if (str[i] == '>')
-				{
-					ft_putstr_error("minishell: parse error near `>'\n", NULL, 1);
 					return (FALSE);
 				}
 				else if (str[i] == '<')
