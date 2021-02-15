@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 15:02:31 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/12 17:02:35 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/15 14:58:22 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ char	*ft_redirection_pipe(char **redir_tab)
 	int		append;
 	int		redirection_read;
 	int		i;
+	int		k;
 
 	i = 0;
 	append = FALSE;
@@ -124,35 +125,71 @@ char	*ft_redirection_pipe(char **redir_tab)
 		if (redir_tab[i][0] == '<')
 		{
 			redir_tab[i][0] = ' ';
-			if (i >= 2)
+			if (!(tab = ft_split(redir_tab[i], ' ')))
+				exit(EXIT_FAILURE);
+			if (ft_strlen_tab(tab) < 2)
 			{
-				tmp = ft_strdup(redir_tab[i - 1]);
-				tmp2 = ft_strdup(redir_tab[0]);
-				free(redir_tab[0]);
-				redir_tab[0] = ft_strjoin(tmp2, redir_tab[i]);
-				free(tmp2);
-				free(redir_tab[i]);
-				redir_tab[i] = ft_strdup(tmp);
-				free(tmp);
-			}
-			else if (ft_strlen_tab(tab_command) == 1)
-			{
-				tmp = ft_strdup(tab_command[0]);
-				free(redir_tab[0]);
-				redir_tab[0] = ft_strjoin("cat", redir_tab[i]);
-				free(redir_tab[i]);
-				redir_tab[i] = ft_strdup(tmp);
-				free(tmp);
+				if (i >= 2)
+				{
+					tmp = ft_strdup(redir_tab[i - 1]);
+					tmp2 = ft_strdup(redir_tab[0]);
+					free(redir_tab[0]);
+					redir_tab[0] = ft_strjoin(tmp2, redir_tab[i]);
+					free(tmp2);
+					free(redir_tab[i]);
+					redir_tab[i] = ft_strdup(tmp);
+					free(tmp);
+				}
+				else if (ft_strlen_tab(tab_command) == 1)
+				{
+					tmp = ft_strdup(tab_command[0]);
+					free(redir_tab[0]);
+					redir_tab[0] = ft_strjoin("cat", redir_tab[i]);
+					free(redir_tab[i]);
+					redir_tab[i] = ft_strdup(tmp);
+					free(tmp);
+				}
+				else
+				{
+					tmp = ft_strdup(redir_tab[0]);
+					free(redir_tab[0]);
+					redir_tab[0] = ft_strjoin("cat", redir_tab[i]);
+					free(redir_tab[i]);
+					redir_tab[i] = ft_strdup(tmp);
+					free(tmp);
+				}
 			}
 			else
 			{
-				tmp = ft_strdup(redir_tab[0]);
-				free(redir_tab[0]);
-				redir_tab[0] = ft_strjoin("cat", redir_tab[i]);
-				free(redir_tab[i]);
-				redir_tab[i] = ft_strdup(tmp);
-				free(tmp);
+				if (i >= 2)
+				{
+					k = 0;
+					free(redir_tab[i]);
+					redir_tab[i] = ft_strdup(redir_tab[1]);
+					while (tab[++k])
+					{
+						redir_tab[i] = realloc_str(redir_tab[i], " ");
+						redir_tab[i] = realloc_str(redir_tab[i], tab[k]);
+					}
+					free(tmp);
+				}
+				else
+				{
+					k = 1;
+					tmp = ft_strdup(redir_tab[0]);
+					free(redir_tab[0]);
+					redir_tab[0] = ft_strjoin("cat", redir_tab[i]);
+					free(redir_tab[i]);
+					redir_tab[i] = ft_strjoin(tmp, tab[k]);
+					while (tab[++k])
+					{
+						redir_tab[i] = realloc_str(redir_tab[i], " ");
+						redir_tab[i] = realloc_str(redir_tab[i], tab[k]);
+					}
+					free(tmp);
+				}
 			}
+			free_tab(tab);
 		}
 		else
 		{
@@ -347,6 +384,7 @@ int		ft_redirection(t_minishell *shell, t_struct *glo)
 	shell->input = ft_redirection_pipe(shell->redir_tab);
 	shell->index_tab = 0;
 	free_tab(shell->redir_tab);
+	ft_putendl_fd(shell->input, 1);
 	ft_pipe_main(shell, glo);
 	ft_free_args(shell);
 	return (FALSE);
