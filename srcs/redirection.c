@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 15:02:31 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/15 17:08:02 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/15 17:15:04 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	**ft_redirection_pipe_more(char **redir_tab, int *i)
 
 char	*ft_redirection_pipe(char **redir_tab)
 {
-	char	*str;	
+	char	*str;
 	int		redirection_read;
 	int		i;
 
