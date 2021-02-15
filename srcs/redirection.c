@@ -6,101 +6,11 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 15:02:31 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/15 14:58:22 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/15 15:51:50 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
-
-int		ft_redirection_malloc(t_minishell *shell)
-{
-	int		x;
-	int		z;
-
-	x = 0;
-	z = 0;
-	if (!(shell->redir_tab = malloc((shell->index_tab + 2) * sizeof(char*))))
-		exit(EXIT_FAILURE);
-	while (x < shell->index_tab)
-	{
-		if (!(shell->redir_tab[x] = ft_whitespace(ft_substr(shell->input, z,
-		(shell->redir[x]) - z))))
-			exit(EXIT_FAILURE);
-		z = shell->redir[x] + 1;
-		x++;
-	}
-	if (!(shell->redir_tab[x] = ft_whitespace(ft_substr(shell->input, z,
-	ft_strlen(shell->input) - z))))
-		exit(EXIT_FAILURE);
-	shell->redir_tab[x + 1] = NULL;
-	return (FALSE);
-}
-
-int		ft_check_redirection(t_minishell *shell, int c, int c2)
-{
-	int		y;
-
-	while (shell->input[++shell->index])
-	{
-		if (shell->input[shell->index] == c && shell->input[shell->index + 1] == c &&
-		ft_double_quotes_check(shell, shell->index) == FALSE)
-		{
-			shell->redir[shell->index_tab] = shell->index;
-			shell->index_tab++;
-			shell->index += 2;
-			y = 1;
-			while (shell->input && (shell->input[shell->index + y] == ' ' ||
-				shell->input[shell->index + y] == '\t' || \
-				shell->input[shell->index + y] == '\v'))
-				y++;
-		}
-		else if (shell->input[shell->index] == c && ft_double_quotes_check(shell, shell->index) == FALSE)
-		{
-			shell->redir[shell->index_tab] = shell->index;
-			shell->index_tab++;
-			y = 1;
-			while (shell->input && (shell->input[shell->index + y] == ' ' ||
-				shell->input[shell->index + y] == '\t' || \
-				shell->input[shell->index + y] == '\v'))
-				y++;
-		}
-		else if (shell->input[shell->index] == c2 && shell->input[shell->index + 1] == c2 &&
-		ft_double_quotes_check(shell, shell->index) == FALSE)
-		{
-			shell->redir[shell->index_tab] = shell->index;
-			shell->index_tab++;
-			shell->index += 2;
-			y = 1;
-			while (shell->input && (shell->input[shell->index + y] == ' ' ||
-				shell->input[shell->index + y] == '\t' || \
-				shell->input[shell->index + y] == '\v'))
-				y++;
-		}
-	}
-	return (TRUE);
-}
-
-char	*ft_redirection_command(char **tab, char **redir_tab)
-{
-	int		i;
-	char	*str;
-
-	i = 0;
-	while (tab[++i])
-	{
-		str = realloc_str(redir_tab[0], tab[i]);
-		if (!(redir_tab[0] = ft_strdup(str)))
-			exit(EXIT_FAILURE);
-		free(str);
-		if (!(str = ft_strjoin(redir_tab[0], " ")))
-			exit(EXIT_FAILURE);
-		free(redir_tab[0]);
-		if (!(redir_tab[0] = ft_strdup(str)))
-			exit(EXIT_FAILURE);
-		free(str);
-	}
-	return (redir_tab[0]);
-}
 
 char	*ft_redirection_pipe(char **redir_tab)
 {
@@ -245,125 +155,50 @@ char	*ft_redirection_pipe(char **redir_tab)
 	return (str);
 }
 
-int		ft_count_redirection(char *str)
+int		ft_redirection_malloc(t_minishell *shell)
 {
-	int		i;
-	int		count;
-	char	*tmp;
+	int		x;
+	int		z;
 
-	i = -1;
-	if (!(tmp = ft_strtrim(str, " ")))
+	x = 0;
+	z = 0;
+	if (!(shell->redir_tab = malloc((shell->index_tab + 2) * sizeof(char*))))
 		exit(EXIT_FAILURE);
-	if (tmp[ft_strlen(tmp) - 1] == '>' || tmp[ft_strlen(tmp) - 1] == '<')
+	while (x < shell->index_tab)
 	{
-		free(tmp);
-		ft_putstr_error("minishell: parse error near `\\n'\n", NULL, 1);
-		return (FALSE);		
+		if (!(shell->redir_tab[x] = ft_whitespace(ft_substr(shell->input, z,
+		(shell->redir[x]) - z))))
+			exit(EXIT_FAILURE);
+		z = shell->redir[x] + 1;
+		x++;
 	}
-	free(tmp);
-	while (str[++i])
-	{
-		if (str[0] == '>')
-		{
-			ft_putstr_error("minishell: parse error near `>'\n", NULL, 1);
-			return (FALSE);
-		}
-		if (str[0] == '<')
-		{
-			ft_putstr_error("minishell: parse error near `<'\n", NULL, 1);
-			return (FALSE);
-		}
-		if (str[i] == '>' && i != 0)
-		{
-			count = 0;
-			while (str[i] == '>' && str[i])
-			{
-				count++;
-				i++;
-				while (str[i] == ' ')
-					i++;
-				if (str[i] == '>' && str[i + 1] == '>')
-				{
-					ft_putstr_error("minishell: parse error near `>>'\n", NULL, 1);
-					return (FALSE);
-				}
-				else if (str[i] == '<')
-				{
-					ft_putstr_error("minishell: parse error near `<'\n", NULL, 1);
-					return (FALSE);
-				}
-			}
-			if (count == 3)
-			{
-				ft_putstr_error("minishell: parse error near `>'\n", NULL, 1);
-				return (FALSE);
-			}
-			else if (count > 3)
-			{
-				ft_putstr_error("minishell: parse error near `>>'\n", NULL, 1);
-				return (FALSE);
-			}
-		}
-		if (str[i] == '<' && i != 0)
-		{
-			count = 0;
-			while (str[i] == '<' && str[i])
-			{
-				count++;
-				i++;
-				while (str[i] == ' ')
-					i++;
-				if (str[i] == '>' && str[i + 1] == '>')
-				{
-					ft_putstr_error("minishell: parse error near `>>'\n", NULL, 1);
-					return (FALSE);
-				}
-				else if (str[i] == '>')
-				{
-					ft_putstr_error("minishell: parse error near `>'\n", NULL, 1);
-					return (FALSE);
-				}
-			}
-			if (count > 1)
-			{
-				ft_putstr_error("minishell: parse error near `<'\n", NULL, 1);
-				return (FALSE);
-			}
-		}
-	}
-	return (TRUE);
+	if (!(shell->redir_tab[x] = ft_whitespace(ft_substr(shell->input, z,
+	ft_strlen(shell->input) - z))))
+		exit(EXIT_FAILURE);
+	shell->redir_tab[x + 1] = NULL;
+	return (FALSE);
 }
 
-char	*ft_create_redirection(char *str)
+char	*ft_redirection_command(char **tab, char **redir_tab)
 {
 	int		i;
-	int		j;
-	int		len;
-	char	*new_str;
+	char	*str;
 
-	i = -1;
-	len = 0;
-	while (str[++i])
+	i = 0;
+	while (tab[++i])
 	{
-		if (str[i] == '<')
-			len++;
+		str = realloc_str(redir_tab[0], tab[i]);
+		if (!(redir_tab[0] = ft_strdup(str)))
+			exit(EXIT_FAILURE);
+		free(str);
+		if (!(str = ft_strjoin(redir_tab[0], " ")))
+			exit(EXIT_FAILURE);
+		free(redir_tab[0]);
+		if (!(redir_tab[0] = ft_strdup(str)))
+			exit(EXIT_FAILURE);
+		free(str);
 	}
-	if (!(new_str = ft_calloc(ft_strlen(str) + len + 1, sizeof(char))))
-		exit(EXIT_FAILURE);
-	i = -1;
-	j = -1;
-	while (str[++i])
-	{
-		if (str[i] == '<')
-		{
-			new_str[++j] = str[i];
-			new_str[++j] = '<';
-		}
-		else
-			new_str[++j] = str[i];
-	}
-	free(str);
-	return (new_str);
+	return (redir_tab[0]);
 }
 
 int		ft_redirection(t_minishell *shell, t_struct *glo)
@@ -384,7 +219,6 @@ int		ft_redirection(t_minishell *shell, t_struct *glo)
 	shell->input = ft_redirection_pipe(shell->redir_tab);
 	shell->index_tab = 0;
 	free_tab(shell->redir_tab);
-	ft_putendl_fd(shell->input, 1);
 	ft_pipe_main(shell, glo);
 	ft_free_args(shell);
 	return (FALSE);

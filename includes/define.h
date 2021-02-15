@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 15:12:11 by gpladet           #+#    #+#             */
-/*   Updated: 2020/12/08 15:24:44 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/15 15:28:19 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,9 @@
 # define RESET "\e[0m"
 # define TRUE 1
 # define FALSE 0
+# define ERROR_REDIRECTION_RIGHT "minishell: parse error near `>>'\n"
+# define ERROR_REDIRECTION_LEFT "minishell: parse error near `<'\n"
+# define ERROR_REDIRECTION_SIMPLE "minishell: parse error near `>'\n"
+# define ERROR_REDIRECTION_EMPTY "minishell: parse error near `\\n'\n"
 
 #endif
