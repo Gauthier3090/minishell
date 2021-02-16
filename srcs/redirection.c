@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 15:02:31 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/16 18:25:58 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/16 18:31:31 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,6 @@ int		ft_redirection(t_minishell *shell, t_struct *glo)
 	}
 	shell->index_tab = 0;
 	free_tab(shell->redir_tab);
-	ft_putendl_fd(shell->input, 1);
 	ft_pipe_main(shell, glo);
 	ft_free_args(shell);
 	return (FALSE);
