@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/16 15:03:38 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/16 16:27:21 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,12 @@ void				echo(t_minishell *shell);
 ** env.c
 */
 void				ft_env(char **tab, char **env, t_minishell *shell);
+
+/*
+** error.c
+*/
+int					ft_putstr_error(char *message, char *variable, int error);
+void				ft_put_errno(int error_numb, t_minishell *shell);
 
 /*
 ** exec.c
@@ -266,8 +272,6 @@ int					ft_strcmp(const char *s1, const char *s2);
 /*
 ** utility3.c
 */
-void				ft_put_errno(int error_numb, t_minishell *shell);
-int					ft_putstr_error(char *message, char *variable, int error);
 char				*delete_char_left(char *str, char c);
 char				*delete_char_right(char *str, char c);
 

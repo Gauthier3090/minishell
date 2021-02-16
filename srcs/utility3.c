@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 00:11:01 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/03 16:58:05 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/16 16:22:49 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,33 @@ char	*delete_char_right(char *str, char c)
 	return (NULL);
 }
 
+int		ft_strlen_split_quotes(char *str, int *i, int *len)
+{
+	if (str[*i] == '\'')
+	{
+		(*i)++;
+		*len += 2;
+		while (str[*i] != '\'')
+		{
+			(*len)++;
+			(*i)++;
+		}
+		return (TRUE);
+	}
+	else if (str[*i] == '"')
+	{
+		(*i)++;
+		*len += 2;
+		while (str[*i] != '"')
+		{
+			(*len)++;
+			(*i)++;
+		}
+		return (TRUE);
+	}
+	return (FALSE);
+}
+
 int		ft_strlen_split(char *str, char c)
 {
 	int	i;
@@ -46,12 +73,35 @@ int		ft_strlen_split(char *str, char c)
 	i = -1;
 	while (str[++i])
 	{
-		if (str[i] == c)
+		if (ft_strlen_split_quotes(str, &i, &len))
+			continue ;
+		else if (str[i] == c)
 			break ;
 		else
 			len++;
 	}
 	return (len);
+}
+
+int		delete_char_left_quotes(char *str, char **new_str, int *i, int *j)
+{
+	if (str[*i] == '\'')
+	{
+		(*new_str)[++(*j)] = str[(*i)++];
+		while (str[*i] != '\'')
+			(*new_str)[++(*j)] = str[(*i)++];
+		(*new_str)[++(*j)] = str[*i];
+		return (TRUE);
+	}
+	else if (str[*i] == '"')
+	{
+		(*new_str)[++(*j)] = str[(*i)++];
+		while (str[*i] != '"')
+			(*new_str)[++(*j)] = str[(*i)++];
+		(*new_str)[++(*j)] = str[*i];
+		return (TRUE);
+	}
+	return (FALSE);
 }
 
 char	*delete_char_left(char *str, char c)
@@ -62,30 +112,18 @@ char	*delete_char_left(char *str, char c)
 	char	*new_str;
 
 	len = ft_strlen_split(str, c);
-	if (!(new_str = calloc(len + 1, sizeof(char))))
+	if (!(new_str = ft_calloc(len + 1, sizeof(char))))
 		exit(EXIT_FAILURE);
 	i = -1;
 	j = -1;
 	while (str[++i])
 	{
-		if (str[i] == c)
+		if (delete_char_left_quotes(str, &new_str, &i, &j))
+			continue ;
+		else if (str[i] == c)
 			break ;
 		else
 			new_str[++j] = str[i];
 	}
 	return (new_str);
-}
-
-int		ft_putstr_error(char *message, char *variable, int error)
-{
-	ft_putstr_fd(message, 2);
-	ft_putendl_fd(variable, 2);
-	return (error);
-}
-
-void	ft_put_errno(int error_numb, t_minishell *shell)
-{
-	ft_putstr_fd(strerror(error_numb), 2);
-	write(1, "\n", 2);
-	shell->ret = 2;
 }
