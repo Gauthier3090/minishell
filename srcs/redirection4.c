@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 16:52:15 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/15 16:56:55 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/16 17:11:15 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	**ft_redirection_pipe_big_left_more(char **redir_tab,
 	if (!(tmp = ft_strdup(redir_tab[0])))
 		exit(EXIT_FAILURE);
 	free(redir_tab[0]);
-	if (!(redir_tab[0] = ft_strjoin("cat", redir_tab[*i])))
+	if (!(redir_tab[0] = ft_strjoin("echo", redir_tab[*i])))
 		exit(EXIT_FAILURE);
 	free(redir_tab[*i]);
 	if (!(redir_tab[*i] = ft_strjoin(tmp, tab[k])))
