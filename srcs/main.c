@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/16 15:03:03 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/16 16:49:41 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,8 @@ int		main(int argc, char **argv, char **env)
 	if (ft_struct_init(glo, shell) == FALSE)
 		exit(EXIT_FAILURE);
 	shell->env = malloc_tab(env);
+	if (!shell->env)
+		return (ft_putstr_error("minishell: env is null\n", NULL, 1));
 	loop_prompt(shell, glo);
 	return (EXIT_SUCCESS);
 }
