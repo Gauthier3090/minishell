@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility5.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 16:58:48 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/08 17:33:07 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/16 15:03:22 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,4 +102,20 @@ int		ft_struct_init(t_struct *glo, t_minishell *shell)
 	if (!(glo->save_old_pwd = ft_strdup("")))
 		exit(EXIT_FAILURE);
 	return (TRUE);
+}
+
+char	**malloc_tab(char **tab)
+{
+	int		i;
+	char	**new_tab;
+
+	i = -1;
+	if (!(new_tab = ft_calloc(ft_strlen_tab(tab) + 1, sizeof(char *))))
+		exit(EXIT_FAILURE);
+	while (tab[++i])
+	{
+		if (!(new_tab[i] = ft_strdup(tab[i])))
+			exit(EXIT_FAILURE);
+	}
+	return (new_tab);
 }

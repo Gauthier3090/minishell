@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 14:40:50 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/03 16:16:52 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/16 15:07:24 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,16 @@ char	*parse_null_quote(char *input, int *i, char **env, int ret)
 	return (str);
 }
 
+char	*empty_input(char *final_str)
+{
+	if (!final_str)
+	{
+		if (!(final_str = ft_strdup("")))
+			exit(EXIT_FAILURE);
+	}
+	return (final_str);
+}
+
 char	*parse_input(char *input, char **env, int ret)
 {
 	int		i;
@@ -95,10 +105,7 @@ char	*parse_input(char *input, char **env, int ret)
 			i++;
 		}
 		if (!final_str)
-		{
-			if (!(final_str = ft_strdup("")))
-				exit(EXIT_FAILURE);
-		}
+			final_str = empty_input(final_str);
 		return (final_str);
 	}
 	return (NULL);

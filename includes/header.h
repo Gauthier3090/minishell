@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/16 14:48:01 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/16 15:03:38 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,8 @@ int					ft_count_redirection(char *str);
 /*
 ** redirection4.c
 */
-char				**ft_redirection_pipe_big_left(char **redir_tab, char **tab, int *i);
+char				**ft_redirection_pipe_big_left(char **redir_tab,
+					char **tab, int *i);
 char				**ft_redirection_pipe_left(char **redir_tab, int *i);
 char				**ft_redirection_pipe_right(char **redir_tab, int *i);
 
@@ -204,7 +205,8 @@ char				**ft_redirection_pipe_right(char **redir_tab, int *i);
 ** redirection5.c
 */
 char				*ft_redirection_command_append(int append);
-char				**ft_create_command_pipe(char **redir_tab, int redirection_read);
+char				**ft_create_command_pipe(char **redir_tab,
+					int redirection_read);
 
 /*
 ** semicolon.c
@@ -218,8 +220,8 @@ int					ft_double_quotes_check(t_minishell *shell, int var);
 /*
 ** semicolon2.c
 */
-void		ft_check_double_char_sub(t_minishell *shell, t_struct *glo);
-void		ft_semico_malloc(t_minishell *shell, t_struct *glo);
+void				ft_check_double_char_sub(t_minishell *shell, t_struct *glo);
+void				ft_semico_malloc(t_minishell *shell, t_struct *glo);
 
 /*
 ** split.c
@@ -229,9 +231,9 @@ char				**split_input(char *str);
 /*
 ** signal.c
 */
-void		ft_signal_hand(void);
-void		sigint_handler(int nothing);
-void		sigint_handler2(int nothing);
+void				ft_signal_hand(void);
+void				sigint_handler(int nothing);
+void				sigint_handler2(int nothing);
 
 /*
 ** split2.c
@@ -280,9 +282,11 @@ void				ft_close_fd(t_struct *glo, int *pipefd, t_minishell *shell);
 /*
 ** utility5.c
 */
-int		ft_quotes_check_sub(t_minishell *shell, int i, int var, char c);
-int		ft_simple_quotes_check(t_minishell *shell, int var);
-int		ft_double_quotes_check(t_minishell *shell, int var);
-int		ft_struct_init(t_struct *glo, t_minishell *shell);
+int					ft_quotes_check_sub(t_minishell *shell, int i,
+					int var, char c);
+int					ft_simple_quotes_check(t_minishell *shell, int var);
+int					ft_double_quotes_check(t_minishell *shell, int var);
+int					ft_struct_init(t_struct *glo, t_minishell *shell);
+char				**malloc_tab(char **tab);
 
 #endif
