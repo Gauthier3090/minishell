@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 15:42:42 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/02 22:10:26 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/16 14:33:05 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int			ft_fork_exec(t_struct *glo, char **bin, char *path, \
 	}
 	if (id != 0)
 	{
+		signal(SIGINT, sigint_handler2);
 		if (wait(NULL) == -1)
 			ft_put_errno(errno, shell);
 		free_tab(glo->exec);

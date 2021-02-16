@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 21:34:12 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/13 17:56:05 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/16 14:35:38 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,20 @@ char	*getinput(void)
 	char	buffer;
 	char	*input;
 
+	buffer = 0;
 	if (!(input = ft_calloc(2, sizeof(char))))
 		exit(EXIT_FAILURE);
 	i = -1;
 	count = 1;
-	while ((ret = read(0, &buffer, 1)) && buffer != '\n')
+	while (((ret = read(0, &buffer, 1)) > -1) && buffer != '\n')
 	{
-		input[++i] = buffer;
-		count++;
+		if (ret == 0 && buffer == 0)
+			exit(EXIT_SUCCESS);
+		if (ret != 0 && buffer != 0)
+		{
+			input[++i] = buffer;
+			count++;
+		}
 		if (!(input = ft_realloc(input, count + 1)))
 			exit(EXIT_FAILURE);
 	}

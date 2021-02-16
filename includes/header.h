@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/04 17:13:29 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/16 14:45:08 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct		s_struct
 	char			*save_old_pwd;
 	int				semi[100];
 	int				pipe[100];
+	int				sig;
 	pid_t			id1;
 	pid_t			id2;
 }					t_struct;
@@ -192,14 +193,16 @@ void		ft_check_double_char_sub(t_minishell *shell, t_struct *glo);
 void		ft_semico_malloc(t_minishell *shell, t_struct *glo);
 
 /*
-** utility5.c
-*/
-void		ft_signal_hand();
-
-/*
 ** split.c
 */
 char				**split_input(char *str);
+
+/*
+** signal.c
+*/
+void		ft_signal_hand(void);
+void		sigint_handler(int nothing);
+void		sigint_handler2(int nothing);
 
 /*
 ** split2.c
@@ -215,7 +218,6 @@ char				**delete_env(t_minishell *shell, int index);
 /*
 ** utility.c
 */
-int					ft_struct_init(t_struct *glo, t_minishell *shell);
 void				save_env(char *tab, char **env, t_struct *glo);
 int					ft_strisdigit(char *str);
 int					ft_strlen_tab(char **tab);
