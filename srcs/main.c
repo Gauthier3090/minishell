@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/16 17:30:08 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/17 22:14:12 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	ft_loop_main(t_minishell *shell, t_struct *glo)
 	shell->variable ? free(shell->variable) : 0;
 	shell->value ? free(shell->value) : 0;
 	shell->arg ? free(shell->arg) : 0;
-	ft_loop_main_more(shell, glo);
 	if (ft_strlen_tab(shell->tab) == 1)
 	{
 		shell->variable = NULL;
@@ -59,6 +58,8 @@ void	ft_loop_main(t_minishell *shell, t_struct *glo)
 			return ;
 		ft_builtins(shell, glo);
 	}
+	else
+		ft_loop_main_more(shell, glo);
 	if (glo->pipin == 1)
 		exit(EXIT_SUCCESS);
 }
@@ -87,7 +88,7 @@ void	loop_prompt(t_minishell *shell, t_struct *glo)
 {
 	while (1)
 	{
-		ft_signal_hand();
+		shell->ret = ft_signal_hand();
 		directoryprompt();
 		shell->input = getinput();
 		shell->input = ft_whitespace(shell->input);
