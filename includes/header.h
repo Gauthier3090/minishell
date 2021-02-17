@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/16 16:27:21 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/17 16:47:46 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ typedef struct		s_struct
 	char			**pipe_tab;
 	int				pipe_ite;
 	char			*save_old_pwd;
-	int				semi[100];
-	int				pipe[100];
+	int				semi[1000];
+	int				pipe[1000];
 	int				sig;
 	pid_t			id1;
 	pid_t			id2;
@@ -292,5 +292,10 @@ int					ft_simple_quotes_check(t_minishell *shell, int var);
 int					ft_double_quotes_check(t_minishell *shell, int var);
 int					ft_struct_init(t_struct *glo, t_minishell *shell);
 char				**malloc_tab(char **tab);
+
+/*
+** utility5.c
+*/
+void		ft_exec_ret(int ret, t_minishell *shell);
 
 #endif

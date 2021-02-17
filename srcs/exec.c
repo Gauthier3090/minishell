@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 15:42:42 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/16 18:26:59 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/17 16:47:01 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
 
-void		ft_cmn_not_found(int err_nmb, t_minishell *shell)
+void		ft_cmd_not_found(int err_nmb, t_minishell *shell)
 {
 	if (err_nmb != 2)
 		ft_put_errno(err_nmb, shell);
@@ -20,7 +20,7 @@ void		ft_cmn_not_found(int err_nmb, t_minishell *shell)
 	{
 		shell->ret = ft_putstr_error("minishell: command not found ",
 		shell->tab[0], 127);
-		exit(EXIT_SUCCESS);
+		exit(127);
 	}
 }
 
@@ -28,6 +28,7 @@ int			ft_fork_exec(t_struct *glo, char **bin, char *path, \
 			t_minishell *shell)
 {
 	int				id;
+	int				ret;
 
 	id = fork();
 	if (id == -1)
@@ -39,11 +40,12 @@ int			ft_fork_exec(t_struct *glo, char **bin, char *path, \
 	if (id != 0)
 	{
 		signal(SIGINT, sigint_handler2);
-		if (wait(NULL) == -1)
+		if (waitpid(id, &ret, 0) == -1)
 			ft_put_errno(errno, shell);
 		free_tab(glo->exec);
 		free_tab(bin);
 		free(path);
+		ft_exec_ret(ret, shell);
 		return (1);
 	}
 	return (0);
@@ -102,7 +104,7 @@ int			ft_exec(t_minishell *shell, t_struct *glo)
 	i = ft_exec_sub(shell, glo);
 	if (!(bin = ft_split(shell->env[i], ':')))
 		exit(EXIT_FAILURE);
-	i = 0;
+	i = 1;
 	path = check_dir_bin(bin[0] + 5, glo->exec[0]);
 	while (glo->exec[0] && bin[i] && path == NULL)
 		path = check_dir_bin(bin[i++], glo->exec[0]);
@@ -114,7 +116,7 @@ int			ft_exec(t_minishell *shell, t_struct *glo)
 			ft_put_errno(errno, shell);
 	}
 	else if (execve(glo->exec[0], glo->exec, shell->env) == -1)
-		ft_cmn_not_found(errno, shell);
+		ft_cmd_not_found(errno, shell);
 	ft_free_exec(glo, bin, path);
 	return (1);
 }

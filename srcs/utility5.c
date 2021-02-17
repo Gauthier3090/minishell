@@ -6,7 +6,11 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 16:58:48 by ldavids           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/02/16 15:03:22 by gpladet          ###   ########.fr       */
+=======
+/*   Updated: 2021/02/16 18:10:14 by ldavids          ###   ########.fr       */
+>>>>>>> cd
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +68,7 @@ int		ft_double_quotes_check(t_minishell *shell, int var)
 	i = 0;
 	while (shell->input[i] && i < ((int)ft_strlen(shell->input) - 1))
 	{
-		if (shell->input[i] == '"')
+		if (shell->input[i] == '"' && i < ((int)ft_strlen(shell->input) - 1))
 		{
 			i++;
 			i = ft_quotes_check_sub(shell, i, var, '"');
@@ -118,4 +122,3 @@ char	**malloc_tab(char **tab)
 			exit(EXIT_FAILURE);
 	}
 	return (new_tab);
-}
