@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/16 14:48:01 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/16 17:55:08 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ typedef struct		s_struct
 	char			**pipe_tab;
 	int				pipe_ite;
 	char			*save_old_pwd;
-	int				semi[100];
-	int				pipe[100];
+	int				semi[1000];
+	int				pipe[1000];
 	int				sig;
 	pid_t			id1;
 	pid_t			id2;
@@ -280,9 +280,10 @@ void				ft_close_fd(t_struct *glo, int *pipefd, t_minishell *shell);
 /*
 ** utility5.c
 */
-int		ft_quotes_check_sub(t_minishell *shell, int i, int var, char c);
-int		ft_simple_quotes_check(t_minishell *shell, int var);
-int		ft_double_quotes_check(t_minishell *shell, int var);
-int		ft_struct_init(t_struct *glo, t_minishell *shell);
+int					ft_quotes_check_sub(t_minishell *shell, int i, int var, char c);
+int					ft_simple_quotes_check(t_minishell *shell, int var);
+int					ft_double_quotes_check(t_minishell *shell, int var);
+int					ft_struct_init(t_struct *glo, t_minishell *shell);
+void				ft_exec_ret(int ret, t_minishell *shell);
 
 #endif

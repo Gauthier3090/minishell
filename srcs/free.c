@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 14:29:15 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/01 16:03:23 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/16 17:23:18 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,10 @@ void	ft_free_exec(t_struct *glo, char **bin, char *path)
 {
 	free_tab(glo->tab);
 	free_tab(glo->exec);
-	free_tab(bin);
-	free(path);
+	if (bin)
+		free_tab(bin);
+	if (path)
+		free(path);
 	if (glo->pipin == 1)
 		exit(EXIT_SUCCESS);
 }

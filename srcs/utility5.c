@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 16:58:48 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/08 17:33:07 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/16 18:10:14 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int		ft_double_quotes_check(t_minishell *shell, int var)
 	i = 0;
 	while (shell->input[i] && i < ((int)ft_strlen(shell->input) - 1))
 	{
-		if (shell->input[i] == '"')
+		if (shell->input[i] == '"' && i < ((int)ft_strlen(shell->input) - 1))
 		{
 			i++;
 			i = ft_quotes_check_sub(shell, i, var, '"');
@@ -102,4 +102,16 @@ int		ft_struct_init(t_struct *glo, t_minishell *shell)
 	if (!(glo->save_old_pwd = ft_strdup("")))
 		exit(EXIT_FAILURE);
 	return (TRUE);
+}
+
+void		ft_exec_ret(int ret, t_minishell *shell)
+{
+	if (ret != 0)
+		shell->ret = 1;
+	if (ret == 32512)
+		shell->ret = 127;
+	if (ret == 130)
+		shell->ret = 130;
+	if (ret == 0)
+		shell->ret = 0;
 }
