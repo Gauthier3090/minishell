@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility5.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 16:58:48 by ldavids           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2021/02/16 15:03:22 by gpladet          ###   ########.fr       */
-=======
-/*   Updated: 2021/02/16 18:10:14 by ldavids          ###   ########.fr       */
->>>>>>> cd
+/*   Updated: 2021/02/17 18:29:19 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,3 +118,4 @@ char	**malloc_tab(char **tab)
 			exit(EXIT_FAILURE);
 	}
 	return (new_tab);
+}

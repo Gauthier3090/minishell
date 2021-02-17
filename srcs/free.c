@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 14:29:15 by gpladet           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2021/02/16 18:03:27 by gpladet          ###   ########.fr       */
-=======
-/*   Updated: 2021/02/16 17:23:18 by ldavids          ###   ########.fr       */
->>>>>>> cd
+/*   Updated: 2021/02/17 21:50:11 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +31,6 @@ int		free_tab_ret(char **tab)
 		free(tab[i]);
 	free(tab);
 	return (TRUE);
-}
-
-void	ft_free_exec(t_struct *glo, char **bin, char *path)
-{
-	glo->tab ? free_tab(glo->tab) : 0;
-	glo->exec ? free_tab(glo->exec) : 0;
-	bin ? free_tab(bin) : 0;
-	path ? free(path) : 0;
-	if (glo->pipin == 1)
-		exit(EXIT_SUCCESS);
 }
 
 void	ft_free_args(t_minishell *shell)

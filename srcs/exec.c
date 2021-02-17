@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 15:42:42 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/17 16:47:01 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/17 21:59:42 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int			ft_exec(t_minishell *shell, t_struct *glo)
 	int				i;
 	char			**bin;
 	char			*path;
+	int				ret;
 
 	if (shell->i > 1)
 		return (1);
@@ -110,13 +111,7 @@ int			ft_exec(t_minishell *shell, t_struct *glo)
 		path = check_dir_bin(bin[i++], glo->exec[0]);
 	if (ft_fork_exec(glo, bin, path, shell) == 1)
 		return (1);
-	if (path != NULL)
-	{
-		if (execve(path, glo->exec, shell->env) == -1)
-			ft_put_errno(errno, shell);
-	}
-	else if (execve(glo->exec[0], glo->exec, shell->env) == -1)
-		ft_cmd_not_found(errno, shell);
-	ft_free_exec(glo, bin, path);
+	ret = ft_exec_core(glo, shell, path);
+	ft_free_exec(glo, bin, path, ret);
 	return (1);
 }

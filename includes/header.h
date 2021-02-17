@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/17 16:47:46 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/17 22:13:27 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,6 @@ char				*tabtostr(char **tab, int return_line);
 */
 void				free_tab(char **tab);
 int					free_tab_ret(char **tab);
-void				ft_free_exec(t_struct *glo, char **bin, char *path);
 void				ft_free_args(t_minishell *shell);
 
 /*
@@ -237,7 +236,7 @@ char				**split_input(char *str);
 /*
 ** signal.c
 */
-void				ft_signal_hand(void);
+int					ft_signal_hand(void);
 void				sigint_handler(int nothing);
 void				sigint_handler2(int nothing);
 
@@ -294,8 +293,11 @@ int					ft_struct_init(t_struct *glo, t_minishell *shell);
 char				**malloc_tab(char **tab);
 
 /*
-** utility5.c
+** utility6.c
 */
+void		ft_free_exec(t_struct *glo, char **bin, char *path, int ret);
+int			ft_error_exec(char *path);
+int			ft_exec_core(t_struct *glo, t_minishell *shell, char *path);
 void		ft_exec_ret(int ret, t_minishell *shell);
 
 #endif
