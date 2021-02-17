@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 15:02:31 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/16 18:31:31 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/17 16:44:09 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int		ft_redirection_malloc(t_minishell *shell)
 int		ft_redirection(t_minishell *shell, t_struct *glo)
 {
 	shell->index = 0;
-	if (ft_count_redirection(shell->input) == FALSE)
+	if (ft_count_redirection(shell->input, shell) == FALSE)
 	{
 		ft_free_args(shell);
 		return (FALSE);

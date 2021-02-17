@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 15:12:11 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/16 18:25:34 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/17 16:58:52 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # define TRUE 1
 # define FALSE 0
 # define ERROR_REDIRECTION_RIGHT "minishell: parse error near `>>'\n"
+# define ERROR_REDIRECTION "minishell: parse error near `>'\n"
 # define ERROR_REDIRECTION_LEFT "minishell: parse error near `<'\n"
-# define ERROR_REDIRECTION_SIMPLE "minishell: parse error near `>'\n"
 # define ERROR_REDIRECTION_EMPTY "minishell: parse error near `\\n'\n"
 # define ERROR_QUOTES_NOT_CLOSED "minishell: quotes are not closed\n"
 # define ERROR_FILE_NOT_FOUND "minishell: no such file or folder: "
