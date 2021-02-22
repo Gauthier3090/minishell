@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utility6.c                                         :+:      :+:    :+:   */
+/*   exec2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 16:45:59 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/17 22:08:13 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/19 14:43:05 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
 
-void	ft_free_exec(t_struct *glo, char **bin, char *path, int ret)
+void		ft_free_exec(t_struct *glo, char **bin, char *path, int ret)
 {
 	glo->exec ? free_tab(glo->exec) : 0;
 	bin ? free_tab(bin) : 0;
@@ -51,7 +51,7 @@ int			ft_error_exec(char *path)
 	return (ret);
 }
 
-int		ft_exec_core(t_struct *glo, t_minishell *shell, char *path)
+int			ft_exec_core(t_struct *glo, t_minishell *shell, char *path)
 {
 	int		ret;
 

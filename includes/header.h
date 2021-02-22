@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/17 22:13:27 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/22 17:46:05 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,15 @@ int					ft_fork_exec(t_struct *glo, char **bin, char *path, \
 					t_minishell *shell);
 
 /*
+** exec2.c
+*/
+void				ft_free_exec(t_struct *glo, char **bin, \
+					char *path, int ret);
+int					ft_error_exec(char *path);
+int					ft_exec_core(t_struct *glo, t_minishell *shell, char *path);
+void				ft_exec_ret(int ret, t_minishell *shell);
+
+/*
 ** exit.c
 */
 void				exit_shell(char **tab, int ret);
@@ -144,6 +153,7 @@ void				ft_free_args(t_minishell *shell);
 ** main.c
 */
 void				ft_builtins(t_minishell *minishell, t_struct *glo);
+void				loop_prompt(t_minishell *shell, t_struct *glo);
 void				ft_loop_main(t_minishell *shell, t_struct *glo);
 
 /*
@@ -239,6 +249,7 @@ char				**split_input(char *str);
 int					ft_signal_hand(void);
 void				sigint_handler(int nothing);
 void				sigint_handler2(int nothing);
+int					ft_signal_hand2(void);
 
 /*
 ** split2.c
@@ -291,13 +302,5 @@ int					ft_simple_quotes_check(t_minishell *shell, int var);
 int					ft_double_quotes_check(t_minishell *shell, int var);
 int					ft_struct_init(t_struct *glo, t_minishell *shell);
 char				**malloc_tab(char **tab);
-
-/*
-** utility6.c
-*/
-void		ft_free_exec(t_struct *glo, char **bin, char *path, int ret);
-int			ft_error_exec(char *path);
-int			ft_exec_core(t_struct *glo, t_minishell *shell, char *path);
-void		ft_exec_ret(int ret, t_minishell *shell);
 
 #endif

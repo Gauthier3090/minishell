@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/17 22:14:12 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/22 17:39:10 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	loop_prompt(t_minishell *shell, t_struct *glo)
 {
 	while (1)
 	{
-		shell->ret = ft_signal_hand();
+		ft_signal_hand();
 		directoryprompt();
 		shell->input = getinput();
 		shell->input = ft_whitespace(shell->input);
