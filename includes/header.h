@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/22 17:49:03 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/22 17:51:54 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,8 @@ char				*parse_input(char *input, t_minishell *shell);
 ** parsing2.c
 */
 char				*str_not_env_double_quotes(char *input, int *i);
-char				*str_not_env_simple_quotes(char *input, int *i, int simple_quote);
+char				*str_not_env_simple_quotes(char *input, int *i,\
+					int simple_quote);
 char				*str_not_env(char *input, int *i);
 char				*str_env(char *input, int *i, char **env, int ret);
 
@@ -309,7 +310,8 @@ char				**malloc_tab(char **tab);
 /*
 ** utility6.c
 */
-void				ft_free_exec(t_struct *glo, char **bin, char *path, int ret);
+void				ft_free_exec(t_struct *glo, char **bin, \
+					char *path, int ret);
 int					ft_error_exec(char *path);
 int					ft_exec_core(t_struct *glo, t_minishell *shell, char *path);
 void				ft_exec_ret(int ret, t_minishell *shell);
