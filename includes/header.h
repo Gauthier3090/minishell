@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/22 17:46:58 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/22 17:49:03 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ typedef struct		s_minishell
 	int				ret;
 	int				quote;
 	int				redir[100];
+	int				squote;
+	int				dquote;
 }					t_minishell;
 
 /*
@@ -159,12 +161,13 @@ void				ft_loop_main(t_minishell *shell, t_struct *glo);
 /*
 ** parsing.c
 */
-char				*parse_input(char *input, char **env, int ret);
+char				*parse_input(char *input, t_minishell *shell);
 
 /*
 ** parsing2.c
 */
 char				*str_not_env_double_quotes(char *input, int *i);
+char				*str_not_env_simple_quotes(char *input, int *i, int simple_quote);
 char				*str_not_env(char *input, int *i);
 char				*str_env(char *input, int *i, char **env, int ret);
 
@@ -302,5 +305,14 @@ int					ft_simple_quotes_check(t_minishell *shell, int var);
 int					ft_double_quotes_check(t_minishell *shell, int var);
 int					ft_struct_init(t_struct *glo, t_minishell *shell);
 char				**malloc_tab(char **tab);
+
+/*
+** utility6.c
+*/
+void				ft_free_exec(t_struct *glo, char **bin, char *path, int ret);
+int					ft_error_exec(char *path);
+int					ft_exec_core(t_struct *glo, t_minishell *shell, char *path);
+void				ft_exec_ret(int ret, t_minishell *shell);
+char				*empty_input(char *final_str);
 
 #endif

@@ -6,31 +6,29 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 14:40:50 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/16 15:07:24 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/22 17:13:50 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
 
-char	*parse_simple_quote(char *input, int *i)
+char	*parse_simple_quote(char *input, int *i, t_minishell *shell,
+		int simple_quote)
 {
+	char	*tmp;
 	char	*str;
-	int		j;
-	int		len;
 
 	(*i)++;
-	j = *i;
-	len = 0;
-	while (input[j] && input[j] != '\'')
-	{
-		len++;
-		j++;
-	}
-	if (!(str = ft_calloc(len + 1, sizeof(char))))
-		exit(EXIT_FAILURE);
-	j = -1;
+	str = NULL;
 	while (input[*i] && input[*i] != '\'')
-		str[++j] = input[(*i)++];
+	{
+		if (simple_quote && input[*i] == '$')
+			tmp = str_env(input, i, shell->env, shell->ret);
+		else
+			tmp = str_not_env_simple_quotes(input, i, simple_quote);
+		tmp ? str = realloc_str(str, tmp) : 0;
+		free(tmp);
+	}
 	return (str);
 }
 
@@ -72,40 +70,52 @@ char	*parse_null_quote(char *input, int *i, char **env, int ret)
 	return (str);
 }
 
-char	*empty_input(char *final_str)
+char	*parse_input_str(char *input, int *i, t_minishell *shell)
 {
-	if (!final_str)
+	char	*str;
+
+	if (input[*i] == '"')
+		str = parse_double_quote(input, i, shell->env, shell->ret);
+	else if (input[*i] == '\'')
+		str = parse_simple_quote(input, i, shell, shell->squote);
+	else
+		str = parse_null_quote(input, i, shell->env, shell->ret);
+	if (str[0] == '\\' || str[ft_strlen(str) - 1] == '\\')
 	{
-		if (!(final_str = ft_strdup("")))
-			exit(EXIT_FAILURE);
+		if (shell->squote && str[0] == '\\')
+			str[0] = '\'';
+		if (shell->squote && str[ft_strlen(str) - 1] == '\\')
+			str[ft_strlen(str) - 1] = '\'';
+		if (shell->dquote && str[0] == '\\')
+			str[0] = '"';
+		if (shell->dquote && str[ft_strlen(str) - 1] == '\\')
+			str[ft_strlen(str) - 1] = '"';
 	}
-	return (final_str);
+	return (str);
 }
 
-char	*parse_input(char *input, char **env, int ret)
+char	*parse_input(char *input, t_minishell *shell)
 {
 	int		i;
 	char	*str;
 	char	*final_str;
 
 	final_str = NULL;
+	shell->squote = FALSE;
+	shell->dquote = FALSE;
 	if (input)
 	{
 		i = 0;
 		while ((size_t)i < ft_strlen(input))
 		{
-			if (input[i] == '\'')
-				str = parse_simple_quote(input, &i);
-			else if (input[i] == '"')
-				str = parse_double_quote(input, &i, env, ret);
-			else
-				str = parse_null_quote(input, &i, env, ret);
+			input[i] == '\\' && input[i + 1] == '\'' ? shell->squote = TRUE : 0;
+			input[i] == '\\' && input[i + 1] == '"' ? shell->dquote = TRUE : 0;
+			str = parse_input_str(input, &i, shell);
 			str ? final_str = realloc_str(final_str, str) : 0;
 			free(str);
 			i++;
 		}
-		if (!final_str)
-			final_str = empty_input(final_str);
+		!final_str ? final_str = empty_input(final_str) : 0;
 		return (final_str);
 	}
 	return (NULL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 15:42:42 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/17 21:59:42 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/22 17:03:06 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int			ft_exec_sub(t_minishell *shell, t_struct *glo)
 	i = 0;
 	while (shell->tab[i])
 	{
-		glo->exec[i] = parse_input(shell->tab[i], shell->env, shell->ret);
+		glo->exec[i] = parse_input(shell->tab[i], shell);
 		i++;
 	}
 	i = 0;

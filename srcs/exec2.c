@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 16:45:59 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/19 14:43:05 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/22 17:48:16 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void		ft_free_exec(t_struct *glo, char **bin, char *path, int ret)
 		exit(ret);
 }
 
-int			ft_error_exec(char *path)
+int		ft_error_exec(char *path)
 {
 	DIR	*dir;
 	int	fd;
@@ -69,7 +69,7 @@ int			ft_exec_core(t_struct *glo, t_minishell *shell, char *path)
 	return (ret);
 }
 
-void		ft_exec_ret(int ret, t_minishell *shell)
+void	ft_exec_ret(int ret, t_minishell *shell)
 {
 	if (ret != 0)
 		shell->ret = 1;
@@ -79,4 +79,14 @@ void		ft_exec_ret(int ret, t_minishell *shell)
 		shell->ret = 130;
 	if (ret == 0)
 		shell->ret = 0;
+}
+
+char	*empty_input(char *final_str)
+{
+	if (!final_str)
+	{
+		if (!(final_str = ft_strdup("")))
+			exit(EXIT_FAILURE);
+	}
+	return (final_str);
 }
