@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:37:10 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/03 16:11:15 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/22 16:41:36 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,35 @@ char	*str_not_env_double_quotes(char *input, int *i)
 			(*i)++;
 		str[++j] = input[*i];
 		(*i)++;
+	}
+	return (str);
+}
+
+char	*str_not_env_simple_quotes(char *input, int *i, int simple_quote)
+{
+	char	*str;
+	int		len;
+	int		j;
+
+	j = *i;
+	len = 0;
+	while (input[j] && input[j] != '\'')
+	{
+		if (input[j] == '$' && simple_quote)
+			break ;
+		j++;
+		len++;
+	}
+	if (!(str = ft_calloc(len + 1, sizeof(char))))
+		exit(EXIT_FAILURE);
+	j = -1;
+	while (input[*i] && input[*i] != '\'')
+	{
+		if (input[*i] == '\\' && input[*i + 1] == '\\')
+			(*i)++;
+		str[++j] = input[(*i)++];
+		if (input[*i] == '$' && simple_quote)
+			break ;
 	}
 	return (str);
 }

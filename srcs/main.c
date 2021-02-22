@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/17 22:14:12 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/22 16:47:19 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ void	ft_loop_main_more(t_minishell *shell, t_struct *glo)
 
 	while (shell->tab[++(shell->i)])
 	{
-		shell->arg = parse_input(shell->tab[shell->i], shell->env, shell->ret);
+		shell->arg = parse_input(shell->tab[shell->i], shell);
 		input = delete_char_left(shell->tab[shell->i], '=');
-		shell->variable = parse_input(input, shell->env, shell->ret);
+		shell->variable = parse_input(input, shell);
 		free(input);
 		input = delete_char_right(shell->tab[shell->i], '=');
-		shell->value = parse_input(input, shell->env, shell->ret);
+		shell->value = parse_input(input, shell);
 		if (shell->variable)
 		{
 			if (ft_semicolon(shell, glo) == FALSE)
