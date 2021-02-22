@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 17:06:18 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/17 22:15:58 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/22 17:44:10 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,27 @@
 void		sigint_handler(int nothing)
 {
 	(void)nothing;
-	ft_putstr_fd("\n", 1);
+	ft_putstr_fd("\n", 2);
 	directoryprompt();
 }
 
 void		sigint_handler2(int nothing)
 {
 	(void)nothing;
-	ft_putstr_fd("\n", 1);
+	ft_putstr_fd("\n", 2);
 	ft_signal_hand();
 }
 
 void		do_nothing(int nothing)
 {
 	(void)nothing;
-	write(1, " \b\b \b", 5);
-	write(1, " \b\b \b", 3);
+	write(2, " \b\b \b", 5);
+	write(2, " \b\b \b", 3);
 }
 
-int		ft_signal_hand(void)
+int			ft_signal_hand(void)
 {
+	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, do_nothing);
-	if (signal(SIGINT, sigint_handler) != 0)
-		return (1);
 	return (0);
 }

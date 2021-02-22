@@ -6,11 +6,17 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 21:34:12 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/16 18:03:31 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/22 17:39:05 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
+
+void	ft_eof(void)
+{
+	ft_putstr_fd("\n", 1);
+	exit(EXIT_SUCCESS);
+}
 
 void	directoryprompt(void)
 {
@@ -49,10 +55,7 @@ char	*getinput(void)
 	while (((ret = read(0, &buffer, 1)) > -1) && buffer != '\n')
 	{
 		if (ret == 0 && buffer == 0)
-		{
-			ft_putstr_fd("\n", 1);
-			exit(EXIT_SUCCESS);
-		}
+			ft_eof();
 		if (ret != 0 && buffer != 0)
 		{
 			input[++i] = buffer;
