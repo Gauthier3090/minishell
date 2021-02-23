@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/23 16:48:15 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/23 18:48:56 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,6 +261,7 @@ int					ft_signal_hand2(void);
 ** split2.c
 */
 int					count_words(char *str);
+void				size_words_null_quotes(char *str, int *i, int *size);
 
 /*
 ** unset.c
