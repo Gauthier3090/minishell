@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/22 17:51:54 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/23 15:13:14 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,11 @@ void				variable_no_exist(t_minishell *shell, char *variable);
 */
 void				sorting_env(char **env, int size);
 char				*tabtostr(char **tab, int return_line);
+
+/*
+** export3.c
+*/
+void				exception_export(t_minishell *shell);
 
 /*
 ** free.c

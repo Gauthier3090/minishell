@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 14:40:35 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/08 18:01:08 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/23 15:13:32 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,8 @@ int		check_error_export(char *variable, char *value, t_minishell *shell)
 void	export(t_minishell *shell)
 {
 	shell->ret = 0;
-	if (ft_strlen_tab(shell->tab) == 1
-	|| !ft_strcmp(shell->tab[shell->i], "$USER"))
+	exception_export(shell);
+	if (ft_strlen_tab(shell->tab) == 1)
 		sorting_env(shell->env, ft_strlen_tab(shell->env));
 	else if (!ft_strcmp(shell->tab[shell->i], "="))
 	{
