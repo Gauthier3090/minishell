@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 14:40:50 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/22 17:13:50 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/23 15:31:34 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,17 +80,6 @@ char	*parse_input_str(char *input, int *i, t_minishell *shell)
 		str = parse_simple_quote(input, i, shell, shell->squote);
 	else
 		str = parse_null_quote(input, i, shell->env, shell->ret);
-	if (str[0] == '\\' || str[ft_strlen(str) - 1] == '\\')
-	{
-		if (shell->squote && str[0] == '\\')
-			str[0] = '\'';
-		if (shell->squote && str[ft_strlen(str) - 1] == '\\')
-			str[ft_strlen(str) - 1] = '\'';
-		if (shell->dquote && str[0] == '\\')
-			str[0] = '"';
-		if (shell->dquote && str[ft_strlen(str) - 1] == '\\')
-			str[ft_strlen(str) - 1] = '"';
-	}
 	return (str);
 }
 
