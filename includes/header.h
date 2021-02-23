@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/23 15:51:43 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/23 16:48:15 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ typedef struct		s_minishell
 	int				ret;
 	int				quote;
 	int				redir[100];
-	int				squote;
-	int				dquote;
 }					t_minishell;
 
 /*
@@ -172,8 +170,7 @@ char				*parse_input(char *input, t_minishell *shell);
 ** parsing2.c
 */
 char				*str_not_env_double_quotes(char *input, int *i);
-char				*str_not_env_simple_quotes(char *input, int *i,\
-					int simple_quote);
+char				*str_not_env_simple_quotes(char *input, int *i);
 char				*str_not_env(char *input, int *i);
 char				*str_env(char *input, int *i, char **env, int ret);
 
