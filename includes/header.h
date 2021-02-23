@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/23 15:13:14 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/23 15:51:43 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void				ft_exec_ret(int ret, t_minishell *shell);
 /*
 ** exit.c
 */
-void				exit_shell(char **tab, int ret);
+int					exit_shell(char **tab, t_minishell *shell);
 
 /*
 ** export.c
@@ -159,7 +159,7 @@ void				ft_free_args(t_minishell *shell);
 /*
 ** main.c
 */
-void				ft_builtins(t_minishell *minishell, t_struct *glo);
+int					ft_builtins(t_minishell *minishell, t_struct *glo);
 void				loop_prompt(t_minishell *shell, t_struct *glo);
 void				ft_loop_main(t_minishell *shell, t_struct *glo);
 
