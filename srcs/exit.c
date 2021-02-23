@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 14:51:37 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/19 14:14:36 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/23 15:41:33 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,13 @@ void	exit_shell(char **tab, int ret)
 	else if (tab[1])
 	{
 		ret = ft_atoi(tab[1]);
-		if (ret < 0 || ret > 255)
-			ret = 255;
+		if (ret < 0)
+		{
+			ret = (ret * (-1)) % 256;
+			ret = 256 - ret;
+		}
+		else if (ret > 255)
+			ret = ret % 256;
 	}
 	exit(ret);
 }
