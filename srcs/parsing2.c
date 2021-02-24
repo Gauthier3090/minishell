@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:37:10 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/23 16:51:51 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/24 16:12:29 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,13 @@ char	*found_env(char *str, char **env, int ret)
 	{
 		free(str);
 		return (ft_itoa(ret));
+	}
+	if (str[0] == '$')
+	{
+		free(str);
+		if (!(str = ft_strdup("$")))
+			exit(EXIT_FAILURE);
+		return (str);
 	}
 	while (env[++i])
 	{
@@ -115,6 +122,8 @@ char	*str_env(char *input, int *i, char **env, int ret)
 
 	j = *i;
 	len = 0;
+	if (input[j] == '$' && !input[j + 1])
+		len = 1;
 	while (input[++j])
 	{
 		if (!ft_isalnum(input[j]) && input[j] != '?')
@@ -125,6 +134,8 @@ char	*str_env(char *input, int *i, char **env, int ret)
 	if (!(str = ft_calloc(len + 1, sizeof(char))))
 		exit(EXIT_FAILURE);
 	j = -1;
+	if (input[*i] == '$' && !input[*i + 1])
+		str[++j] = input[*i];
 	while (input[++(*i)])
 	{
 		if (!ft_isalnum(input[*i]) && input[*i] != '?')
