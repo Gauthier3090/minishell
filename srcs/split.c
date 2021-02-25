@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 22:27:21 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/20 13:42:56 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/23 18:48:29 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,7 @@ int		size_words(char *str)
 	else if (str[i] == '"')
 		size += size_quotes(str, &i, quotes, quotes2);
 	else
-	{
-		while (str[i] != ' ' && str[i])
-		{
-			size++;
-			i++;
-		}
-	}
+		size_words_null_quotes(str, &i, &size);
 	return (size);
 }
 
@@ -94,7 +88,24 @@ void	split_null_quotes(char **tab, char *str, int i, int *j)
 
 	k = -1;
 	while (str[*j] != ' ' && str[*j])
-		tab[i][++k] = str[(*j)++];
+	{
+		if (str[*j] == '"')
+		{
+			tab[i][++k] = str[(*j)++];
+			while (str[*j] != '"')
+				tab[i][++k] = str[(*j)++];
+			tab[i][++k] = str[(*j)++];
+		}
+		else if (str[*j] == '\'')
+		{
+			tab[i][++k] = str[(*j)++];
+			while (str[*j] != '\'')
+				tab[i][++k] = str[(*j)++];
+			tab[i][++k] = str[(*j)++];
+		}
+		else
+			tab[i][++k] = str[(*j)++];
+	}
 }
 
 char	**split_input(char *str)
@@ -111,7 +122,7 @@ char	**split_input(char *str)
 	j = 0;
 	while (++i < count)
 	{
-		if (!(tab[i] = ft_calloc(size_words(&str[j]) + 2, sizeof(char))))
+		if (!(tab[i] = ft_calloc(size_words(&str[j]) + 1, sizeof(char))))
 			exit(EXIT_FAILURE);
 		while (str[j] == ' ')
 			j++;

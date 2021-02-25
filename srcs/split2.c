@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 13:42:27 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/20 13:43:02 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/23 18:48:37 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,26 @@ int		count_quotes(char *str, int *i)
 	return (count);
 }
 
+void	count_words_space(char *str, int *i)
+{
+	while (str[*i] != ' ' && str[*i])
+	{
+		(*i)++;
+		if (str[*i] == '"')
+		{
+			(*i)++;
+			while (str[*i] != '"')
+				(*i)++;
+		}
+		if (str[*i] == '\'')
+		{
+			(*i)++;
+			while (str[*i] != '\'')
+				(*i)++;
+		}
+	}
+}
+
 int		count_words(char *str)
 {
 	int	i;
@@ -63,9 +83,37 @@ int		count_words(char *str)
 			if (str[i] != ' ')
 				count++;
 			i++;
-			while (str[i] != ' ' && str[i])
-				i++;
+			count_words_space(str, &i);
 		}
 	}
 	return (count);
+}
+
+void	size_words_null_quotes(char *str, int *i, int *size)
+{
+	while (str[*i] != ' ' && str[*i])
+	{
+		if (str[*i] == '"')
+		{
+			(*i)++;
+			while (str[*i] != '"')
+			{
+				(*size)++;
+				(*i)++;
+			}
+			*size += 2;
+		}
+		else if (str[*i] == '\'')
+		{
+			(*i)++;
+			while (str[*i] != '\'')
+			{
+				(*size)++;
+				(*i)++;
+			}
+			*size += 2;
+		}
+		(*size)++;
+		(*i)++;
+	}
 }

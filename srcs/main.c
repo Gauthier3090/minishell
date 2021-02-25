@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/24 16:26:43 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/25 15:01:24 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void	ft_loop_main_more(t_minishell *shell, t_struct *glo)
 				return ;
 			if (ft_pipe_main(shell, glo) == FALSE)
 				return ;
-			ft_builtins(shell, glo);
+			if (ft_builtins(shell, glo) == FALSE)
+				return ;
 		}
 		ft_free_args(shell);
 		if (shell->ret)
@@ -56,7 +57,8 @@ void	ft_loop_main(t_minishell *shell, t_struct *glo)
 			return ;
 		if (ft_pipe_main(shell, glo) == FALSE)
 			return ;
-		ft_builtins(shell, glo);
+		if (ft_builtins(shell, glo) == FALSE)
+			return ;
 	}
 	else
 		ft_loop_main_more(shell, glo);
@@ -64,12 +66,15 @@ void	ft_loop_main(t_minishell *shell, t_struct *glo)
 		exit(EXIT_SUCCESS);
 }
 
-void	ft_builtins(t_minishell *shell, t_struct *glo)
+int		ft_builtins(t_minishell *shell, t_struct *glo)
 {
 	if (ft_strcmp(shell->tab[0], "echo") == 0)
 		echo(shell);
 	else if (ft_strcmp(shell->tab[0], "exit") == 0)
-		exit_shell(shell->tab, shell->ret);
+	{
+		if (!(exit_shell(shell->tab, shell)))
+			return (FALSE);
+	}
 	else if (ft_strcmp(shell->tab[0], "env") == 0)
 		ft_env(shell->tab, shell->env, shell);
 	else if (ft_strcmp(shell->tab[0], "export") == 0)
@@ -82,6 +87,7 @@ void	ft_builtins(t_minishell *shell, t_struct *glo)
 		ft_pwd(shell);
 	else
 		ft_exec(shell, glo);
+	return (TRUE);
 }
 
 void	loop_prompt(t_minishell *shell, t_struct *glo)

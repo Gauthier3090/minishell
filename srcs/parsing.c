@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 14:40:50 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/25 14:57:20 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/25 15:03:27 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,6 @@ char	*parse_input(char *input, t_minishell *shell)
 	char	*final_str;
 
 	final_str = NULL;
-
-
 	if (input)
 	{
 		i = 0;

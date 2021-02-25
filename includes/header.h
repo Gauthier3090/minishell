@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/24 21:48:10 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/25 15:02:19 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,6 @@ typedef struct		s_minishell
 	int				ret;
 	int				quote;
 	int				redir[100];
-	int				squote;
-	int				dquote;
-	char			*backs;
 }					t_minishell;
 
 /*
@@ -138,7 +135,7 @@ void				ft_exec_ret(int ret, t_minishell *shell);
 /*
 ** exit.c
 */
-void				exit_shell(char **tab, int ret);
+int					exit_shell(char **tab, t_minishell *shell);
 
 /*
 ** export.c
@@ -154,6 +151,11 @@ void				sorting_env(char **env, int size);
 char				*tabtostr(char **tab, int return_line);
 
 /*
+** export3.c
+*/
+void				exception_export(t_minishell *shell);
+
+/*
 ** free.c
 */
 void				free_tab(char **tab);
@@ -163,7 +165,7 @@ void				ft_free_args(t_minishell *shell);
 /*
 ** main.c
 */
-void				ft_builtins(t_minishell *minishell, t_struct *glo);
+int					ft_builtins(t_minishell *minishell, t_struct *glo);
 void				loop_prompt(t_minishell *shell, t_struct *glo);
 void				ft_loop_main(t_minishell *shell, t_struct *glo);
 
@@ -266,6 +268,7 @@ int					ft_signal_hand2(void);
 ** split2.c
 */
 int					count_words(char *str);
+void				size_words_null_quotes(char *str, int *i, int *size);
 
 /*
 ** unset.c
