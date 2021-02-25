@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:37:10 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/25 15:01:57 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/25 15:45:57 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ char	*str_not_env(char *input, int *i)
 
 	j = *i;
 	len = 0;
+	if (input[j] == '$')
+		return (str_not_env_simple_quotes(input, i));
 	while (input[j] && input[j] != '$' && input[j] != '"' && input[j] != '\'')
 	{
 		j++;
