@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 14:40:50 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/22 17:13:50 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/25 14:57:20 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
 
-char	*parse_simple_quote(char *input, int *i, t_minishell *shell,
-		int simple_quote)
+char	*parse_simple_quote(char *input, int *i)
 {
 	char	*tmp;
 	char	*str;
@@ -22,10 +21,7 @@ char	*parse_simple_quote(char *input, int *i, t_minishell *shell,
 	str = NULL;
 	while (input[*i] && input[*i] != '\'')
 	{
-		if (simple_quote && input[*i] == '$')
-			tmp = str_env(input, i, shell->env, shell->ret);
-		else
-			tmp = str_not_env_simple_quotes(input, i, simple_quote);
+		tmp = str_not_env_simple_quotes(input, i);
 		tmp ? str = realloc_str(str, tmp) : 0;
 		free(tmp);
 	}
@@ -51,7 +47,7 @@ char	*parse_double_quote(char *input, int *i, char **env, int ret)
 	return (str);
 }
 
-char	*parse_null_quote(char *input, int *i, char **env, int ret)
+char	*parse_null_quote(char *input, int *i, t_minishell *shell)
 {
 	char	*tmp;
 	char	*str;
@@ -59,10 +55,15 @@ char	*parse_null_quote(char *input, int *i, char **env, int ret)
 	str = NULL;
 	while (input[*i] && input[*i] != '"' && input[*i] != '\'')
 	{
-		if (input[*i] != '$')
-			tmp = str_not_env(input, i);
+		if (input[*i] == '$' /*&& (ft_voided_char(*i, shell) == FALSE)*/)
+		{
+			ft_putstr_fd("\n input[i] = ", 1);
+			ft_putchar_fd(input[*i], 1);
+			tmp = str_env(input, i, shell->env, shell->ret);
+		}
+		/*if (input[*i] != '$' || (ft_voided_char(*i, shell) == TRUE))*/
 		else
-			tmp = str_env(input, i, env, ret);
+			tmp = str_not_env(input, i);
 		tmp ? str = realloc_str(str, tmp) : 0;
 		free(tmp);
 	}
@@ -77,20 +78,9 @@ char	*parse_input_str(char *input, int *i, t_minishell *shell)
 	if (input[*i] == '"')
 		str = parse_double_quote(input, i, shell->env, shell->ret);
 	else if (input[*i] == '\'')
-		str = parse_simple_quote(input, i, shell, shell->squote);
+		str = parse_simple_quote(input, i);
 	else
-		str = parse_null_quote(input, i, shell->env, shell->ret);
-	if (str[0] == '\\' || str[ft_strlen(str) - 1] == '\\')
-	{
-		if (shell->squote && str[0] == '\\')
-			str[0] = '\'';
-		if (shell->squote && str[ft_strlen(str) - 1] == '\\')
-			str[ft_strlen(str) - 1] = '\'';
-		if (shell->dquote && str[0] == '\\')
-			str[0] = '"';
-		if (shell->dquote && str[ft_strlen(str) - 1] == '\\')
-			str[ft_strlen(str) - 1] = '"';
-	}
+		str = parse_null_quote(input, i, shell);
 	return (str);
 }
 
@@ -101,15 +91,13 @@ char	*parse_input(char *input, t_minishell *shell)
 	char	*final_str;
 
 	final_str = NULL;
-	shell->squote = FALSE;
-	shell->dquote = FALSE;
+
+
 	if (input)
 	{
 		i = 0;
 		while ((size_t)i < ft_strlen(input))
 		{
-			input[i] == '\\' && input[i + 1] == '\'' ? shell->squote = TRUE : 0;
-			input[i] == '\\' && input[i + 1] == '"' ? shell->dquote = TRUE : 0;
 			str = parse_input_str(input, &i, shell);
 			str ? final_str = realloc_str(final_str, str) : 0;
 			free(str);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/22 17:48:23 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/24 16:26:43 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,16 @@ void	loop_prompt(t_minishell *shell, t_struct *glo)
 		directoryprompt();
 		shell->input = getinput();
 		shell->input = ft_whitespace(shell->input);
+		ft_putstr_fd("result = ", 1);
+		ft_putstr_fd(shell->input, 1);
+		ft_putstr_fd("\nend\n", 1);
 		if (shell->input[0] != '\0')
 		{
 			if (check_quotes_close(shell->input))
 			{
 				if (!(shell->tab = split_input(shell->input)))
 					exit(EXIT_FAILURE);
+				ft_tab_dup(shell);
 				shell->i = 0;
 				shell->variable = NULL;
 				shell->value = NULL;

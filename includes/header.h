@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/22 17:51:54 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/24 21:48:10 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct		s_minishell
 {
 	char			**env;
 	char			**tab;
+	char			**backs_tab;
 	char			**redir_tab;
 	char			*input;
 	char			*variable;
@@ -72,7 +73,15 @@ typedef struct		s_minishell
 	int				redir[100];
 	int				squote;
 	int				dquote;
+	char			*backs;
 }					t_minishell;
+
+/*
+** backslash.c
+*/
+int			ft_voided_char(int i, t_minishell *shell);
+char		*ft_backslash(char *str, t_minishell *shell, int x);
+void		ft_tab_dup(t_minishell *shell);
 
 /*
 ** cd.c
@@ -167,8 +176,7 @@ char				*parse_input(char *input, t_minishell *shell);
 ** parsing2.c
 */
 char				*str_not_env_double_quotes(char *input, int *i);
-char				*str_not_env_simple_quotes(char *input, int *i,\
-					int simple_quote);
+char				*str_not_env_simple_quotes(char *input, int *i);
 char				*str_not_env(char *input, int *i);
 char				*str_env(char *input, int *i, char **env, int ret);
 
@@ -234,7 +242,6 @@ int					ft_semicolon(t_minishell *minishell, t_struct *glo);
 int					ft_check_double_char(t_minishell *minishell,
 					t_struct *glo, char c);
 int					ft_semicolon_sub(t_minishell *minishell, t_struct *glo);
-int					ft_double_quotes_check(t_minishell *shell, int var);
 
 /*
 ** semicolon2.c
@@ -300,10 +307,9 @@ void				ft_close_fd(t_struct *glo, int *pipefd, t_minishell *shell);
 /*
 ** utility5.c
 */
-int					ft_quotes_check_sub(t_minishell *shell, int i,
-					int var, char c);
-int					ft_simple_quotes_check(t_minishell *shell, int var);
-int					ft_double_quotes_check(t_minishell *shell, int var);
+int					ft_quotes_check_sub(char *str, int i, int var, char c);
+int					ft_simple_quotes_check(char *str, int var);
+int					ft_double_quotes_check(char *str, int var);
 int					ft_struct_init(t_struct *glo, t_minishell *shell);
 char				**malloc_tab(char **tab);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:37:10 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/22 16:41:36 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/23 16:51:59 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,15 @@ char	*str_not_env_double_quotes(char *input, int *i)
 	j = -1;
 	while (input[*i] && input[*i] != '$' && input[*i] != '"')
 	{
-		if (input[*i] == '\\' && input[*i + 1] == '\\')
-			(*i)++;
+		/*if (input[*i] == '\\' && input[*i + 1] == '\\')
+			(*i)++;*/
 		str[++j] = input[*i];
 		(*i)++;
 	}
 	return (str);
 }
 
-char	*str_not_env_simple_quotes(char *input, int *i, int simple_quote)
+char	*str_not_env_simple_quotes(char *input, int *i)
 {
 	char	*str;
 	int		len;
@@ -76,8 +76,8 @@ char	*str_not_env_simple_quotes(char *input, int *i, int simple_quote)
 	len = 0;
 	while (input[j] && input[j] != '\'')
 	{
-		if (input[j] == '$' && simple_quote)
-			break ;
+		/*if (input[j] == '$' && simple_quote)
+			break ;*/
 		j++;
 		len++;
 	}
@@ -86,11 +86,11 @@ char	*str_not_env_simple_quotes(char *input, int *i, int simple_quote)
 	j = -1;
 	while (input[*i] && input[*i] != '\'')
 	{
-		if (input[*i] == '\\' && input[*i + 1] == '\\')
-			(*i)++;
+		/*if (input[*i] == '\\' && input[*i + 1] == '\\')
+			(*i)++;*/
 		str[++j] = input[(*i)++];
-		if (input[*i] == '$' && simple_quote)
-			break ;
+		/*if (input[*i] == '$' && simple_quote)
+			break ;*/
 	}
 	return (str);
 }
@@ -113,11 +113,7 @@ char	*str_not_env(char *input, int *i)
 	j = -1;
 	while (input[*i] && input[*i] != '$' && input[*i] != '"'
 	&& input[*i] != '\'')
-	{
-		if (input[*i] == '\\' && input[*i + 1] == '\\')
-			(*i)++;
 		str[++j] = input[(*i)++];
-	}
 	return (str);
 }
 
