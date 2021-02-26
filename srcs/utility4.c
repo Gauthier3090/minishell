@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 17:15:29 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/02 22:30:37 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/26 15:03:49 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	quotes_close(char *str, int *i, char c, int *quote)
 	}
 }
 
-int		check_quotes_close(char *str)
+int		check_quotes_close(char *str, t_minishell *shell)
 {
 	int	i;
 	int	quote;
@@ -50,14 +50,14 @@ int		check_quotes_close(char *str)
 	i = -1;
 	while ((size_t)++i < ft_strlen(str))
 	{
-		if (str[i] == '\'')
+		if (str[i] == '\'' && (ft_voided_char_input(i, shell) == FALSE))
 			quotes_close(str, &i, '\'', &quote);
-		if (str[i] == '"')
+		if (str[i] == '"' && (ft_voided_char_input(i, shell) == FALSE))
 			quotes_close(str, &i, '"', &quote);
 	}
 	if (quote % 2 != 0)
-		return (0);
-	return (1);
+		return (1);
+	return (0);
 }
 
 char	*realloc_str(char *dest, char *src)

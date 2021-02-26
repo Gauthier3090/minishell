@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 16:53:51 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/25 15:50:46 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/26 18:23:29 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,14 @@ int		ft_pipe_sub(t_minishell *shell, t_struct *glo)
 	z = 0;
 	if (!(glo->pipe_tab = malloc((glo->z + 2) * sizeof(char*))))
 		exit(EXIT_FAILURE);
+	if (!(shell->pipe_backs_tab = malloc((glo->z + 2) * sizeof(char*))))
+		exit(EXIT_FAILURE);
 	while (x < glo->z)
 	{
 		if (!(glo->pipe_tab[x] = ft_substr(shell->input, z, \
+			(glo->pipe[x]) - z)))
+			exit(EXIT_FAILURE);
+		if (!(shell->pipe_backs_tab[x] = ft_substr(shell->backs_input, z, \
 			(glo->pipe[x]) - z)))
 			exit(EXIT_FAILURE);
 		z = glo->pipe[x] + 1;
@@ -83,6 +88,9 @@ int		ft_pipe_sub(t_minishell *shell, t_struct *glo)
 	}
 	if (!(glo->pipe_tab[x] = ft_substr(shell->input, z, \
 		ft_strlen(shell->input) - z)))
+		exit(EXIT_FAILURE);
+	if (!(shell->pipe_backs_tab[x] = ft_substr(shell->backs_input, z, \
+		ft_strlen(shell->backs_input) /*- z*/)))
 		exit(EXIT_FAILURE);
 	glo->pipe_tab[x + 1] = NULL;
 	x = 0;
@@ -100,7 +108,8 @@ int		ft_check_pipe(t_minishell *shell, t_struct *glo, char c)
 	while (shell->input[++glo->j])
 	{
 		if ((shell->input[glo->j] == c) && \
-		(ft_double_quotes_check(shell, shell->input, glo->j) == FALSE))
+		(ft_double_quotes_check(shell->input, glo->j) == FALSE)\
+		&& ft_voided_char_input(glo->j, shell) == FALSE)
 		{
 			glo->pipe[glo->z] = glo->j;
 			glo->z++;
@@ -145,6 +154,7 @@ int		ft_pipe_main(t_minishell *shell, t_struct *glo)
 	glo->z = 0;
 	glo->pipin = 0;
 	free_tab(glo->pipe_tab);
+	free_tab(shell->pipe_backs_tab);
 	ft_free_args(shell);
 	return (FALSE);
 }

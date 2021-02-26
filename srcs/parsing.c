@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 14:40:50 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/25 16:07:43 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/25 17:47:32 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*parse_double_quote(char *input, int *i, char **env, int ret)
 
 	(*i)++;
 	str = NULL;
-	while (input[*i] && input[*i] != '"')
+	while (input[*i] && input[*i] != '"' /*&& (ft_voided_char(*i, shell) == FALSE)*/)
 	{
 		if (input[*i] != '$')
 			tmp = str_not_env_double_quotes(input, i);
@@ -53,9 +53,10 @@ char	*parse_null_quote(char *input, int *i, t_minishell *shell)
 	char	*str;
 
 	str = NULL;
-	while (input[*i] && input[*i] != '"' && input[*i] != '\'')
+	while (input[*i] && input[*i] != '"' && input[*i] != '\'' \
+	/*&& (ft_voided_char(*i, shell) == FALSE)*/)
 	{
-		if (input[*i] == '$' && (ft_voided_char(*i, shell) == FALSE))
+		if (input[*i] == '$' && (ft_voided_char(*i, shell->i, shell) == FALSE))
 		{
 			ft_putstr_fd("\n input[i] = ", 1);
 			ft_putchar_fd(input[*i], 1);
@@ -74,9 +75,9 @@ char	*parse_input_str(char *input, int *i, t_minishell *shell)
 {
 	char	*str;
 
-	if (input[*i] == '"')
+	if (input[*i] == '"' && (ft_voided_char(*i, shell->i, shell) == FALSE))
 		str = parse_double_quote(input, i, shell->env, shell->ret);
-	else if (input[*i] == '\'')
+	else if (input[*i] == '\'' && (ft_voided_char(*i, shell->i, shell) == FALSE))
 		str = parse_simple_quote(input, i);
 	else
 		str = parse_null_quote(input, i, shell);

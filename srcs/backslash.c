@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 14:41:11 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/25 16:05:48 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/26 16:47:56 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,9 @@
 int		ft_double_quotes_voided(char *str, t_minishell *shell, int x, int i)
 {
 	if (str[i] == '\\' && shell->backs_tab[x][i] == '0' && \
-	ft_simple_quotes_check(shell, shell->tab[x], i) == FALSE &&\
+	ft_simple_quotes_check(/*shell, */shell->tab[x], i) == FALSE &&\
 	str[i + 1] == '"')
 	{
-		ft_putstr_fd("\ncheck 1\n", 1);
 		shell->backs_tab[x][i] = str[i];
 		while (str[i])
 		{
@@ -34,10 +33,9 @@ int		ft_double_quotes_voided(char *str, t_minishell *shell, int x, int i)
 int		ft_simple_quotes_voided(char *str, t_minishell *shell, int x, int i)
 {
 	if (str[i] == '\\' && shell->backs_tab[x][i] == '0' && \
-	ft_double_quotes_check(shell, shell->tab[x], i) == FALSE &&\
+	ft_double_quotes_check(/*shell, */shell->tab[x], i) == FALSE &&\
 	str[i + 1] == '\'')
 	{
-		ft_putstr_fd("\ncheck 2\n", 1);
 		shell->backs_tab[x][i] = str[i];
 		while (str[i])
 		{
@@ -50,9 +48,9 @@ int		ft_simple_quotes_voided(char *str, t_minishell *shell, int x, int i)
 	return (FALSE);
 }
 
-int			ft_voided_char(int i, t_minishell *shell)
+int			ft_voided_char(int i, int x, t_minishell *shell)
 {
-	if (shell->backs_tab[shell->i][i] != '0')
+	if (shell->backs_tab[x][i] && shell->backs_tab[x][i] != '0')
 		return (TRUE);
 	/*else*/
 		return (FALSE);
@@ -87,25 +85,23 @@ char		*ft_backslash(char *str, t_minishell *shell, int x)
 	{
 		if (str[i] == '\\' && shell->backs_tab[x][i] == '0')
 		{
-			/*ft_putstr_fd("\ncheck 1\n", 1);
 			if (ft_double_quotes_voided(str, shell, x, i) == TRUE)
 			{
-				ft_putstr_fd("\ncas 1\n", 1);
+				shell->backs_tab[x][i] = str[i];
 				i = 0;
 			}
 			else if (ft_simple_quotes_voided(str, shell, x, i) == TRUE)
 			{
-				ft_putstr_fd("\ncas 2\n", 1);
+				shell->backs_tab[x][i] = str[i];
 				i = 0;
 			}
-			else */if (ft_simple_quotes_check(shell, shell->tab[x], i) == TRUE)
+			else if (ft_simple_quotes_check(/*shell, */shell->tab[x], i) == TRUE)
 			{
-				ft_putstr_fd("\ncas 3\n", 1);
+				shell->backs_tab[x][i] = str[i];
 				i = 0;
 			}
-			else if (ft_double_quotes_check(shell, shell->tab[x], i) == FALSE)
+			else if (ft_double_quotes_check(/*shell, */shell->tab[x], i) == FALSE)
 			{
-				ft_putstr_fd("\ncas 4\n", 1);
 				shell->backs_tab[x][i] = str[i];
 				while (str[i])
 				{
@@ -114,11 +110,10 @@ char		*ft_backslash(char *str, t_minishell *shell, int x)
 				}
 				i = 0;
 			}
-			else if (ft_double_quotes_check(shell, shell->tab[x], i) == TRUE\
+			else if (ft_double_quotes_check(/*shell, */shell->tab[x], i) == TRUE\
 			&& (str[i + 1] == '$' || str[i + 1] == '\\') &&\
-			ft_simple_quotes_check(shell, shell->tab[x], i) == FALSE)
+			ft_simple_quotes_check(/*shell, */shell->tab[x], i) == FALSE)
 			{
-				ft_putstr_fd("\ncas 5\n", 1);
 				shell->backs_tab[x][i] = str[i];
 				while (str[i])
 				{
@@ -129,14 +124,12 @@ char		*ft_backslash(char *str, t_minishell *shell, int x)
 			}
 			else
 			{
-				ft_putstr_fd("\ncas 6\n", 1);
 				shell->backs_tab[x][i] = str[i];
 				i = 0;
 			}
 		}
 		i++;
 	}
-	/*ft_putstr_fd(str, 1);*/
 	return (str);
 }
 
@@ -147,18 +140,88 @@ void		ft_tab_dup(t_minishell *shell)
 	i = 0;
 	if (!(shell->backs_tab = split_input(shell->input)))
 		exit(EXIT_FAILURE);
+	shell->backs_input = ft_strdup(shell->input);
+	shell->input = ft_backslash_input(shell->input, shell);
 	while (shell->backs_tab[i])
 	{
 		shell->tab[i] = ft_backslash(shell->tab[i], shell, i);
 		/*ft_putstr_fd("shell->backs_tab[i]", 1);
 		ft_putnbr_fd(i, 1);
 		ft_putstr_fd(" === ", 1);*/
-		ft_putstr_fd(" backtab=", 1);
+		/*ft_putstr_fd(" backtab=", 1);
 		ft_putstr_fd(shell->backs_tab[i], 1);
-		ft_putstr_fd("\n", 1);
+		ft_putstr_fd("\n", 1);*/
 		/*ft_putstr_fd(" tab=", 1);
 		ft_putstr_fd(shell->tab[i], 1);
 		ft_putstr_fd("\n", 1);*/
 		i++;
 	}
+}
+
+int			ft_voided_char_input(int i, t_minishell *shell)
+{
+	/*ft_putstr_fd("shell->backs_input = ", 1);
+	ft_putstr_fd(shell->backs_input, 1);*/
+	if (shell->backs_input[i] && shell->backs_input[i] != '0')
+		return (TRUE);
+	/*else*/
+		return (FALSE);
+}
+
+char		*ft_backslash_input(char *str, t_minishell *shell)
+{
+	int		i;
+
+	i = 0;
+	shell->backs_input = ft_backzero(shell->backs_input);
+	while (str[i])
+	{
+		if (str[i] == '\\' && shell->backs_input[i] == '0')
+		{
+			/*if (ft_double_quotes_voided(str, shell, 0, i) == TRUE)
+			{
+				shell->backs_input[i] = str[i];
+				i = 0;
+			}
+			else if (ft_simple_quotes_voided(str, shell, 0, i) == TRUE)
+			{
+				shell->backs_input[i] = str[i];
+				i = 0;
+			}
+			else */if (ft_simple_quotes_check(/*shell, */shell->input, i) == TRUE)
+			{
+				shell->backs_input[i] = str[i];
+				i = 0;
+			}
+			else if (ft_double_quotes_check(/*shell, */shell->input, i) == FALSE)
+			{
+				shell->backs_input[i] = str[i];
+				while (str[i])
+				{
+					str[i] = str[i + 1];
+					i++;
+				}
+				i = 0;
+			}
+			else if (ft_double_quotes_check(/*shell, */shell->input, i) == TRUE\
+			&& (str[i + 1] == '$' || str[i + 1] == '\\') &&\
+			ft_simple_quotes_check(/*shell, */shell->input, i) == FALSE)
+			{
+				shell->backs_input[i] = str[i];
+				while (str[i])
+				{
+					str[i] = str[i + 1];
+					i++;
+				}
+				i = 0;
+			}
+			else
+			{
+				shell->backs_input[i] = str[i];
+				i = 0;
+			}
+		}
+		i++;
+	}
+	return (str);
 }

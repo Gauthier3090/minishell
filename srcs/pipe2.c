@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 22:27:48 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/03 16:45:06 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/26 18:19:53 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,19 @@ void	ft_next_pipe(t_minishell *shell, t_struct *glo)
 	free(shell->input);
 	if (!(shell->input = ft_strdup(glo->pipe_tab[glo->pipe_ite])))
 		exit(EXIT_FAILURE);
+	/*ft_putstr_fd("[glo->pipe_ite] =", 1);
+	ft_putnbr_fd(glo->pipe_ite, 1);*/
+	/*ft_putstr_fd("glo->backs_input[glo->pipe_ite] =", 1);
+	ft_putstr_fd(shell->backs_input, 1);*/
+	/*ft_putstr_fd("glo->pipe_tab[glo->pipe_ite] =", 1);
+	ft_putstr_fd(shell->pipe_backs_tab[glo->pipe_ite], 1);
+	ft_putstr_fd("glo->pipe =", 1);
+	ft_putstr_fd(glo->pipe_tab[glo->pipe_ite], 1);*/
+	ft_putstr_fd("shell->input = ", 1);
+	ft_putstr_fd(shell->input, 1);
+	ft_putstr_fd("shell->backs_input = ", 1);
+	ft_putstr_fd(shell->backs_input, 1);
+	ft_putstr_fd("\n", 1);
 	free_tab(shell->tab);
 	while (shell->input && shell->input[x])
 		x++;
@@ -35,7 +48,9 @@ void	ft_next_pipe(t_minishell *shell, t_struct *glo)
 	if (!(shell->tab = split_input(temp)))
 		exit(EXIT_FAILURE);
 	free(temp);
-	shell->input = ft_whitespace(shell->input);
+	shell->input = ft_whitespace(shell->input, shell);
+	shell->backs_input = ft_strdup(shell->pipe_backs_tab[glo->pipe_ite]);
+	shell->backs_input = ft_backs_whitespace(shell, shell->backs_input);
 	shell->i = 0;
 	glo->pipe_ite++;
 }

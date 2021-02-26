@@ -6,21 +6,25 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 16:21:04 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/03 16:57:40 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/26 17:37:45 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
 
-char	*ft_whitespace(char *input)
+char	*ft_whitespace(char *input, t_minishell *shell)
 {
 	char	*temp;
 	int		i;
 
 	i = 0;
+	shell->white = 0;
 	while (input[i] && (input[i] == ' ' || input[i] == '\t' || input[i] == '\v'
 	|| input[i] == '\f' || input[i] == '\n'))
+	{
+		shell->white++;
 		i++;
+	}
 	if (!(temp = ft_substr(input, i, ft_strlen(input) - i)))
 		exit(EXIT_FAILURE);
 	free(input);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 15:02:31 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/17 16:44:09 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/26 18:22:52 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,13 @@ int		ft_redirection_malloc(t_minishell *shell)
 	while (x < shell->index_tab)
 	{
 		if (!(shell->redir_tab[x] = ft_whitespace(ft_substr(shell->input, z,
-		(shell->redir[x]) - z))))
+		(shell->redir[x]) - z), shell)))
 			exit(EXIT_FAILURE);
 		z = shell->redir[x] + 1;
 		x++;
 	}
 	if (!(shell->redir_tab[x] = ft_whitespace(ft_substr(shell->input, z,
-	ft_strlen(shell->input) - z))))
+	ft_strlen(shell->input) - z), shell), shell))
 		exit(EXIT_FAILURE);
 	shell->redir_tab[x + 1] = NULL;
 	return (FALSE);

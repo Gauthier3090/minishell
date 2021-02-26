@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 15:05:18 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/25 15:49:58 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/26 18:38:22 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,15 @@ int		ft_check_redirection(t_minishell *shell, int c, int c2)
 
 	while (shell->input[++shell->index])
 	{
-		if (((shell->input[shell->index] == c &&
-		shell->input[shell->index + 1] == c) ||
-		(shell->input[shell->index] == c2 &&
-		shell->input[shell->index + 1] == c2))
-		&& ft_double_quotes_check(shell, shell->input, shell->index) == FALSE)
+		if ((((shell->input[shell->index] == c \
+		&& (ft_voided_char_input(shell->index, shell) == FALSE)\
+		&& shell->input[shell->index + 1] == c \
+		&& (ft_voided_char_input(shell->index + 1, shell) == FALSE))) ||
+		((shell->input[shell->index] == c2 &&\
+		(ft_voided_char_input(shell->index, shell) == FALSE) &&
+		shell->input[shell->index + 1] == c2 \
+		&& (ft_voided_char_input(shell->index + 1, shell) == FALSE))
+		&& (ft_double_quotes_check(shell->input, shell->index) == FALSE))))
 		{
 			shell->redir[shell->index_tab] = shell->index;
 			shell->index_tab++;
@@ -85,8 +89,9 @@ int		ft_check_redirection(t_minishell *shell, int c, int c2)
 				shell->input[shell->index + y] == '\v'))
 				y++;
 		}
-		else if (shell->input[shell->index] == c
-		&& ft_double_quotes_check(shell, shell->input, shell->index) == FALSE)
+		else if (shell->input[shell->index] == c && \
+		(ft_voided_char_input(shell->index, shell) == FALSE)
+		&& ft_double_quotes_check(shell->input, shell->index) == FALSE)
 			ft_check_redirection_simple(shell, &y);
 	}
 	return (TRUE);

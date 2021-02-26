@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/25 15:57:11 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/26 17:54:14 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,11 @@ typedef struct		s_minishell
 	char			**env;
 	char			**tab;
 	char			**backs_tab;
+	char			*backs_input;
+	char			**pipe_backs_tab;
+	char			**semi_backs_tab;
+	/*char			**redir_backs_tab;*/
+	int				white;
 	char			**redir_tab;
 	char			*input;
 	char			*variable;
@@ -76,9 +81,11 @@ typedef struct		s_minishell
 /*
 ** backslash.c
 */
-int			ft_voided_char(int i, t_minishell *shell);
+int			ft_voided_char(int i, int x, t_minishell *shell);
 char		*ft_backslash(char *str, t_minishell *shell, int x);
 void		ft_tab_dup(t_minishell *shell);
+int			ft_voided_char_input(int i, t_minishell *shell);
+char		*ft_backslash_input(char *str, t_minishell *shell);
 
 /*
 ** cd.c
@@ -282,7 +289,7 @@ char				**delete_env(t_minishell *shell, int index);
 void				save_env(char *tab, char **env, t_struct *glo);
 int					ft_strisdigit(char *str);
 int					ft_strlen_tab(char **tab);
-char				*ft_whitespace(char *input);
+char				*ft_whitespace(char *input, t_minishell *shell);
 
 /*
 ** utility2.c
@@ -303,16 +310,16 @@ char				*delete_char_right(char *str, char c);
 ** utility4.c
 */
 char				*path_join(const char *s1, const char *s2);
-int					check_quotes_close(char *str);
+int					check_quotes_close(char *str, t_minishell *shell);
 char				*realloc_str(char *dest, char *src);
 void				ft_close_fd(t_struct *glo, int *pipefd, t_minishell *shell);
 
 /*
 ** utility5.c
 */
-int					ft_quotes_check_sub(t_minishell *shell, char *str, int i, int var, char c);
-int					ft_simple_quotes_check(t_minishell *shell, char *str, int var);
-int					ft_double_quotes_check(t_minishell *shell, char *str, int var);
+int					ft_quotes_check_sub(/*t_minishell *shell, */char *str, int i, int var, char c);
+int					ft_simple_quotes_check(/*t_minishell *shell, */char *str, int var);
+int					ft_double_quotes_check(/*t_minishell *shell, */ char *str, int var);
 int					ft_struct_init(t_struct *glo, t_minishell *shell);
 char				**malloc_tab(char **tab);
 
@@ -325,5 +332,10 @@ int					ft_error_exec(char *path);
 int					ft_exec_core(t_struct *glo, t_minishell *shell, char *path);
 void				ft_exec_ret(int ret, t_minishell *shell);
 char				*empty_input(char *final_str);
+
+/*
+** utility7.c
+*/
+char		*ft_backs_whitespace(t_minishell *shell, char *str);
 
 #endif

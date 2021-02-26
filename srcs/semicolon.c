@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 14:17:08 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/25 15:50:07 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/26 18:20:38 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,16 @@ void	ft_loop_sub(t_minishell *shell, t_struct *glo, int i)
 	if (!(shell->tab = split_input(shell->input)))
 		exit(EXIT_FAILURE);
 	glo->x--;
-	shell->input = ft_whitespace(shell->input);
+	shell->input = ft_whitespace(shell->input, shell);
 	shell->i = 0;
+	free(shell->backs_input);
+	shell->backs_input = ft_strdup(shell->semi_backs_tab[i]);
+	shell->backs_input = ft_backs_whitespace(shell, shell->backs_input);
+	/*ft_putstr_fd("shell->input = ", 1);
+	ft_putstr_fd(shell->input, 1);
+	ft_putstr_fd("shell->backs_input = ", 1);
+	ft_putstr_fd(shell->backs_input, 1);
+	ft_putstr_fd("\n", 1);*/
 	ft_loop_main(shell, glo);
 }
 
@@ -58,6 +66,7 @@ int		ft_semicolon_sub(t_minishell *shell, t_struct *glo)
 	glo->check = 0;
 	glo->x = 0;
 	glo->semico ? free_tab(glo->semico) : 0;
+	shell->semi_backs_tab ? free_tab(shell->semi_backs_tab) : 0;
 	return (FALSE);
 }
 
@@ -68,10 +77,10 @@ int		ft_check_double_char(t_minishell *shell, t_struct *glo, char c)
 	while (shell->input[glo->i])
 	{
 		if ((shell->input[glo->i] == c) && \
-			(ft_double_quotes_check(shell, shell->input, glo->i) == FALSE))
+			(ft_double_quotes_check(/*shell, */shell->input, glo->i) == FALSE)\
+			&& ft_voided_char_input(glo->i, shell) == FALSE)
 		{
 			glo->semi[glo->x] = glo->i;
-			glo->x++;
 			glo->check = 1;
 			y = 1;
 			while (shell->input && (shell->input[glo->i + y] == ' ' ||
@@ -83,6 +92,7 @@ int		ft_check_double_char(t_minishell *shell, t_struct *glo, char c)
 				ft_check_double_char_sub(shell, glo);
 				return (FALSE);
 			}
+			glo->x++;
 		}
 		glo->i++;
 	}
