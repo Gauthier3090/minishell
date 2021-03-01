@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 14:41:11 by ldavids           #+#    #+#             */
-/*   Updated: 2021/03/01 16:07:03 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/01 16:39:45 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,12 @@ void		ft_backslash_tab(t_minishell *shell)
 	free_tab(shell->backs_tab);
 	if (!(shell->backs_tab = split_input(shell->input)))
 		exit(EXIT_FAILURE);
+	/*ft_putstr_fd(" backs_input=", 1);
+	ft_putstr_fd(shell->backs_input, 1);
+	ft_putstr_fd("\n", 1);
+	ft_putstr_fd(" shell_input=", 1);
+	ft_putstr_fd(shell->input, 1);
+	ft_putstr_fd("\n", 1);*/
 	while (shell->tab[i])
 	{
 		x = 0;
@@ -95,15 +101,15 @@ void		ft_backslash_tab(t_minishell *shell)
 		shell->backs_input[y])
 		{
 			shell->backs_tab[i][x] = shell->backs_input[y];
-			/*ft_putstr_fd(" tab=", 1);
-			ft_putstr_fd(shell->tab[i], 1);
-			ft_putstr_fd("\n", 1);*/
-			/*ft_putstr_fd(" backtab=", 1);
-			ft_putstr_fd(shell->backs_tab[i], 1);
-			ft_putstr_fd("\n", 1);*/
 			y++;
 			x++;
 		}
+		/*ft_putstr_fd(" tab=", 1);
+			ft_putstr_fd(shell->tab[i], 1);
+			ft_putstr_fd("\n", 1);
+		ft_putstr_fd(" backtab=", 1);
+			ft_putstr_fd(shell->backs_tab[i], 1);
+			ft_putstr_fd("\n", 1);*/
 		i++;
 	}
 }

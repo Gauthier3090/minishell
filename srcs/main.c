@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/01 16:22:10 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/01 16:38:48 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,9 +161,9 @@ void	loop_prompt(t_minishell *shell, t_struct *glo)
 			shell->input = check_backslash_quote(shell->input);
 			if (check_quotes_close(shell->input))
 			{
+				ft_tab_dup(shell);
 				if (!(shell->tab = split_input(shell->input)))
 					exit(EXIT_FAILURE);
-				ft_tab_dup(shell);
 				shell->i = 0;
 				shell->variable = NULL;
 				shell->value = NULL;

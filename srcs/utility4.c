@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility4.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 17:15:29 by ldavids           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2021/03/01 14:44:51 by gpladet          ###   ########.fr       */
-=======
-/*   Updated: 2021/03/01 14:43:51 by ldavids          ###   ########.fr       */
->>>>>>> cd
+/*   Updated: 2021/03/01 16:28:05 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +41,7 @@ void	quotes_close(char *str, int *i, char c, int *quote)
 	}
 }
 
-<<<<<<< HEAD
 int		check_quotes_close(char *str)
-=======
-int		check_quotes_close(char *str/*, t_minishell *shell*/)
->>>>>>> cd
 {
 	int	i;
 	int	quote;
@@ -58,15 +50,9 @@ int		check_quotes_close(char *str/*, t_minishell *shell*/)
 	i = -1;
 	while ((size_t)++i < ft_strlen(str))
 	{
-<<<<<<< HEAD
 		if (str[i] == '\'')
 			quotes_close(str, &i, '\'', &quote);
 		if (str[i] == '"')
-=======
-		if (str[i] == '\''/* && (ft_voided_char_input(i, shell) == FALSE)*/)
-			quotes_close(str, &i, '\'', &quote);
-		if (str[i] == '"'/* && (ft_voided_char_input(i, shell) == FALSE)*/)
->>>>>>> cd
 			quotes_close(str, &i, '"', &quote);
 	}
 	if (quote % 2 != 0)
