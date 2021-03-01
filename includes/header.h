@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/01 16:47:02 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/01 18:42:16 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ typedef struct		s_minishell
 	char			*backs_input;
 	char			**pipe_backs_tab;
 	char			**semi_backs_tab;
-	/*char			**redir_backs_tab;*/
 	int				white;
 	char			**redir_tab;
 	char			*input;
@@ -81,11 +80,11 @@ typedef struct		s_minishell
 /*
 ** backslash.c
 */
-void		ft_backslash_tab(t_minishell *shell);
-int			ft_voided_char(int i, int x, t_minishell *shell);
-void		ft_tab_dup(t_minishell *shell);
-int			ft_voided_char_input(int i, t_minishell *shell);
-char		*ft_backslash_input(char *str, t_minishell *shell);
+void				ft_backslash_tab(t_minishell *shell);
+int					ft_voided_char(int i, int x, t_minishell *shell);
+void				ft_tab_dup(t_minishell *shell);
+int					ft_voided_char_input(int i, t_minishell *shell);
+char				*ft_backslash_input(char *str, t_minishell *shell);
 
 /*
 ** cd.c
@@ -190,9 +189,16 @@ char				*str_not_env(char *input, int *i);
 char				*str_env(char *input, int *i, char **env, int ret);
 
 /*
+** parsing3.c
+*/
+char				*found_env_exeception(char *str, int ret);
+int					str_env_length(char *input, int *i);
+
+/*
 ** pipe.c
 */
 int					ft_pipe_main(t_minishell *shell, t_struct *glo);
+int					ft_multi_pipe(t_minishell *shell, t_struct *glo);
 
 /*
 ** pipe2.c
@@ -200,6 +206,7 @@ int					ft_pipe_main(t_minishell *shell, t_struct *glo);
 void				ft_next_pipe(t_minishell *shell, t_struct *glo);
 int					ft_error_pipe(int error_numb, t_minishell *shell);
 int					ft_pipe_loop(t_minishell *shell, t_struct *glo);
+int					ft_pipe_sub_more(t_minishell *shell, t_struct *glo, int x, int z);
 
 /*
 ** prompt.c
@@ -317,9 +324,9 @@ void				ft_close_fd(t_struct *glo, int *pipefd, t_minishell *shell);
 /*
 ** utility5.c
 */
-int					ft_quotes_check_sub(/*t_minishell *shell, */char *str, int i, int var, char c);
-int					ft_simple_quotes_check(/*t_minishell *shell, */char *str, int var);
-int					ft_double_quotes_check(/*t_minishell *shell, */ char *str, int var);
+int					ft_quotes_check_sub(char *str, int i, int var, char c);
+int					ft_simple_quotes_check(char *str, int var);
+int					ft_double_quotes_check(char *str, int var);
 int					ft_struct_init(t_struct *glo, t_minishell *shell);
 char				**malloc_tab(char **tab);
 
@@ -336,6 +343,6 @@ char				*empty_input(char *final_str);
 /*
 ** utility7.c
 */
-char		*ft_backs_whitespace(t_minishell *shell, char *str);
+char				*ft_backs_whitespace(t_minishell *shell, char *str);
 
 #endif

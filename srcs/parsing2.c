@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:37:10 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/25 15:45:57 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/01 18:44:34 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,10 @@ char	*found_env(char *str, char **env, int ret)
 	char	*tmp;
 	int		i;
 
+	tmp = found_env_exeception(str, ret);
+	if (tmp)
+		return (tmp);
 	i = -1;
-	if (str[0] == '?')
-	{
-		free(str);
-		return (ft_itoa(ret));
-	}
-	if (str[0] == '$')
-	{
-		free(str);
-		if (!(str = ft_strdup("$")))
-			exit(EXIT_FAILURE);
-		return (str);
-	}
 	while (env[++i])
 	{
 		tmp = delete_char_left(env[i], '=');
@@ -122,17 +113,7 @@ char	*str_env(char *input, int *i, char **env, int ret)
 	int		j;
 	char	*str;
 
-	j = *i;
-	len = 0;
-	if (input[j] == '$' && !input[j + 1])
-		len = 1;
-	while (input[++j])
-	{
-		if (!ft_isalnum(input[j]) && input[j] != '?')
-			break ;
-		else
-			len++;
-	}
+	len = str_env_length(input, i);
 	if (!(str = ft_calloc(len + 1, sizeof(char))))
 		exit(EXIT_FAILURE);
 	j = -1;

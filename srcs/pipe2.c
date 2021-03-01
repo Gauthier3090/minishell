@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 22:27:48 by ldavids           #+#    #+#             */
-/*   Updated: 2021/03/01 16:19:03 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/01 18:07:01 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,7 @@ void	ft_next_pipe(t_minishell *shell, t_struct *glo)
 	free(shell->input);
 	if (!(shell->input = ft_strdup(glo->pipe_tab[glo->pipe_ite])))
 		exit(EXIT_FAILURE);
-	/*ft_putstr_fd("[glo->pipe_ite] =", 1);
-	ft_putnbr_fd(glo->pipe_ite, 1);*/
-	/*ft_putstr_fd("glo->backs_input[glo->pipe_ite] =", 1);
-	ft_putstr_fd(shell->backs_input, 1);*/
-	/*ft_putstr_fd("glo->pipe_tab[glo->pipe_ite] =", 1);
-	ft_putstr_fd(shell->pipe_backs_tab[glo->pipe_ite], 1);
-	ft_putstr_fd("glo->pipe =", 1);
-	ft_putstr_fd(glo->pipe_tab[glo->pipe_ite], 1);*/
 	free_tab(shell->tab);
-	/*free_tab(shell->backs_tab);*/
 	while (shell->input && shell->input[x])
 		x++;
 	if (!(temp = ft_substr(shell->input, 0, x)))
@@ -70,5 +61,23 @@ int		ft_pipe_loop(t_minishell *shell, t_struct *glo)
 		}
 		i++;
 	}
+	return (TRUE);
+}
+
+int		ft_pipe_sub_more(t_minishell *shell, t_struct *glo, int x, int z)
+{
+	if (!(glo->pipe_tab[x] = ft_substr(shell->input, z, \
+		ft_strlen(shell->input) - z)))
+		exit(EXIT_FAILURE);
+	if (!(shell->pipe_backs_tab[x] = ft_substr(shell->backs_input, z, \
+		ft_strlen(shell->backs_input))))
+		exit(EXIT_FAILURE);
+	shell->pipe_backs_tab[x + 1] = NULL;
+	glo->pipe_tab[x + 1] = NULL;
+	x = 0;
+	if (ft_pipe_loop(shell, glo) == FALSE)
+		return (FALSE);
+	if (ft_multi_pipe(shell, glo) == FALSE)
+		return (FALSE);
 	return (TRUE);
 }

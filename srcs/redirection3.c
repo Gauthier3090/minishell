@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 15:47:21 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/01 16:38:48 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/01 17:40:53 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int		ft_count_redirection_right(char *str, int *i, t_minishell *shell)
 	int	count;
 
 	count = 0;
-	while (str[*i] == '>' && str[*i] && ft_voided_char_input(*i, shell) == FALSE)
+	while (str[*i] == '>' && str[*i]
+	&& ft_voided_char_input(*i, shell) == FALSE)
 	{
 		count++;
 		(*i)++;
@@ -47,7 +48,8 @@ int		ft_count_redirection_left(char *str, int *i, t_minishell *shell)
 	int	count;
 
 	count = 0;
-	while (str[*i] == '<' && str[*i] && ft_voided_char_input(*i, shell) == FALSE)
+	while (str[*i] == '<' && str[*i]
+	&& ft_voided_char_input(*i, shell) == FALSE)
 	{
 		count++;
 		(*i)++;
@@ -65,7 +67,7 @@ int		ft_count_redirection_left(char *str, int *i, t_minishell *shell)
 
 int		ft_main_count_redirection(char *str, int *i, t_minishell *shell)
 {
-	if (str[0] == '>' )
+	if (str[0] == '>')
 		return (error_redirection(ERROR_REDIRECTION, NULL, 1, shell));
 	if (str[0] == '<')
 		return (error_redirection(ERROR_REDIRECTION_LEFT, NULL, 1, shell));

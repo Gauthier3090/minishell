@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 14:40:50 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/01 14:36:57 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/01 17:50:22 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*parse_double_quote(char *input, int *i, char **env, int ret)
 
 	(*i)++;
 	str = NULL;
-	while (input[*i] && input[*i] != '"' /*&& (ft_voided_char(*i, shell) == FALSE)*/)
+	while (input[*i] && input[*i] != '"')
 	{
 		if (input[*i] != '$')
 			tmp = str_not_env_double_quotes(input, i);
@@ -70,9 +70,9 @@ char	*parse_input_str(char *input, int *i, t_minishell *shell)
 {
 	char	*str;
 
-	if (input[*i] == '"' && (ft_voided_char(*i, shell->i, shell) == FALSE))
+	if (input[*i] == '"' && ft_voided_char(*i, shell->i, shell) == FALSE)
 		str = parse_double_quote(input, i, shell->env, shell->ret);
-	else if (input[*i] == '\'' && (ft_voided_char(*i, shell->i, shell) == FALSE))
+	else if (input[*i] == '\'' && ft_voided_char(*i, shell->i, shell) == FALSE)
 		str = parse_simple_quote(input, i);
 	else
 		str = parse_null_quote(input, i, shell);

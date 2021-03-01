@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   semicolon.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 14:17:08 by ldavids           #+#    #+#             */
-/*   Updated: 2021/03/01 16:14:05 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/01 17:42:18 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	ft_loop_sub(t_minishell *shell, t_struct *glo, int i)
 	if (!(shell->input = ft_strdup(glo->semico[i])))
 		exit(EXIT_FAILURE);
 	free_tab(shell->tab);
-	/*free_tab(shell->backs_tab);*/
 	while (shell->input[x])
 		x++;
 	if (!(shell->tab = split_input(shell->input)))
@@ -33,11 +32,6 @@ void	ft_loop_sub(t_minishell *shell, t_struct *glo, int i)
 	free(shell->backs_input);
 	shell->backs_input = ft_strdup(shell->semi_backs_tab[i]);
 	shell->backs_input = ft_backs_whitespace(shell, shell->backs_input);
-	/*ft_putstr_fd("shell->input = ", 1);
-	ft_putstr_fd(shell->input, 1);
-	ft_putstr_fd("shell->backs_input = ", 1);
-	ft_putstr_fd(shell->backs_input, 1);
-	ft_putstr_fd("\n", 1);*/
 	ft_loop_main(shell, glo);
 }
 
@@ -52,8 +46,7 @@ int		ft_semicolon_sub(t_minishell *shell, t_struct *glo)
 	while (shell->input[ft_strlen(shell->input) - i] == ' ' ||\
 			shell->input[ft_strlen(shell->input) - i] == ';')
 	{
-		if (shell->input[ft_strlen(shell->input) - i] == ';')
-			x = 1;
+		shell->input[ft_strlen(shell->input) - i] == ';' ? x = 1 : 0;
 		i++;
 	}
 	i = 0;
@@ -78,7 +71,7 @@ int		ft_check_double_char(t_minishell *shell, t_struct *glo, char c)
 	while (shell->input[glo->i])
 	{
 		if ((shell->input[glo->i] == c) && \
-			(ft_double_quotes_check(/*shell, */shell->input, glo->i) == FALSE)\
+			(ft_double_quotes_check(shell->input, glo->i) == FALSE)\
 			&& ft_voided_char_input(glo->i, shell) == FALSE)
 		{
 			glo->semi[glo->x] = glo->i;

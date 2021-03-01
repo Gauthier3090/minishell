@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utility5.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 16:58:48 by ldavids           #+#    #+#             */
-/*   Updated: 2021/03/01 16:10:09 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/01 17:51:58 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
 
-int		ft_quotes_check_sub(/*t_minishell *shell, */char *str, int i, int var, char c)
+int		ft_quotes_check_sub(char *str, int i, int var, char c)
 {
 	int		k;
 	int		j;
@@ -21,7 +21,7 @@ int		ft_quotes_check_sub(/*t_minishell *shell, */char *str, int i, int var, char
 	k = 0;
 	while (str[i] && i < ((int)ft_strlen(str)))
 	{
-		if (str[i] == c/* && ft_voided_char(i, shell) == FALSE*/)
+		if (str[i] == c)
 		{
 			k = i;
 			if (var < k && var > j)
@@ -38,14 +38,14 @@ int		ft_quotes_check_sub(/*t_minishell *shell, */char *str, int i, int var, char
 	return (i);
 }
 
-int		ft_simple_quotes_check(/*t_minishell *shell, */char *str, int var)
+int		ft_simple_quotes_check(char *str, int var)
 {
 	int		i;
 
 	i = 0;
 	while (str && str[i])
 	{
-		if (str[i] == '\''/* && ft_voided_char(i, shell) == FALSE*/)
+		if (str[i] == '\'')
 		{
 			i++;
 			i = ft_quotes_check_sub(str, i, var, '\'');
@@ -57,24 +57,23 @@ int		ft_simple_quotes_check(/*t_minishell *shell, */char *str, int var)
 	return (FALSE);
 }
 
-int		ft_double_quotes_check(/*t_minishell *shell, */ char *str, int var)
+int		ft_double_quotes_check(char *str, int var)
 {
 	int		i;
 
 	i = 0;
 	while (str[i] && i < ((int)ft_strlen(str) - 1))
 	{
-		if (str[i] == '"' && i < ((int)ft_strlen(str) - 1))/* &&\
-		ft_voided_char(i, shell) == FALSE)*/
+		if (str[i] == '"' && i < ((int)ft_strlen(str) - 1))
 		{
 			i++;
-			i = ft_quotes_check_sub(/*shell, */str, i, var, '"');
+			i = ft_quotes_check_sub(str, i, var, '"');
 			if (i == -1)
 				return (TRUE);
 		}
 		i++;
 	}
-	if (ft_simple_quotes_check(/*shell, */str, var) == TRUE)
+	if (ft_simple_quotes_check(str, var) == TRUE)
 		return (TRUE);
 	return (FALSE);
 }

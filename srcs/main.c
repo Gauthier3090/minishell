@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/01 16:38:48 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/01 18:51:23 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,6 @@ void	loop_prompt(t_minishell *shell, t_struct *glo)
 				free(tmp);
 				ft_loop_main(shell, glo);
 				free_tab(shell->tab);
-				/*free_tab(shell->backs_tab);*/
 			}
 			else
 				shell->ret = ft_putstr_error(ERROR_QUOTES_NOT_CLOSED, NULL, 1);
