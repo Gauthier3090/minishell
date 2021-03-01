@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 15:02:31 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/26 18:22:52 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/01 15:51:10 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,11 @@ char	*ft_redirection_pipe(char **redir_tab, t_minishell *shell)
 	{
 		if (redir_tab[i][0] == '<')
 		{
-			if (!(redir_tab = ft_redirection_pipe_more(redir_tab, &i, shell)))
-				return (NULL);
+			if (ft_voided_char_input(shell->index, shell) == TRUE)
+			{
+				if (!(redir_tab = ft_redirection_pipe_more(redir_tab, &i, shell)))
+					return (NULL);
+			}
 		}
 		else
 		{
@@ -116,7 +119,8 @@ int		ft_redirection(t_minishell *shell, t_struct *glo)
 		ft_free_args(shell);
 		return (FALSE);
 	}
-	shell->input = ft_create_redirection(shell->input);
+	if (ft_voided_char_input(shell->index, shell) == TRUE)
+		shell->input = ft_create_redirection(shell->input);
 	if (ft_check_redirection(shell, '>', '<') == FALSE)
 		return (FALSE);
 	if (shell->index_tab == 0)
@@ -130,6 +134,7 @@ int		ft_redirection(t_minishell *shell, t_struct *glo)
 	}
 	shell->index_tab = 0;
 	free_tab(shell->redir_tab);
+	ft_putendl_fd(shell->input, 1);
 	ft_pipe_main(shell, glo);
 	ft_free_args(shell);
 	return (FALSE);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/26 17:54:14 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/01 14:42:29 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,7 +310,7 @@ char				*delete_char_right(char *str, char c);
 ** utility4.c
 */
 char				*path_join(const char *s1, const char *s2);
-int					check_quotes_close(char *str, t_minishell *shell);
+int					check_quotes_close(char *str);
 char				*realloc_str(char *dest, char *src);
 void				ft_close_fd(t_struct *glo, int *pipefd, t_minishell *shell);
 
