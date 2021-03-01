@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 15:05:18 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/01 15:17:47 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/01 16:46:36 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		ft_strlen_redirection(char *str)
 	return (len);
 }
 
-char	*ft_create_redirection(char *str)
+char	*ft_create_redirection(char *str, t_minishell *shell)
 {
 	int		i;
 	int		j;
@@ -41,7 +41,7 @@ char	*ft_create_redirection(char *str)
 	j = -1;
 	while (str[++i])
 	{
-		if (str[i] == '<')
+		if (str[i] == '<' && ft_voided_char_input(i, shell) == FALSE)
 		{
 			new_str[++j] = str[i];
 			new_str[++j] = '<';

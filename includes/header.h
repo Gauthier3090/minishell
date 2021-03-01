@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/01 16:21:48 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/01 16:47:02 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,7 @@ char				*ft_redirection_command(char **tab, char **redir_tab);
 /*
 ** redirection2.c
 */
-char				*ft_create_redirection(char *str);
+char				*ft_create_redirection(char *str, t_minishell *shell);
 int					ft_check_redirection(t_minishell *shell, int c, int c2);
 
 /*
