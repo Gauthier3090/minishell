@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 13:42:27 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/23 18:48:37 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/25 17:08:15 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	size_words_null_quotes(char *str, int *i, int *size)
 		if (str[*i] == '"')
 		{
 			(*i)++;
-			while (str[*i] != '"')
+			while (str[*i] != '"' && str[*i])
 			{
 				(*size)++;
 				(*i)++;
@@ -106,7 +106,7 @@ void	size_words_null_quotes(char *str, int *i, int *size)
 		else if (str[*i] == '\'')
 		{
 			(*i)++;
-			while (str[*i] != '\'')
+			while (str[*i] != '\'' && str[*i])
 			{
 				(*size)++;
 				(*i)++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 14:40:50 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/25 17:47:32 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/01 14:34:28 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,7 @@ char	*parse_null_quote(char *input, int *i, t_minishell *shell)
 	/*&& (ft_voided_char(*i, shell) == FALSE)*/)
 	{
 		if (input[*i] == '$' && (ft_voided_char(*i, shell->i, shell) == FALSE))
-		{
-			ft_putstr_fd("\n input[i] = ", 1);
-			ft_putchar_fd(input[*i], 1);
 			tmp = str_env(input, i, shell->env, shell->ret);
-		}
 		else
 			tmp = str_not_env(input, i);
 		tmp ? str = realloc_str(str, tmp) : 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility5.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 16:58:48 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/26 16:32:19 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/01 14:32:57 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int		ft_simple_quotes_check(/*t_minishell *shell, */char *str, int var)
 		if (str[i] == '\''/* && ft_voided_char(i, shell) == FALSE*/)
 		{
 			i++;
-			i = ft_quotes_check_sub(/*shell, */str, i, var, '\'');
+			i = ft_quotes_check_sub(str, i, var, '\'');
 			if (i == -1)
 				return (TRUE);
 		}
