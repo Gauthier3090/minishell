@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 14:41:11 by ldavids           #+#    #+#             */
-/*   Updated: 2021/03/01 16:39:45 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/01 16:51:06 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,19 @@ void		ft_backslash_tab(t_minishell *shell)
 
 void		ft_tab_dup(t_minishell *shell)
 {
+	int		x;
+
+	x = 0;
 	shell->backs_input = ft_strdup(shell->input);
 	shell->input = ft_backslash_input(shell->input, shell);
+	while (shell->input[x])
+		x++;
+	/*ft_putstr_fd("last char = ", 1);
+	ft_putchar_fd(shell->input[x - 1], 1);
+	ft_putstr_fd("\n ", 1);*/
+	if (shell->input[x - 1] == '\\' &&\
+	ft_voided_char_input(x - 1, shell) == FALSE)
+		ft_putstr_fd("not ok", 1);
 		/*ft_putstr_fd("shell->backs_tab[i]", 1);
 		ft_putnbr_fd(i, 1);
 		ft_putstr_fd(" === ", 1);*/

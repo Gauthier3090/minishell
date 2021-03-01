@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 22:27:48 by ldavids           #+#    #+#             */
-/*   Updated: 2021/03/01 18:07:01 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/01 18:54:15 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ int		ft_pipe_loop(t_minishell *shell, t_struct *glo)
 	while (shell->input[ft_strlen(shell->input) - i] == ' ' \
 		|| shell->input[ft_strlen(shell->input) - i] == '|')
 	{
-		if (shell->input[ft_strlen(shell->input) - i] == '|')
+		if (shell->input[ft_strlen(shell->input) - i] == '|' &&\
+		ft_voided_char_input(ft_strlen(shell->input) - i, shell) == FALSE)
 		{
 			shell->ret = ft_putstr_error(\
 			"No multiline supported\n", NULL, 1);
