@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 15:02:31 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/01 15:51:10 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/01 16:38:00 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*ft_redirection_pipe(char **redir_tab, t_minishell *shell)
 	{
 		if (redir_tab[i][0] == '<')
 		{
-			if (ft_voided_char_input(shell->index, shell) == TRUE)
+			if (ft_voided_char_input(i, shell) == FALSE)
 			{
 				if (!(redir_tab = ft_redirection_pipe_more(redir_tab, &i, shell)))
 					return (NULL);
@@ -119,7 +119,7 @@ int		ft_redirection(t_minishell *shell, t_struct *glo)
 		ft_free_args(shell);
 		return (FALSE);
 	}
-	if (ft_voided_char_input(shell->index, shell) == TRUE)
+	if (ft_voided_char_input(shell->index, shell) == FALSE)
 		shell->input = ft_create_redirection(shell->input);
 	if (ft_check_redirection(shell, '>', '<') == FALSE)
 		return (FALSE);
