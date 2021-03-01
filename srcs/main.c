@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/25 15:40:46 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/02/25 17:44:04 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,19 +99,65 @@ int		ft_builtins(t_minishell *shell, t_struct *glo)
 	return (TRUE);
 }
 
+char	*check_backslash_quote(char *input)
+{
+	int		i;
+	int		j;
+	int		size;
+	char	*tmp;
+
+	i = -1;
+	size = 0;
+	while (input[++i])
+	{
+		if (input[i] == '\\' && (input[i + 1] == '"' || input[i + 1] == '\''))
+		{
+			size += 3;
+			i++;
+		}
+		else
+			size++;
+	}
+	if (!(tmp = ft_calloc(size + 1, sizeof(char))))
+		exit(EXIT_FAILURE);
+	i = -1;
+	j = -1;
+	while (input[++i])
+	{
+		if (input[i] == '\\' && input[i + 1] == '\'')
+		{
+			tmp[++j] = '"';
+			tmp[++j] = '\'';
+			tmp[++j] = '"';
+			i++;
+		}
+		else if (input[i] == '\\' && input[i + 1] == '"')
+		{
+			tmp[++j] = '\'';
+			tmp[++j] = '"';
+			tmp[++j] = '\'';
+			i++;
+		}
+		else
+			tmp[++j] = input[i];
+	}
+	free(input);
+	return (tmp);
+}
+
 void	loop_prompt(t_minishell *shell, t_struct *glo)
 {
+	char	*tmp;
+
 	while (1)
 	{
 		ft_signal_hand();
 		directoryprompt();
 		shell->input = getinput();
 		shell->input = ft_whitespace(shell->input);
-		ft_putstr_fd("result = ", 1);
-		ft_putstr_fd(shell->input, 1);
-		ft_putstr_fd("\nend\n", 1);
 		if (shell->input[0] != '\0')
 		{
+			shell->input = check_backslash_quote(shell->input);
 			if (check_quotes_close(shell->input))
 			{
 				if (!(shell->tab = split_input(shell->input)))
@@ -121,8 +167,14 @@ void	loop_prompt(t_minishell *shell, t_struct *glo)
 				shell->variable = NULL;
 				shell->value = NULL;
 				shell->arg = NULL;
+				tmp = parse_input(shell->tab[0], shell);
+				free(shell->tab[0]);
+				if (!(shell->tab[0] = ft_strdup(tmp)))
+					exit(EXIT_FAILURE);
+				free(tmp);
 				ft_loop_main(shell, glo);
 				free_tab(shell->tab);
+				free_tab(shell->backs_tab);
 			}
 			else
 				shell->ret = ft_putstr_error(ERROR_QUOTES_NOT_CLOSED, NULL, 1);

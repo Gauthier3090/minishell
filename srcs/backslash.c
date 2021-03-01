@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   backslash.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 14:41:11 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/24 22:48:34 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/02/25 17:44:45 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,9 @@ void		ft_tab_dup(t_minishell *shell)
 		/*ft_putstr_fd("shell->backs_tab[i]", 1);
 		ft_putnbr_fd(i, 1);
 		ft_putstr_fd(" === ", 1);*/
-		ft_putstr_fd(" backtab=", 1);
+		/*ft_putstr_fd(" backtab=", 1);
 		ft_putstr_fd(shell->backs_tab[i], 1);
-		ft_putstr_fd("\n", 1);
+		ft_putstr_fd("\n", 1);*/
 		/*ft_putstr_fd(" tab=", 1);
 		ft_putstr_fd(shell->tab[i], 1);
 		ft_putstr_fd("\n", 1);*/
