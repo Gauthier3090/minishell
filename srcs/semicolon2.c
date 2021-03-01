@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 16:35:00 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/26 17:19:57 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/01 16:16:07 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,6 @@ void		ft_semico_malloc(t_minishell *shell, t_struct *glo)
 	if (!(shell->semi_backs_tab[x] = ft_substr(shell->backs_input, z, \
 		ft_strlen(shell->backs_input) - z)))
 		exit(EXIT_FAILURE);
+	shell->semi_backs_tab[x + 1] = NULL;
 	glo->semico[x + 1] = NULL;
 }
