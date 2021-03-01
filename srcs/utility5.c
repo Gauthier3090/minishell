@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility5.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 16:58:48 by ldavids           #+#    #+#             */
-/*   Updated: 2021/03/01 14:32:57 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/01 16:10:09 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,13 @@ int		ft_struct_init(t_struct *glo, t_minishell *shell)
 	}
 	if (!(glo->oldpwd = ft_strdup(buf)))
 		exit(EXIT_FAILURE);
-	/*shell->semi_backs_tab = malloc((1000) * sizeof(char*));
-	shell->pipe_backs_tab = malloc((1000) * sizeof(char*));*/
 	glo->cd_count = 0;
 	glo->x = 0;
 	glo->z = 0;
 	glo->check = 0;
 	glo->pipin = 0;
 	glo->p = 0;
+	shell->backs_tab = (char **)ft_calloc(3, sizeof(char *));
 	if (!(glo->save_old_pwd = ft_strdup("")))
 		exit(EXIT_FAILURE);
 	return (TRUE);

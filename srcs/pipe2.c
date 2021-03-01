@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 22:27:48 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/26 18:19:53 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/01 16:19:03 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,8 @@ void	ft_next_pipe(t_minishell *shell, t_struct *glo)
 	ft_putstr_fd(shell->pipe_backs_tab[glo->pipe_ite], 1);
 	ft_putstr_fd("glo->pipe =", 1);
 	ft_putstr_fd(glo->pipe_tab[glo->pipe_ite], 1);*/
-	ft_putstr_fd("shell->input = ", 1);
-	ft_putstr_fd(shell->input, 1);
-	ft_putstr_fd("shell->backs_input = ", 1);
-	ft_putstr_fd(shell->backs_input, 1);
-	ft_putstr_fd("\n", 1);
 	free_tab(shell->tab);
+	/*free_tab(shell->backs_tab);*/
 	while (shell->input && shell->input[x])
 		x++;
 	if (!(temp = ft_substr(shell->input, 0, x)))
@@ -48,6 +44,7 @@ void	ft_next_pipe(t_minishell *shell, t_struct *glo)
 	if (!(shell->tab = split_input(temp)))
 		exit(EXIT_FAILURE);
 	free(temp);
+	free(shell->backs_input);
 	shell->input = ft_whitespace(shell->input, shell);
 	shell->backs_input = ft_strdup(shell->pipe_backs_tab[glo->pipe_ite]);
 	shell->backs_input = ft_backs_whitespace(shell, shell->backs_input);

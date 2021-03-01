@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/01 14:33:26 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/01 16:12:39 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	ft_loop_main_more(t_minishell *shell, t_struct *glo)
 
 void	ft_loop_main(t_minishell *shell, t_struct *glo)
 {
+	ft_backslash_tab(shell);
 	shell->variable ? free(shell->variable) : 0;
 	shell->value ? free(shell->value) : 0;
 	shell->arg ? free(shell->arg) : 0;
@@ -158,7 +159,7 @@ void	loop_prompt(t_minishell *shell, t_struct *glo)
 		if (shell->input[0] != '\0')
 		{
 			shell->input = check_backslash_quote(shell->input);
-			if (check_quotes_close(shell->input, shell))
+			if (check_quotes_close(shell->input))
 			{
 				if (!(shell->tab = split_input(shell->input)))
 					exit(EXIT_FAILURE);
@@ -174,12 +175,13 @@ void	loop_prompt(t_minishell *shell, t_struct *glo)
 				free(tmp);
 				ft_loop_main(shell, glo);
 				free_tab(shell->tab);
-				free_tab(shell->backs_tab);
+				/*free_tab(shell->backs_tab);*/
 			}
 			else
 				shell->ret = ft_putstr_error(ERROR_QUOTES_NOT_CLOSED, NULL, 1);
 		}
 		free(shell->input);
+		free(shell->backs_input);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 14:17:08 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/26 18:20:38 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/01 16:14:05 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	ft_loop_sub(t_minishell *shell, t_struct *glo, int i)
 	if (!(shell->input = ft_strdup(glo->semico[i])))
 		exit(EXIT_FAILURE);
 	free_tab(shell->tab);
+	/*free_tab(shell->backs_tab);*/
 	while (shell->input[x])
 		x++;
 	if (!(shell->tab = split_input(shell->input)))

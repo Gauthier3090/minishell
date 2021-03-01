@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/26 17:54:14 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/01 15:28:43 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ typedef struct		s_minishell
 /*
 ** backslash.c
 */
+void		ft_backslash_tab(t_minishell *shell);
 int			ft_voided_char(int i, int x, t_minishell *shell);
-char		*ft_backslash(char *str, t_minishell *shell, int x);
 void		ft_tab_dup(t_minishell *shell);
 int			ft_voided_char_input(int i, t_minishell *shell);
 char		*ft_backslash_input(char *str, t_minishell *shell);
@@ -310,7 +310,7 @@ char				*delete_char_right(char *str, char c);
 ** utility4.c
 */
 char				*path_join(const char *s1, const char *s2);
-int					check_quotes_close(char *str, t_minishell *shell);
+int					check_quotes_close(char *str/*, t_minishell *shell*/);
 char				*realloc_str(char *dest, char *src);
 void				ft_close_fd(t_struct *glo, int *pipefd, t_minishell *shell);
 
