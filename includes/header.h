@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/02 14:45:54 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/02 14:53:52 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,14 @@ typedef struct		s_minishell
 void		ft_backslash_tab(t_minishell *shell);
 void		ft_tab_dup(t_minishell *shell, t_struct *glo);
 char		*ft_backslash_input(char *str, t_minishell *shell);
+
+/*
+** backslash2.c
+*/
+char		*ft_backs_whitespace(t_minishell *shell, char *str);
+char		*ft_backzero(char *str);
+int			ft_voided_char_input(int i, t_minishell *shell);
+int			ft_voided_char(int i, int x, t_minishell *shell);
 
 /*
 ** cd.c
@@ -341,9 +349,8 @@ char				*empty_input(char *final_str);
 /*
 ** utility7.c
 */
-char		*ft_backs_whitespace(t_minishell *shell, char *str);
-char		*ft_backzero(char *str);
-int			ft_voided_char_input(int i, t_minishell *shell);
-int			ft_voided_char(int i, int x, t_minishell *shell);
+void				init_shell_arg(t_minishell *shell);
+int					ft_builtins(t_minishell *shell, t_struct *glo);
+char				*check_backslash_quote(char *input);
 
 #endif
