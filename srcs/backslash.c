@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 14:41:11 by ldavids           #+#    #+#             */
-/*   Updated: 2021/03/02 14:42:55 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/02 15:16:59 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void		ft_tab_dup(t_minishell *shell, t_struct *glo)
 
 	y = 0;
 	x = 1;
-	while (shell->input[ft_strlen(shell->input) - x] && \
+	while (x <= (int)ft_strlen(shell->input) &&\
+	shell->input[ft_strlen(shell->input) - x] &&\
 	shell->input[ft_strlen(shell->input) - x] == '\\')
 	{
 		y++;
