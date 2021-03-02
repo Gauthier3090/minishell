@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 16:45:59 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/22 17:52:23 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/02 15:11:10 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int			ft_error_exec(char *path)
 	if (ft_strchr(path, '/') == NULL)
 		ft_putendl_fd(": command not found", 2);
 	else if (fd == -1 && dir == NULL)
-		ft_putendl_fd(": No such file or directory", 2);
+		ret = ft_putstr_error(": No such file or directory", NULL, 2);
 	else if (fd == -1 && dir != NULL)
 		ft_putendl_fd(": is a directory", 2);
 	else if (fd != -1 && dir == NULL)
@@ -73,6 +73,8 @@ void		ft_exec_ret(int ret, t_minishell *shell)
 {
 	if (ret != 0)
 		shell->ret = 1;
+	if (ret == 512)
+		shell->ret = 2;
 	if (ret == 32512)
 		shell->ret = 127;
 	if (ret == 130)
