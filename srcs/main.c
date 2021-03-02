@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/02 14:50:03 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/02 16:20:02 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	loop_prompt_input(t_minishell *shell, t_struct *glo)
 	ft_loop_main(shell, glo);
 	free_tab(shell->tab);
 	shell->backs_input ? free(shell->backs_input) : 0;
+	ft_free_args(shell);
 }
 
 void	loop_prompt(t_minishell *shell, t_struct *glo)
