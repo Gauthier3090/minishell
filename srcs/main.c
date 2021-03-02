@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/02 16:27:00 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/02 18:01:51 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ void	ft_loop_main_more(t_minishell *shell, t_struct *glo)
 
 	while (shell->tab[++(shell->i)])
 	{
+
 		input = delete_char_left(shell->tab[shell->i], '=');
+		ft_putstr_fd("input in loop = ", 1);
+		ft_putstr_fd(input, 1);
 		shell->variable = parse_input(input, shell);
 		free(input);
 		input = delete_char_right(shell->tab[shell->i], '=');
@@ -72,6 +75,13 @@ void	loop_prompt_input(t_minishell *shell, t_struct *glo)
 	char	*tmp;
 
 	ft_tab_dup(shell, glo);
+	/*ft_putstr_fd(shell->backs_input, 1);
+	ft_putstr_fd("\n", 1);*/
+	shell->input = check_backslash_quote(shell->input, shell);
+	if (!check_quotes_close(shell->input))
+		shell->ret = ft_putstr_error(ERROR_QUOTES_NOT_CLOSED, NULL, 1);
+	ft_putstr_fd(shell->input, 1);
+	ft_putstr_fd("\n", 1);
 	if (!(shell->tab = split_input(shell->input)))
 		exit(EXIT_FAILURE);
 	shell->i = 0;
@@ -99,12 +109,13 @@ void	loop_prompt(t_minishell *shell, t_struct *glo)
 		shell->input = ft_whitespace(shell->input, shell);
 		if (shell->input[0] != '\0')
 		{
-			shell->input = check_backslash_quote(shell->input);
-			if (check_quotes_close(shell->input))
+			/*shell->input = check_backslash_quote(shell->input, shell);
+			if (check_quotes_close(shell->input))*/
 				loop_prompt_input(shell, glo);
-			else
-				shell->ret = ft_putstr_error(ERROR_QUOTES_NOT_CLOSED, NULL, 1);
+			/*else
+				shell->ret = ft_putstr_error(ERROR_QUOTES_NOT_CLOSED, NULL, 1);*/
 		}
+		/*ft_putstr_fd("prompt", 1);*/
 		free(shell->input);
 	}
 }

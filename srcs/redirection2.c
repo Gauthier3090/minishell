@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 15:05:18 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/01 18:15:47 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/02 17:33:52 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,11 @@ int		ft_check_redirection(t_minishell *shell, int c, int c2)
 		(ft_voided_char_input(shell->index, shell) == FALSE) &&
 		shell->input[shell->index + 1] == c2 \
 		&& (ft_voided_char_input(shell->index + 1, shell) == FALSE))
-		&& (ft_double_quotes_check(shell->input, shell->index) == FALSE))))
+		&& (ft_double_quotes_check(shell->input, shell->index, shell) == FALSE))))
 			ft_check_redirection_more(shell, &y);
 		else if (shell->input[shell->index] == c && \
 		(ft_voided_char_input(shell->index, shell) == FALSE)
-		&& ft_double_quotes_check(shell->input, shell->index) == FALSE)
+		&& ft_double_quotes_check(shell->input, shell->index, shell) == FALSE)
 			ft_check_redirection_simple(shell, &y);
 	}
 	return (TRUE);

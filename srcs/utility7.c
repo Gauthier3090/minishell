@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility7.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 17:38:46 by ldavids           #+#    #+#             */
-/*   Updated: 2021/03/02 14:51:35 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/02 17:44:57 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int			ft_builtins(t_minishell *shell, t_struct *glo)
 	return (TRUE);
 }
 
-char		*create_backslash_quote(char *input, char *tmp)
+char		*create_backslash_quote(char *input, char *tmp, t_minishell *shell)
 {
 	int	i;
 	int	j;
@@ -59,14 +59,14 @@ char		*create_backslash_quote(char *input, char *tmp)
 	j = -1;
 	while (input[++i])
 	{
-		if (input[i] == '\\' && input[i + 1] == '\'')
+		if (shell->backs_input[i] != '0' && input[i] == '\'')
 		{
 			tmp[++j] = '"';
 			tmp[++j] = '\'';
 			tmp[++j] = '"';
 			i++;
 		}
-		else if (input[i] == '\\' && input[i + 1] == '"')
+		else if (shell->backs_input[i] != '0' && input[i] == '"')
 		{
 			tmp[++j] = '\'';
 			tmp[++j] = '"';
@@ -79,7 +79,7 @@ char		*create_backslash_quote(char *input, char *tmp)
 	return (tmp);
 }
 
-char		*check_backslash_quote(char *input)
+char		*check_backslash_quote(char *input, t_minishell *shell)
 {
 	int		i;
 	int		size;
@@ -89,7 +89,7 @@ char		*check_backslash_quote(char *input)
 	size = 0;
 	while (input[++i])
 	{
-		if (input[i] == '\\' && (input[i + 1] == '"' || input[i + 1] == '\''))
+		if (shell->backs_input[i] != '0' && (input[i] == '"' || input[i] == '\''))
 		{
 			size += 3;
 			i++;
@@ -99,7 +99,9 @@ char		*check_backslash_quote(char *input)
 	}
 	if (!(tmp = ft_calloc(size + 1, sizeof(char))))
 		exit(EXIT_FAILURE);
-	tmp = create_backslash_quote(input, tmp);
+	tmp = create_backslash_quote(input, tmp, shell);
 	free(input);
+	/*ft_putstr_fd("tmp = ", 1);
+	ft_putstr_fd(tmp, 1);*/
 	return (tmp);
 }

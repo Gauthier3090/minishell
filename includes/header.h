@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/02 15:01:24 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/02 17:50:10 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -331,9 +331,9 @@ void				ft_close_fd(t_struct *glo, int *pipefd, t_minishell *shell);
 /*
 ** utility5.c
 */
-int					ft_quotes_check_sub(char *str, int i, int var, char c);
-int					ft_simple_quotes_check(char *str, int var);
-int					ft_double_quotes_check(char *str, int var);
+int					ft_quotes_check_sub(char *str, int i, int var, char c, t_minishell *shell);
+int					ft_simple_quotes_check(char *str, int var, t_minishell *shell);
+int					ft_double_quotes_check(char *str, int var, t_minishell *shell);
 int					ft_struct_init(t_struct *glo, t_minishell *shell);
 char				**malloc_tab(char **tab);
 
@@ -352,6 +352,6 @@ char				*empty_input(char *final_str);
 */
 void				init_shell_arg(t_minishell *shell);
 int					ft_builtins(t_minishell *shell, t_struct *glo);
-char				*check_backslash_quote(char *input);
+char				*check_backslash_quote(char *input, t_minishell *shell);
 
 #endif
