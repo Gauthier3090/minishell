@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   backslash2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 14:50:46 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/02 14:51:46 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/02 15:41:09 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ char		*ft_backzero(char *str)
 
 int			ft_voided_char_input(int i, t_minishell *shell)
 {
-	if (shell->backs_input[i] && shell->backs_input[i] != '0')
+	if (i <= (int)ft_strlen(shell->backs_input) &&\
+	shell->backs_input[i] && shell->backs_input[i] != '0')
 		return (TRUE);
 	return (FALSE);
 }
