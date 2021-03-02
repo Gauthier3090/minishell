@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/01 16:47:02 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/02 14:42:29 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,7 @@ typedef struct		s_minishell
 ** backslash.c
 */
 void		ft_backslash_tab(t_minishell *shell);
-int			ft_voided_char(int i, int x, t_minishell *shell);
-void		ft_tab_dup(t_minishell *shell);
-int			ft_voided_char_input(int i, t_minishell *shell);
+void		ft_tab_dup(t_minishell *shell, t_struct *glo);
 char		*ft_backslash_input(char *str, t_minishell *shell);
 
 /*
@@ -337,5 +335,8 @@ char				*empty_input(char *final_str);
 ** utility7.c
 */
 char		*ft_backs_whitespace(t_minishell *shell, char *str);
+char		*ft_backzero(char *str);
+int			ft_voided_char_input(int i, t_minishell *shell);
+int			ft_voided_char(int i, int x, t_minishell *shell);
 
 #endif

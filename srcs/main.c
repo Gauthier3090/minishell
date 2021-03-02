@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/01 16:38:48 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/01 18:43:04 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ void	loop_prompt(t_minishell *shell, t_struct *glo)
 			shell->input = check_backslash_quote(shell->input);
 			if (check_quotes_close(shell->input))
 			{
-				ft_tab_dup(shell);
+				ft_tab_dup(shell, glo);
 				if (!(shell->tab = split_input(shell->input)))
 					exit(EXIT_FAILURE);
 				shell->i = 0;
@@ -175,13 +175,12 @@ void	loop_prompt(t_minishell *shell, t_struct *glo)
 				free(tmp);
 				ft_loop_main(shell, glo);
 				free_tab(shell->tab);
-				/*free_tab(shell->backs_tab);*/
+				shell->backs_input ? free(shell->backs_input) : 0;
 			}
 			else
 				shell->ret = ft_putstr_error(ERROR_QUOTES_NOT_CLOSED, NULL, 1);
 		}
 		free(shell->input);
-		free(shell->backs_input);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 14:17:08 by ldavids           #+#    #+#             */
-/*   Updated: 2021/03/01 16:14:05 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/01 18:43:09 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int		ft_check_double_char(t_minishell *shell, t_struct *glo, char c)
 	while (shell->input[glo->i])
 	{
 		if ((shell->input[glo->i] == c) && \
-			(ft_double_quotes_check(/*shell, */shell->input, glo->i) == FALSE)\
+			(ft_double_quotes_check(shell->input, glo->i) == FALSE)\
 			&& ft_voided_char_input(glo->i, shell) == FALSE)
 		{
 			glo->semi[glo->x] = glo->i;

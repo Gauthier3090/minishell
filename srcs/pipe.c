@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 16:53:51 by ldavids           #+#    #+#             */
-/*   Updated: 2021/03/01 16:18:09 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/01 18:15:11 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int		ft_pipe_sub(t_minishell *shell, t_struct *glo)
 		ft_strlen(shell->input) - z)))
 		exit(EXIT_FAILURE);
 	if (!(shell->pipe_backs_tab[x] = ft_substr(shell->backs_input, z, \
-		ft_strlen(shell->backs_input) /*- z*/)))
+		ft_strlen(shell->backs_input))))
 		exit(EXIT_FAILURE);
 	shell->pipe_backs_tab[x + 1] = NULL;
 	glo->pipe_tab[x + 1] = NULL;
