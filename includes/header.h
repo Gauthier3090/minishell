@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/02 14:53:52 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/02 15:01:24 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,17 +80,17 @@ typedef struct		s_minishell
 /*
 ** backslash.c
 */
-void		ft_backslash_tab(t_minishell *shell);
-void		ft_tab_dup(t_minishell *shell, t_struct *glo);
-char		*ft_backslash_input(char *str, t_minishell *shell);
+void				ft_backslash_tab(t_minishell *shell);
+void				ft_tab_dup(t_minishell *shell, t_struct *glo);
+char				*ft_backslash_input(char *str, t_minishell *shell);
 
 /*
 ** backslash2.c
 */
-char		*ft_backs_whitespace(t_minishell *shell, char *str);
-char		*ft_backzero(char *str);
-int			ft_voided_char_input(int i, t_minishell *shell);
-int			ft_voided_char(int i, int x, t_minishell *shell);
+char				*ft_backs_whitespace(t_minishell *shell, char *str);
+char				*ft_backzero(char *str);
+int					ft_voided_char_input(int i, t_minishell *shell);
+int					ft_voided_char(int i, int x, t_minishell *shell);
 
 /*
 ** cd.c
@@ -212,7 +212,8 @@ int					ft_multi_pipe(t_minishell *shell, t_struct *glo);
 void				ft_next_pipe(t_minishell *shell, t_struct *glo);
 int					ft_error_pipe(int error_numb, t_minishell *shell);
 int					ft_pipe_loop(t_minishell *shell, t_struct *glo);
-int					ft_pipe_sub_more(t_minishell *shell, t_struct *glo, int x, int z);
+int					ft_pipe_sub_more(t_minishell *shell, t_struct *glo,
+					int x, int z);
 
 /*
 ** prompt.c

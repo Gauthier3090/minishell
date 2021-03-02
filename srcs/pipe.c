@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 16:53:51 by ldavids           #+#    #+#             */
-/*   Updated: 2021/03/02 14:45:04 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/02 14:58:56 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,18 +86,7 @@ int		ft_pipe_sub(t_minishell *shell, t_struct *glo)
 		z = glo->pipe[x] + 1;
 		x++;
 	}
-	if (!(glo->pipe_tab[x] = ft_substr(shell->input, z, \
-		ft_strlen(shell->input) - z)))
-		exit(EXIT_FAILURE);
-	if (!(shell->pipe_backs_tab[x] = ft_substr(shell->backs_input, z, \
-		ft_strlen(shell->backs_input))))
-		exit(EXIT_FAILURE);
-	shell->pipe_backs_tab[x + 1] = NULL;
-	glo->pipe_tab[x + 1] = NULL;
-	x = 0;
-	if (ft_pipe_loop(shell, glo) == FALSE)
-		return (FALSE);
-	if (ft_multi_pipe(shell, glo) == FALSE)
+	if (!(ft_pipe_sub_more(shell, glo, x, z)))
 		return (FALSE);
 	return (FALSE);
 }
