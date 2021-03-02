@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 17:06:18 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/22 17:44:10 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/02 16:25:27 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ void		sigint_handler2(int nothing)
 void		do_nothing(int nothing)
 {
 	(void)nothing;
-	write(2, " \b\b \b", 5);
-	write(2, " \b\b \b", 3);
+	ft_putstr_fd("\b\b  \b\b", 2);
 }
 
 int			ft_signal_hand(void)
