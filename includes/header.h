@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/01 18:42:16 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/02 14:36:46 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -344,5 +344,8 @@ char				*empty_input(char *final_str);
 ** utility7.c
 */
 char				*ft_backs_whitespace(t_minishell *shell, char *str);
+void				init_shell_arg(t_minishell *shell);
+int					ft_builtins(t_minishell *shell, t_struct *glo);
+char				*check_backslash_quote(char *input);
 
 #endif
