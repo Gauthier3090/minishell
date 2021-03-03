@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 16:58:48 by ldavids           #+#    #+#             */
-/*   Updated: 2021/03/03 16:58:41 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/03 17:35:08 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int		ft_simple_quotes_check(char *str, int var, t_minishell *shell)
 	{
 		if (str[i] == '\'' && shell->backs_input[i] == '0')
 		{
-			i++;
 			i = ft_quotes_check_sub_simple(str, i, var, shell);
 			if (i == -1)
 				return (TRUE);
@@ -67,7 +66,6 @@ int		ft_double_quotes_check(char *str, int var, t_minishell *shell)
 	{
 		if (str[i] == '"' && i < ((int)ft_strlen(str) - 1))
 		{
-			i++;
 			i = ft_quotes_check_sub_double(str, i, var, shell);
 			if (i == -1)
 				return (TRUE);

@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/03 16:59:55 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/03 17:38:02 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,19 +75,22 @@ void	loop_prompt_input(t_minishell *shell, t_struct *glo)
 	shell->input = check_backslash_quote(shell->input, shell);
 	if (!check_quotes_close(shell->input))
 		shell->ret = ft_putstr_error(ERROR_QUOTES_NOT_CLOSED, NULL, 1);
-	if (!(shell->tab = split_input(shell->input)))
-		exit(EXIT_FAILURE);
-	shell->i = 0;
-	shell->variable = NULL;
-	shell->value = NULL;
-	shell->arg = NULL;
-	tmp = parse_input(shell->tab[0], shell);
-	free(shell->tab[0]);
-	if (!(shell->tab[0] = ft_strdup(tmp)))
-		exit(EXIT_FAILURE);
-	free(tmp);
-	ft_loop_main(shell, glo);
-	free_tab(shell->tab);
+	else
+	{
+		if (!(shell->tab = split_input(shell->input)))
+			exit(EXIT_FAILURE);
+		shell->i = 0;
+		shell->variable = NULL;
+		shell->value = NULL;
+		shell->arg = NULL;
+		tmp = parse_input(shell->tab[0], shell);
+		free(shell->tab[0]);
+		if (!(shell->tab[0] = ft_strdup(tmp)))
+			exit(EXIT_FAILURE);
+		free(tmp);
+		ft_loop_main(shell, glo);
+		free_tab(shell->tab);
+	}
 	shell->backs_input ? free(shell->backs_input) : 0;
 	ft_free_args(shell);
 }
