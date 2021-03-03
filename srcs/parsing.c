@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 14:40:50 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/01 17:50:22 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/02 18:21:20 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ char	*parse_input_str(char *input, int *i, t_minishell *shell)
 {
 	char	*str;
 
-	if (input[*i] == '"' && ft_voided_char(*i, shell->i, shell) == FALSE)
+	if (input[*i] == '"')
 		str = parse_double_quote(input, i, shell->env, shell->ret);
-	else if (input[*i] == '\'' && ft_voided_char(*i, shell->i, shell) == FALSE)
+	else if (input[*i] == '\'')
 		str = parse_simple_quote(input, i);
 	else
 		str = parse_null_quote(input, i, shell);

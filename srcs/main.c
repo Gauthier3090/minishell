@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:48:26 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/02 18:01:51 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/03 16:49:15 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	ft_loop_main_more(t_minishell *shell, t_struct *glo)
 	{
 
 		input = delete_char_left(shell->tab[shell->i], '=');
-		ft_putstr_fd("input in loop = ", 1);
-		ft_putstr_fd(input, 1);
+		/*ft_putstr_fd("input in loop = ", 1);
+		ft_putstr_fd(input, 1);*/
 		shell->variable = parse_input(input, shell);
 		free(input);
 		input = delete_char_right(shell->tab[shell->i], '=');
@@ -80,8 +80,8 @@ void	loop_prompt_input(t_minishell *shell, t_struct *glo)
 	shell->input = check_backslash_quote(shell->input, shell);
 	if (!check_quotes_close(shell->input))
 		shell->ret = ft_putstr_error(ERROR_QUOTES_NOT_CLOSED, NULL, 1);
-	ft_putstr_fd(shell->input, 1);
-	ft_putstr_fd("\n", 1);
+	/*ft_putstr_fd(shell->input, 1);
+	ft_putstr_fd("\n", 1);*/
 	if (!(shell->tab = split_input(shell->input)))
 		exit(EXIT_FAILURE);
 	shell->i = 0;

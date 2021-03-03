@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 14:41:11 by ldavids           #+#    #+#             */
-/*   Updated: 2021/03/02 17:45:50 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/02 18:43:24 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,9 @@ int			ft_backs_str(t_minishell *shell, char *str, int i)
 
 int			ft_backslash_input_sub(char *str, t_minishell *shell, int i)
 {
-	/*if (ft_simple_quotes_check(shell->input, i) == TRUE)
-	{
-		shell->backs_input[i] = str[i];
-		i = 0;
-	}
-	else */if (ft_double_quotes_check(shell->input, i, shell) == FALSE)
+	if (str[i + 1] == '"')
+		i = ft_backs_str(shell, str, i);
+	else if (ft_double_quotes_check(shell->input, i, shell) == FALSE)
 		i = ft_backs_str(shell, str, i);
 	else if (ft_double_quotes_check(shell->input, i, shell) ==\
 	TRUE && (str[i + 1] == '$' || str[i + 1] == '\\') &&\
@@ -111,8 +108,5 @@ char		*ft_backslash_input(char *str, t_minishell *shell)
 			i = ft_backslash_input_sub(str, shell, i);
 		i++;
 	}
-	/*ft_putstr_fd("shell->backs_input = ", 1);
-	ft_putstr_fd(shell->backs_input, 1);
-	ft_putstr_fd("\n", 1);*/
 	return (str);
 }

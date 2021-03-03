@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 16:58:48 by ldavids           #+#    #+#             */
-/*   Updated: 2021/03/02 17:54:34 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/03 16:50:51 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int		ft_simple_quotes_check(char *str, int var, t_minishell *shell)
 	int		i;
 
 	i = 0;
-	/*shell->backs_input[i] = '0';*/
 	while (str && str[i])
 	{
 		if (str[i] == '\'' && shell->backs_input[i] == '0')

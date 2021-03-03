@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/02 17:50:10 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/03 16:47:40 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,6 +283,7 @@ char				**split_input(char *str);
 int					ft_signal_hand(void);
 void				sigint_handler(int nothing);
 void				sigint_handler2(int nothing);
+void				do_nothing(int nothing);
 int					ft_signal_hand2(void);
 
 /*

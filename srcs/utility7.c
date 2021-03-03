@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 17:38:46 by ldavids           #+#    #+#             */
-/*   Updated: 2021/03/02 17:44:57 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/02 18:44:30 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,12 @@ char		*create_backslash_quote(char *input, char *tmp, t_minishell *shell)
 			tmp[++j] = '"';
 			tmp[++j] = '\'';
 			tmp[++j] = '"';
-			i++;
 		}
 		else if (shell->backs_input[i] != '0' && input[i] == '"')
 		{
 			tmp[++j] = '\'';
 			tmp[++j] = '"';
 			tmp[++j] = '\'';
-			i++;
 		}
 		else
 			tmp[++j] = input[i];
@@ -101,7 +99,5 @@ char		*check_backslash_quote(char *input, t_minishell *shell)
 		exit(EXIT_FAILURE);
 	tmp = create_backslash_quote(input, tmp, shell);
 	free(input);
-	/*ft_putstr_fd("tmp = ", 1);
-	ft_putstr_fd(tmp, 1);*/
 	return (tmp);
 }
