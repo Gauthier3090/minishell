@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility4.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 17:15:29 by ldavids           #+#    #+#             */
-/*   Updated: 2021/03/02 17:51:53 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/03 16:53:13 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int		check_quotes_close(char *str)
 			quotes_close(str, &i, '\'', &quote);
 		if (str[i] == '"')
 			quotes_close(str, &i, '"', &quote);
-		/*ft_putstr_fd("quotes", 1);*/
 	}
 	if (quote % 2 != 0)
 		return (0);

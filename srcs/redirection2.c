@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 15:05:18 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/02 17:33:52 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/03 16:54:24 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ int		ft_check_redirection(t_minishell *shell, int c, int c2)
 		(ft_voided_char_input(shell->index, shell) == FALSE) &&
 		shell->input[shell->index + 1] == c2 \
 		&& (ft_voided_char_input(shell->index + 1, shell) == FALSE))
-		&& (ft_double_quotes_check(shell->input, shell->index, shell) == FALSE))))
+		&& (ft_double_quotes_check(shell->input,
+		shell->index, shell) == FALSE))))
 			ft_check_redirection_more(shell, &y);
 		else if (shell->input[shell->index] == c && \
 		(ft_voided_char_input(shell->index, shell) == FALSE)

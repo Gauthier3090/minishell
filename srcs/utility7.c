@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility7.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 17:38:46 by ldavids           #+#    #+#             */
-/*   Updated: 2021/03/02 18:44:30 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/03 17:00:30 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,8 @@ char		*check_backslash_quote(char *input, t_minishell *shell)
 	size = 0;
 	while (input[++i])
 	{
-		if (shell->backs_input[i] != '0' && (input[i] == '"' || input[i] == '\''))
+		if (shell->backs_input[i] != '0'
+		&& (input[i] == '"' || input[i] == '\''))
 		{
 			size += 3;
 			i++;
@@ -100,4 +101,31 @@ char		*check_backslash_quote(char *input, t_minishell *shell)
 	tmp = create_backslash_quote(input, tmp, shell);
 	free(input);
 	return (tmp);
+}
+
+int			ft_quotes_check_sub_double(char *str, int i,
+			int var, t_minishell *shell)
+{
+	int		k;
+	int		j;
+
+	j = i - 1;
+	k = 0;
+	while (str[i] && i < ((int)ft_strlen(str)))
+	{
+		if (str[i] == '"' && shell->backs_input[i] == '0')
+		{
+			k = i;
+			if (var < k && var > j)
+				return (-1);
+			else
+			{
+				j = 0;
+				k = 0;
+				break ;
+			}
+		}
+		i++;
+	}
+	return (i);
 }

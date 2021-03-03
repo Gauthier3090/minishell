@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   utility5.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 16:58:48 by ldavids           #+#    #+#             */
-/*   Updated: 2021/03/03 16:50:51 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/03 16:58:41 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
 
-int		ft_quotes_check_sub(char *str, int i, int var, char c, t_minishell *shell)
+int		ft_quotes_check_sub_simple(char *str, int i,
+		int var, t_minishell *shell)
 {
 	int		k;
 	int		j;
@@ -21,7 +22,7 @@ int		ft_quotes_check_sub(char *str, int i, int var, char c, t_minishell *shell)
 	k = 0;
 	while (str[i] && i < ((int)ft_strlen(str)))
 	{
-		if (str[i] == c && shell->backs_input[i] == '0')
+		if (str[i] == '\'' && shell->backs_input[i] == '0')
 		{
 			k = i;
 			if (var < k && var > j)
@@ -48,7 +49,7 @@ int		ft_simple_quotes_check(char *str, int var, t_minishell *shell)
 		if (str[i] == '\'' && shell->backs_input[i] == '0')
 		{
 			i++;
-			i = ft_quotes_check_sub(str, i, var, '\'', shell);
+			i = ft_quotes_check_sub_simple(str, i, var, shell);
 			if (i == -1)
 				return (TRUE);
 		}
@@ -67,7 +68,7 @@ int		ft_double_quotes_check(char *str, int var, t_minishell *shell)
 		if (str[i] == '"' && i < ((int)ft_strlen(str) - 1))
 		{
 			i++;
-			i = ft_quotes_check_sub(str, i, var, '"', shell);
+			i = ft_quotes_check_sub_double(str, i, var, shell);
 			if (i == -1)
 				return (TRUE);
 		}
