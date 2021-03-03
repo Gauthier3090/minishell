@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 14:41:11 by ldavids           #+#    #+#             */
-/*   Updated: 2021/03/02 18:43:24 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/03 17:38:38 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,17 +82,22 @@ int			ft_backslash_input_sub(char *str, t_minishell *shell, int i)
 {
 	if (str[i + 1] == '"')
 		i = ft_backs_str(shell, str, i);
+	else if (ft_simple_quotes_check(shell->input, i, shell) == FALSE)
+	{
+		shell->backs_input[i] = str[i];
+		i = 0;
+	}
 	else if (ft_double_quotes_check(shell->input, i, shell) == FALSE)
 		i = ft_backs_str(shell, str, i);
 	else if (ft_double_quotes_check(shell->input, i, shell) ==\
 	TRUE && (str[i + 1] == '$' || str[i + 1] == '\\') &&\
 	ft_simple_quotes_check(shell->input, i, shell) == FALSE)
 		i = ft_backs_str(shell, str, i);
-	else if (ft_simple_quotes_check(shell->input, i, shell) == FALSE)
+	/*else if (ft_simple_quotes_check(shell->input, i, shell) == FALSE)
 	{
 		shell->backs_input[i] = str[i];
 		i = 0;
-	}
+	}*/
 	return (i);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility7.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 17:38:46 by ldavids           #+#    #+#             */
-/*   Updated: 2021/03/03 17:00:30 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/03 17:32:04 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,7 @@ char		*check_backslash_quote(char *input, t_minishell *shell)
 	{
 		if (shell->backs_input[i] != '0'
 		&& (input[i] == '"' || input[i] == '\''))
-		{
 			size += 3;
-			i++;
-		}
 		else
 			size++;
 	}
