@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 14:40:50 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/02 18:21:20 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/04 14:06:51 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*parse_simple_quote(char *input, int *i)
 	return (str);
 }
 
-char	*parse_double_quote(char *input, int *i, char **env, int ret)
+char	*parse_double_quote(char *input, int *i, char **env, int ret, t_minishell *shell)
 {
 	char	*tmp;
 	char	*str;
@@ -37,10 +37,15 @@ char	*parse_double_quote(char *input, int *i, char **env, int ret)
 	str = NULL;
 	while (input[*i] && input[*i] != '"')
 	{
-		if (input[*i] != '$')
-			tmp = str_not_env_double_quotes(input, i);
-		else
+
+		/*else*/
+		if (input[*i] == '$' && (ft_voided_char(*i, shell->i, shell) == FALSE))
 			tmp = str_env(input, i, env, ret);
+		else /*if (input[*i] != '$')*/
+		{
+			tmp = str_not_env_double_quotes(input, i);
+			(*i)--;
+		}
 		tmp ? str = realloc_str(str, tmp) : 0;
 		free(tmp);
 	}
@@ -71,7 +76,7 @@ char	*parse_input_str(char *input, int *i, t_minishell *shell)
 	char	*str;
 
 	if (input[*i] == '"')
-		str = parse_double_quote(input, i, shell->env, shell->ret);
+		str = parse_double_quote(input, i, shell->env, shell->ret, shell);
 	else if (input[*i] == '\'')
 		str = parse_simple_quote(input, i);
 	else
