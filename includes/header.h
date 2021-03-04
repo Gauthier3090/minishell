@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/03 17:01:24 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/04 14:52:59 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,7 @@ char				*str_env(char *input, int *i, char **env, int ret);
 */
 char				*found_env_exeception(char *str, int ret);
 int					str_env_length(char *input, int *i);
+char				*str_not_env_backslash(char *input, int *i);
 
 /*
 ** pipe.c

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 14:40:50 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/04 14:06:51 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/04 15:04:27 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,12 @@ char	*parse_double_quote(char *input, int *i, char **env, int ret, t_minishell *
 	str = NULL;
 	while (input[*i] && input[*i] != '"')
 	{
-
-		/*else*/
 		if (input[*i] == '$' && (ft_voided_char(*i, shell->i, shell) == FALSE))
 			tmp = str_env(input, i, env, ret);
-		else /*if (input[*i] != '$')*/
-		{
+		else if (ft_voided_char(*i, shell->i, shell) == TRUE)
+			tmp = str_not_env_backslash(input, i);
+		else
 			tmp = str_not_env_double_quotes(input, i);
-			(*i)--;
-		}
 		tmp ? str = realloc_str(str, tmp) : 0;
 		free(tmp);
 	}

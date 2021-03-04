@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:37:10 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/01 18:44:34 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/04 14:56:54 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ char	*str_env(char *input, int *i, char **env, int ret)
 	int		j;
 	char	*str;
 
+	if (input[*i] == '$' && input[*i + 1] == '$')
+		return (str_not_env_backslash(input, i));
 	len = str_env_length(input, i);
 	if (!(str = ft_calloc(len + 1, sizeof(char))))
 		exit(EXIT_FAILURE);
