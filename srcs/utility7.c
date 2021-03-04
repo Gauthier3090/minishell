@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 17:38:46 by ldavids           #+#    #+#             */
-/*   Updated: 2021/03/04 15:27:45 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/04 15:34:43 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ char		*create_backslash_quote(char *input, char *tmp, t_minishell *shell)
 	return (tmp);
 }
 
-char		*create_backs_input(char *input, char *backs_tmp, t_minishell *shell)
+char		*create_backs_input(char *input, char *backs_tmp, \
+t_minishell *shell)
 {
 	int	i;
 	int	j;
@@ -66,14 +67,12 @@ char		*create_backs_input(char *input, char *backs_tmp, t_minishell *shell)
 	return (backs_tmp);
 }
 
-char		*check_backslash_quote(char *input, t_minishell *shell)
+char		*check_backslash_quote(char *input, int i, t_minishell *shell)
 {
-	int		i;
 	int		size;
 	char	*tmp;
 	char	*backs_tmp;
 
-	i = -1;
 	size = 0;
 	while (input[++i])
 	{
