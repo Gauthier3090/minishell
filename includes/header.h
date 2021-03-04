@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/04 14:52:59 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/04 15:28:37 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct		s_minishell
 void				ft_backslash_tab(t_minishell *shell);
 void				ft_tab_dup(t_minishell *shell, t_struct *glo);
 char				*ft_backslash_input(char *str, t_minishell *shell);
+int					ft_backs_str_simple(t_minishell *shell, char *str, int i);
 
 /*
 ** backslash2.c
@@ -91,6 +92,12 @@ char				*ft_backs_whitespace(t_minishell *shell, char *str);
 char				*ft_backzero(char *str);
 int					ft_voided_char_input(int i, t_minishell *shell);
 int					ft_voided_char(int i, int x, t_minishell *shell);
+
+/*
+** backslash3.c
+*/
+int					ft_backslash_input_sub(char *str,
+					t_minishell *shell, int i);
 
 /*
 ** cd.c

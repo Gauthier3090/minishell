@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   backslash2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 14:50:46 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/04 15:08:21 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/04 15:11:11 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ int			ft_voided_char_input(int i, t_minishell *shell)
 
 int			ft_voided_char(int i, int x, t_minishell *shell)
 {
-	/*ft_putstr_fd(shell->backs_tab[x], 1);
-	ft_putchar_fd(shell->backs_tab[x][i], 1);*/
 	if (shell->backs_tab[x][i + 1] && shell->backs_tab[x][i + 1] != '0')
 		return (TRUE);
 	return (FALSE);

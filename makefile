@@ -6,7 +6,7 @@
 #    By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/04 15:34:54 by gpladet           #+#    #+#              #
-#    Updated: 2021/03/02 14:54:22 by gpladet          ###   ########.fr        #
+#    Updated: 2021/03/04 15:23:16 by gpladet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ export.c export2.c utility2.c utility3.c pwd.c exec.c unset.c pipe.c pipe2.c\
 semicolon.c semicolon2.c parsing.c parsing2.c utility4.c split.c split2.c\
 redirection.c redirection2.c redirection3.c redirection4.c redirection5.c\
 utility5.c signal.c error.c exec2.c backslash.c export3.c utility7.c parsing3.c\
-backslash2.c
+backslash2.c backslash3.c
 OBJS = ${addprefix ${PATH_OBJ}, ${SRCS:.c=.o}}
 INCS = ${addprefix ${PATH_INC}, header.h}
 

@@ -6,11 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 14:40:50 by gpladet           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2021/03/04 15:04:27 by gpladet          ###   ########.fr       */
-=======
-/*   Updated: 2021/03/04 14:24:32 by ldavids          ###   ########.fr       */
->>>>>>> cd
+/*   Updated: 2021/03/04 15:12:48 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +28,7 @@ char	*parse_simple_quote(char *input, int *i)
 	return (str);
 }
 
-char	*parse_double_quote(char *input, int *i, char **env, int ret)
+char	*parse_double_quote(char *input, int *i, t_minishell *shell)
 {
 	char	*tmp;
 	char	*str;
@@ -42,7 +38,7 @@ char	*parse_double_quote(char *input, int *i, char **env, int ret)
 	while (input[*i] && input[*i] != '"')
 	{
 		if (input[*i] == '$' && (ft_voided_char(*i, shell->i, shell) == FALSE))
-			tmp = str_env(input, i, env, ret);
+			tmp = str_env(input, i, shell->env, shell->ret);
 		else if (ft_voided_char(*i, shell->i, shell) == TRUE)
 			tmp = str_not_env_backslash(input, i);
 		else
@@ -77,7 +73,7 @@ char	*parse_input_str(char *input, int *i, t_minishell *shell)
 	char	*str;
 
 	if (input[*i] == '"')
-		str = parse_double_quote(input, i, shell->env, shell->ret);
+		str = parse_double_quote(input, i, shell);
 	else if (input[*i] == '\'')
 		str = parse_simple_quote(input, i);
 	else
