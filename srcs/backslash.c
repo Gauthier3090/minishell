@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 14:41:11 by ldavids           #+#    #+#             */
-/*   Updated: 2021/03/03 22:50:10 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/04 15:06:47 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,6 @@ int			ft_backs_str(t_minishell *shell, char *str, int i)
 
 	y = 0;
 	shell->backs_input[i] = str[i];
-	ft_putchar_fd(str[i], 1);
-	ft_putchar_fd(shell->backs_input[i], 1);
 	if (str[i + 1] == '"')
 	{
 		while (str[i])
@@ -111,25 +109,16 @@ int			ft_backs_str(t_minishell *shell, char *str, int i)
 	>= 97 && str[i + 1] <= 122)) && ft_double_quotes_check(str, i, shell) == TRUE)
 	{
 		shell->backs_input[i] = '0';
-		ft_putstr_fd("check true", 1);
 		y = 1;
 	}
 	else if (ft_double_quotes_check(str, i, shell) == FALSE)
-	{
-		/*shell->backs_input[i] = '0';*/
-
-		ft_putstr_fd("check false", 1);
-		ft_putchar_fd(shell->backs_input[i], 1);
 		y = 0;
-	}
 	else
 		y = -1;
 	if (ft_double_quotes_check(str, i, shell) == TRUE && str[i + 1] == '$')
 	{
 		y = 0;
 	}
-	/*if (str[i + 1] == '\'')
-		shell->backs_input[i] = '0';*/
 	while (str[i])
 	{
 		str[i] = str[i + 1 + y];
@@ -141,33 +130,31 @@ int			ft_backs_str(t_minishell *shell, char *str, int i)
 
 int			ft_backslash_input_sub(char *str, t_minishell *shell, int i)
 {
-	if (str[i + 1] == '"')
+
+	if (str[i + 1] == '\\' && shell->backs_input[i] == '0')
 	{
+		shell->backs_input[i] = str[i];
+		while (str[i])
+		{
+			str[i] = str[i + 1];
+			i++;
+		}
+		i = 0;
+	}
+	else if (str[i + 1] == '"')
 		i = ft_backs_str(shell, str, i);
-		ft_putstr_fd("cas 01\n", 1);
-	}
 	else if (ft_simple_quotes_check(shell->input, i, shell) == TRUE)
-	{
-		ft_putstr_fd("cas 02\n", 1);
 		i = ft_backs_str_simple(shell, str, i);
-	}
 	else if (ft_double_quotes_check(shell->input, i, shell) == FALSE &&
 	ft_simple_quotes_check(shell->input, i, shell) == FALSE)
-	{
 		i = ft_backs_str(shell, str, i);
-		ft_putstr_fd("cas 02.5\n", 1);
-	}
 	else if (ft_double_quotes_check(shell->input, i, shell) ==\
 	TRUE && ft_simple_quotes_check(shell->input, i, shell) == FALSE)
-	{
 		i = ft_backs_str(shell, str, i);
-		ft_putstr_fd("cas 03\n", 1);
-	}
 	else if (ft_simple_quotes_check(shell->input, i, shell) == FALSE)
 	{
 		shell->backs_input[i] = str[i];
 		i = 0;
-		ft_putstr_fd("cas 04\n", 1);
 	}
 	return (i);
 }
