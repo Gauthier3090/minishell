@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/04 15:34:23 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/05 14:43:25 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -371,5 +371,6 @@ int					ft_quotes_check_sub_double(char *str, int i,
 */
 void				init_shell_arg(t_minishell *shell);
 int					ft_builtins(t_minishell *shell, t_struct *glo);
+int					ft_no_path(t_minishell *shell, t_struct *glo);
 
 #endif

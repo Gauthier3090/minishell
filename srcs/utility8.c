@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 15:12:24 by ldavids           #+#    #+#             */
-/*   Updated: 2021/03/04 15:12:53 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/05 14:47:30 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,11 @@ int			ft_builtins(t_minishell *shell, t_struct *glo)
 	else
 		ft_exec(shell, glo);
 	return (TRUE);
+}
+
+int			ft_no_path(t_minishell *shell, t_struct *glo)
+{
+	ft_putstr_fd(glo->exec[0], 2);
+	shell->ret = ft_putstr_error(": command not found\n", NULL, 127);
+	return (1);
 }
