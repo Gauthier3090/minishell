@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   backslash.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 14:41:11 by ldavids           #+#    #+#             */
-/*   Updated: 2021/03/04 15:15:29 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/05 15:25:12 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ int			ft_backs_str_simple(t_minishell *shell, char *str, int i)
 
 	y = 0;
 	shell->backs_input[i] = str[i];
-	if ((str[i + 1] >= 65 && str[i + 1] <= 90) || (str[i + 1] \
+	if ((str[i + 1] && str[i + 1] >= 65 && str[i + 1] <= 90)\
+	|| (str[i + 1]
 	>= 97 && str[i + 1] <= 122))
 	{
 		shell->backs_input[i] = '0';

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 15:42:42 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/22 17:03:06 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/05 14:48:03 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,14 @@ int			ft_exec_sub(t_minishell *shell, t_struct *glo)
 		i++;
 	}
 	i = 0;
-	while (shell->env && shell->env[i] && ft_strncmp(\
-		shell->env[i], "PATH=", 5) != 0)
+	while (shell->env && shell->env[i])
+	{
+		if (ft_strncmp(shell->env[i], "PATH=", 5) == 0)
+			return (i);
 		i++;
+	}
+	if (shell->env[i - 1] && ft_strncmp(shell->env[i - 1], "PATH=", 5) != 0)
+		return (-1);
 	return (i);
 }
 
@@ -103,6 +108,8 @@ int			ft_exec(t_minishell *shell, t_struct *glo)
 		return (1);
 	glo->i = 0;
 	i = ft_exec_sub(shell, glo);
+	if (i == -1)
+		return (ft_no_path(shell, glo));
 	if (!(bin = ft_split(shell->env[i], ':')))
 		exit(EXIT_FAILURE);
 	i = 1;

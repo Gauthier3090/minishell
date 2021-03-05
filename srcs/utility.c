@@ -6,7 +6,7 @@
 /*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 16:21:04 by ldavids           #+#    #+#             */
-/*   Updated: 2021/02/26 17:37:45 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/04 18:00:40 by ldavids          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*ft_whitespace(char *input, t_minishell *shell)
 		shell->white++;
 		i++;
 	}
-	if (!(temp = ft_substr(input, i, ft_strlen(input) - i)))
+	if (!(temp = ft_substr(input, i, ft_strlen(input) - i + 5)))
 		exit(EXIT_FAILURE);
 	free(input);
 	return (temp);
