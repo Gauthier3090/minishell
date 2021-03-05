@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 15:40:36 by gpladet           #+#    #+#             */
-/*   Updated: 2021/01/20 13:44:51 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/05 15:12:56 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int		check_error_unset(char *variable, char *value, t_minishell *shell)
 	i = -1;
 	while (variable[++i])
 	{
-		if (value || !ft_isalnum(variable[i]))
+		if (value || (!ft_isalnum(variable[i]) && variable[i] != '_'))
 		{
 			ft_putstr_fd("unset: invalid parameter name: ", 2);
 			ft_putstr_fd(variable, 2);
