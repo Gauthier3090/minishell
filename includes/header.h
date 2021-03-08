@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/05 15:31:22 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/08 18:57:42 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct		s_minishell
 	int				ret;
 	int				quote;
 	int				redir[100];
+	int				redirection_read;
 }					t_minishell;
 
 /*
@@ -265,6 +266,7 @@ char				**ft_redirection_pipe_right(char **redir_tab, int *i);
 char				*ft_redirection_command_append(int append);
 char				**ft_create_command_pipe(char **redir_tab,
 					int redirection_read);
+char				**check_pipe(char **redir_tab, t_minishell *shell);
 
 /*
 ** semicolon.c
