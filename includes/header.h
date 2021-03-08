@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/08 18:57:42 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/08 22:25:30 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ typedef struct		s_minishell
 	int				quote;
 	int				redir[100];
 	int				redirection_read;
+	int				redir_right;
+	int				redir_left;
 }					t_minishell;
 
 /*

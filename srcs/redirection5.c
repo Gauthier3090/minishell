@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 16:56:39 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/08 19:01:56 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/08 22:39:08 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	**check_pipe_multiple_tee(char **redir_tab,
 	int		k;
 	char	*tmp;
 
-	if (!(tmp = ft_strdup(tab[count_tee(redir_tab) - 1])))
+	if (!(tmp = ft_strdup(tab[count_tee(redir_tab) - 2])))
 		exit(EXIT_FAILURE);
 	free(redir_tab[0]);
 	if (!(redir_tab[0] = ft_strdup(tmp)))
@@ -93,21 +93,25 @@ char	**check_pipe(char **redir_tab, t_minishell *shell)
 {
 	char	**tab;
 	char	*tmp;
+	int		k;
 
 	tab = ft_split(redir_tab[0], '|');
-	if (count_tee(redir_tab) == 1 && ft_strlen_tab(tab) > 1)
+	if (shell->redir_right && count_tee(redir_tab) > 0 && !shell->redir_left)
+		shell->redirection_read = FALSE;
+	else if (count_tee(redir_tab) == 1 && ft_strlen_tab(tab) > 1)
 	{
+		k = ft_strlen_tab(redir_tab) - 1;
 		if (!(tmp = ft_strdup(tab[0])))
 			exit(EXIT_FAILURE);
 		free(redir_tab[0]);
 		if (!(redir_tab[0] = ft_strdup(tmp)))
 			exit(EXIT_FAILURE);
 		free(tmp);
-		redir_tab[1] = realloc_str(redir_tab[1], "|");
-		redir_tab[1] = realloc_str(redir_tab[1], tab[ft_strlen_tab(tab) - 1]);
+		redir_tab[k] = realloc_str(redir_tab[k], "|");
+		redir_tab[k] = realloc_str(redir_tab[k], tab[ft_strlen_tab(tab) - 1]);
 		shell->redirection_read = TRUE;
 	}
-	else if (count_tee(redir_tab) != ft_strlen_tab(tab))
+	else if (ft_strlen_tab(tab) > 1 && count_tee(redir_tab) != 0)
 		redir_tab = check_pipe_multiple_tee(redir_tab, tab, shell);
 	free_tab(tab);
 	return (redir_tab);
