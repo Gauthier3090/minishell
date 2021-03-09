@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/08 22:25:30 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/09 06:24:47 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,13 @@ typedef struct		s_minishell
 	int				index_tab;
 	int				ret;
 	int				quote;
-	int				redir[100];
+	int				redir[1000];
 	int				redirection_read;
-	int				redir_right;
-	int				redir_left;
+	int				double_right;
+	char			**pipe_tab;
+	int				j;
+	int				z;
+	int				pipe[1000];
 }					t_minishell;
 
 /*
