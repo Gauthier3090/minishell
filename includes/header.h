@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/10 22:48:09 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/09 10:11:32 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct		s_minishell
 	int				j;
 	int				z;
 	int				pipe[1000];
+	char			*str;
 }					t_minishell;
 
 /*

@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 15:12:11 by gpladet           #+#    #+#             */
-/*   Updated: 2021/02/17 16:58:52 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/09 10:04:07 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@
 # define ERROR_REDIRECTION_EMPTY "minishell: parse error near `\\n'\n"
 # define ERROR_QUOTES_NOT_CLOSED "minishell: quotes are not closed\n"
 # define ERROR_FILE_NOT_FOUND "minishell: no such file or folder: "
+# define ERROR_PIPE "bash: syntax error near unexpected token `|'\n"
 
 #endif
