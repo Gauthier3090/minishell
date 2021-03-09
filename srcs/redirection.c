@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 15:02:31 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/10 23:23:57 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/09 08:14:31 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,6 +236,7 @@ char	*ft_redirection_arg(char **redir_tab, t_minishell *shell)
 	int		j;
 	char	**tab;
 	char	*arg;
+	char	*tmp;
 
 	i = 0;
 	arg = NULL;
@@ -274,7 +275,10 @@ char	*ft_redirection_arg(char **redir_tab, t_minishell *shell)
 	}
 	if (arg)
 	{
-		arg = ft_strjoin(redir_tab[0], arg);
+		tmp = ft_strdup(arg);
+		free(arg);
+		arg = ft_strjoin(redir_tab[0], tmp);
+		free(tmp);
 		return (arg);
 	}
 	return (ft_strdup(redir_tab[0]));
