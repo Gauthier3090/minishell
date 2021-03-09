@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 15:02:31 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/09 09:04:52 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/09 09:52:31 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -349,64 +349,75 @@ char	*ft_create_redirection(char *str, t_minishell *shell)
 	return (new_str);
 }
 
-char	*ft_redirection_left(char **redir_tab, char *str, char *arg, int *k, int *i)
+int		ft_check_file(char *file, t_minishell *shell)
+{
+	int	fd;
+
+	if ((fd = open(file, O_RDONLY, 0777)) < 0)
+	{
+		shell->ret = ft_putstr_error(ERROR_FILE_NOT_FOUND, file, 1);
+		return (FALSE);
+	}
+	close(fd);
+	return (TRUE);
+}
+
+char	*ft_redirection_left(char **redir_tab, char *str, char *arg, int *k, int *i, t_minishell *shell)
 {
 	char	**tab;
 	char	**tab2;
 	char	*tmp;
+	int		j;
 
 	if (redir_tab[*k][0] == '<')
 		redir_tab[*k][0] = ' ';
 	tab = split_input(redir_tab[0]);
 	tab2 = split_input(redir_tab[*k]);
-	if (!ft_strcmp(tab[0], "echo"))
+	if (!ft_check_file(tab2[0], shell))
 	{
-		if (*k == 1)
-			str = ft_strdup(arg);
-		str = realloc_str(str, " | ");
-		str = realloc_str(str, arg);
+		free_tab(tab);
+		free_tab(tab2);
+		return (NULL);
 	}
-	else
+	if (ft_strlen_tab(tab) == 1)
 	{
-		if (ft_strlen_tab(tab) == 1)
+		tmp = ft_strdup(tab[0]);
+		j = 0;
+		while (tab2[++j])
 		{
-			if (*k == 1 && *i != 1)
-			{
-				tmp = ft_strdup(tab[0]);
-				free(tab[0]);
-				tab[0] = ft_strjoin("cat", " ");
-				tab[0] = realloc_str(tab[0], tab2[0]);
-				str = ft_strdup(tab[0]);
-				str = realloc_str(str, " | ");
-				str = realloc_str(str, tmp);
-				free(tmp);
-			}
-			else
-			{
-				tmp = ft_strdup(tab[0]);
-				free(tab[0]);
-				tab[0] = ft_strjoin("cat", " ");
-				tab[0] = realloc_str(tab[0], tab2[0]);
-				str = realloc_str(str, " | ");
-				str = realloc_str(str, tab[0]);
-				str = realloc_str(str, " | ");
-				str = realloc_str(str, tmp);
-				free(tmp);
-			}
+			tmp = realloc_str(tmp, " ");
+			tmp = realloc_str(tmp, tab2[j]);
+		}
+		free(tab[0]);
+		tab[0] = ft_strjoin("cat", " ");
+		tab[0] = realloc_str(tab[0], tab2[0]);
+		if (*k == 1 && *i != 1)
+		{
+			str = ft_strdup(tab[0]);
+			str = realloc_str(str, " | ");
+			str = realloc_str(str, tmp);
 		}
 		else
 		{
-			if (*k == 1 && *i != 1)
-			{
-				str = ft_strdup(arg);
-				str = realloc_str(str, " | ");
-				str = realloc_str(str, arg);
-			}
-			else
-			{
-				str = realloc_str(str, " | ");
-				str = realloc_str(str, arg);
-			}
+			str = realloc_str(str, " | ");
+			str = realloc_str(str, tab[0]);
+			str = realloc_str(str, " | ");
+			str = realloc_str(str, tmp);
+		}
+		free(tmp);
+	}
+	else
+	{
+		if (*k == 1 && *i != 1)
+		{
+			str = ft_strdup(arg);
+			str = realloc_str(str, " | ");
+			str = realloc_str(str, arg);
+		}
+		else
+		{
+			str = realloc_str(str, " | ");
+			str = realloc_str(str, arg);
 		}
 	}
 	free_tab(tab);
@@ -465,7 +476,14 @@ int		ft_redirection(t_minishell *shell, t_struct *glo)
 				if (shell->pipe_tab[i][j] == '<')
 				{
 					k++;
-					str = ft_redirection_left(shell->redir_tab, str, arg, &k, &i);
+					if (!(str = ft_redirection_left(shell->redir_tab, str, arg, &k, &i, shell)))
+					{
+						free(arg);
+						free_tab(shell->pipe_tab);
+						free_tab(shell->redir_tab);
+						ft_free_args(shell);
+						return (FALSE);
+					}
 					shell->redirection_read = TRUE;
 					j++;
 				}
