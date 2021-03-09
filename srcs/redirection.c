@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 15:02:31 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/11 00:05:26 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/09 09:04:52 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -353,6 +353,7 @@ char	*ft_redirection_left(char **redir_tab, char *str, char *arg, int *k, int *i
 {
 	char	**tab;
 	char	**tab2;
+	char	*tmp;
 
 	if (redir_tab[*k][0] == '<')
 		redir_tab[*k][0] = ' ';
@@ -371,18 +372,26 @@ char	*ft_redirection_left(char **redir_tab, char *str, char *arg, int *k, int *i
 		{
 			if (*k == 1 && *i != 1)
 			{
-				tab[0] = realloc_str(tab[0], " ");
+				tmp = ft_strdup(tab[0]);
+				free(tab[0]);
+				tab[0] = ft_strjoin("cat", " ");
 				tab[0] = realloc_str(tab[0], tab2[0]);
 				str = ft_strdup(tab[0]);
 				str = realloc_str(str, " | ");
-				str = realloc_str(str, tab[0]);
+				str = realloc_str(str, tmp);
+				free(tmp);
 			}
 			else
 			{
-				tab[0] = realloc_str(tab[0], " ");
+				tmp = ft_strdup(tab[0]);
+				free(tab[0]);
+				tab[0] = ft_strjoin("cat", " ");
 				tab[0] = realloc_str(tab[0], tab2[0]);
 				str = realloc_str(str, " | ");
 				str = realloc_str(str, tab[0]);
+				str = realloc_str(str, " | ");
+				str = realloc_str(str, tmp);
+				free(tmp);
 			}
 		}
 		else
@@ -416,11 +425,11 @@ int		ft_redirection(t_minishell *shell, t_struct *glo)
 	glo->x = 0;
 	if (!check_redirection(shell->input))
 		return (TRUE);
-	/*if (ft_count_redirection(shell->input, shell) == FALSE)
+	if (ft_count_redirection(shell->input, shell) == FALSE)
 	{
 		ft_free_args(shell);
 		return (FALSE);
-	}*/
+	}
 	ft_split_pipe(shell, '|');
 	i = -1;
 	while (shell->pipe_tab[++i])
@@ -451,6 +460,7 @@ int		ft_redirection(t_minishell *shell, t_struct *glo)
 					k++;
 					str = ft_redirection_right(shell->redir_tab, str, &i, &k, arg);
 					shell->redirection_read = FALSE;
+					j++;
 				}
 				if (shell->pipe_tab[i][j] == '<')
 				{

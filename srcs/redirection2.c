@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirection3.c                                     :+:      :+:    :+:   */
+/*   redirection2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 15:47:21 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/01 17:40:53 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/09 08:40:36 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,19 @@ int		ft_count_redirection(char *str, t_minishell *shell)
 	free(tmp);
 	while (str[++i])
 	{
-		if (!(ft_main_count_redirection(str, &i, shell)))
+		if (str[i] == '"')
+		{
+			i++;
+			while (str[i] != '"')
+				i++;
+		}
+		else if (str[i] == '\'')
+		{
+			i++;
+			while (str[i] != '\'')
+				i++;
+		}
+		else if (!(ft_main_count_redirection(str, &i, shell)))
 			return (FALSE);
 	}
 	return (TRUE);
