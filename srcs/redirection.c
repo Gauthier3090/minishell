@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 15:02:31 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/09 06:38:15 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/09 08:03:08 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,14 +123,34 @@ int		ft_redirection_malloc(t_minishell *shell, char *str)
 	return (FALSE);
 }
 
+int		quotes_check(char *str, t_minishell *shell)
+{
+	if (str[shell->index] == '"')
+	{
+		shell->index++;
+		while (str[shell->index] != '"')
+			shell->index++;
+		return (TRUE);
+	}
+	if (str[shell->index] == '\'')
+	{
+		shell->index++;
+		while (str[shell->index] != '\'')
+			shell->index++;
+		return (TRUE);
+	}
+	return (FALSE);
+}
 
 int		ft_split_redirection(t_minishell *shell, char *str, int c, int c2)
 {
 	int		y;
 
-	shell->index = 0;
+	shell->index = -1;
 	while (str[++shell->index])
 	{
+		if (str[shell->index] == '"' || str[shell->index] == '\'')
+			quotes_check(str, shell);
 		if ((((str[shell->index] == c \
 		&& (ft_voided_char_input(shell->index, shell) == FALSE)\
 		&& str[shell->index + 1] == c \
@@ -138,13 +158,10 @@ int		ft_split_redirection(t_minishell *shell, char *str, int c, int c2)
 		((str[shell->index] == c2 &&\
 		(ft_voided_char_input(shell->index, shell) == FALSE) &&
 		str[shell->index + 1] == c2 \
-		&& (ft_voided_char_input(shell->index + 1, shell) == FALSE))
-		&& (ft_double_quotes_check(str,
-		shell->index, shell) == FALSE))))
+		&& (ft_voided_char_input(shell->index + 1, shell) == FALSE)))))
 			ft_check_redirection_more(shell, str, &y);
 		else if (str[shell->index] == c && \
-		(ft_voided_char_input(shell->index, shell) == FALSE)
-		&& ft_double_quotes_check(str, shell->index, shell) == FALSE)
+		(ft_voided_char_input(shell->index, shell) == FALSE))
 			ft_check_redirection_simple(shell, str, &y);
 	}
 	ft_redirection_malloc(shell, str);
@@ -265,11 +282,11 @@ int		ft_redirection(t_minishell *shell, t_struct *glo)
 	glo->x = 0;
 	if (!check_redirection(shell->input))
 		return (TRUE);
-	if (ft_count_redirection(shell->input, shell) == FALSE)
+	/*if (ft_count_redirection(shell->input, shell) == FALSE)
 	{
 		ft_free_args(shell);
 		return (FALSE);
-	}
+	}*/
 	ft_split_pipe(shell, '|');
 	i = -1;
 	while (shell->pipe_tab[++i])
@@ -282,13 +299,25 @@ int		ft_redirection(t_minishell *shell, t_struct *glo)
 			k = 0;
 			while (shell->pipe_tab[i][++j])
 			{
+				if (shell->pipe_tab[i][j] == '"')
+				{
+					j++;
+					while (shell->pipe_tab[i][j] != '"')
+						j++;
+				}
+				if (shell->pipe_tab[i][j] == '\'')
+				{
+					j++;
+					while (shell->pipe_tab[i][j] != '\'')
+						j++;
+				}
 				if (shell->pipe_tab[i][j] == '>')
 				{
 					k++;
 					str = ft_redirection_right(shell->redir_tab, str, &i, &k, arg);
-					j++;
 					shell->redirection_read = FALSE;
 				}
+				//if (shell->pipe_tab[i][j] == '<')
 			}
 			shell->index_tab = 0;
 			free_tab(shell->redir_tab);
