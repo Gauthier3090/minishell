@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/14 18:13:31 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/09 14:25:02 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct		s_minishell
 	int				double_left;
 	char			**pipe_tab;
 	int				j;
+	int				index_redir;
 	int				z;
 	int				pipe[1000];
 	char			*str;
@@ -188,6 +189,8 @@ void				exception_export(t_minishell *shell);
 void				free_tab(char **tab);
 int					free_tab_ret(char **tab);
 void				ft_free_args(t_minishell *shell);
+void				ft_free_redir_arg(t_minishell *shell, char *arg);
+void				ft_free_failed(t_minishell *shell, char *arg);
 
 /*
 ** main.c
@@ -250,29 +253,49 @@ int					ft_redirection(t_minishell *shell, t_struct *glo);
 /*
 ** redirection2.c
 */
-char				*ft_create_redirection(char *str, t_minishell *shell);
-int					ft_check_redirection(t_minishell *shell, int c, int c2);
+int					ft_count_redirection(char *str, t_minishell *shell);
 
 /*
 ** redirection3.c
 */
-int					ft_count_redirection(char *str, t_minishell *shell);
+int					ft_pipe_malloc(t_minishell *shell, char *str);
+int					ft_split_pipe(t_minishell *shell, char c);
+int					error_redirection(char *error, char *var, int ret,
+					t_minishell *shell);
 
 /*
 ** redirection4.c
 */
-char				**ft_redirection_pipe_big_left(char **redir_tab,
-					char **tab, int *i);
-char				**ft_redirection_pipe_left(char **redir_tab, int *i);
-char				**ft_redirection_pipe_right(char **redir_tab, int *i);
+int					ft_split_redirection(t_minishell *shell, char *str,
+					int c, int c2);
 
 /*
 ** redirection5.c
 */
-char				*ft_redirection_command_append(int append);
-char				**ft_create_command_pipe(char **redir_tab,
-					int redirection_read);
-char				**check_pipe(char **redir_tab, t_minishell *shell);
+int					check_redirection(char *str);
+char				*ft_redirection_right(t_minishell *shell, int *i,
+					int *k, char *arg);
+char				*create_arg(char **redir_tab, char *arg, int i,
+					t_minishell *shell);
+
+/*
+** redirection6.c
+*/
+char				*ft_redirection_arg(char **redir_tab, t_minishell *shell);
+char				*ft_create_redirection(char *str, t_minishell *shell);
+int					ft_check_file(int *k, t_minishell *shell);
+
+/*
+** redirection7.c
+*/
+int					ft_redirection_quotes(t_minishell *shell, int i, int j);
+char				*ft_redirection_left(t_minishell *shell, char *arg,
+					int *k, int *i);
+
+/*
+** redirection8.c
+*/
+void				ft_redirection_pipe(t_minishell *shell, t_struct *glo);
 
 /*
 ** semicolon.c

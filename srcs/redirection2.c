@@ -6,18 +6,11 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 15:47:21 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/09 08:40:36 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/09 13:58:44 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
-
-int		error_redirection(char *error, char *var, int ret, t_minishell *shell)
-{
-	ft_putstr_error(error, var, ret);
-	shell->ret = ret;
-	return (FALSE);
-}
 
 int		ft_count_redirection_right(char *str, int *i, t_minishell *shell)
 {
@@ -84,6 +77,23 @@ int		ft_main_count_redirection(char *str, int *i, t_minishell *shell)
 	return (TRUE);
 }
 
+int		ft_count_redirection_quotes(char *str, int i)
+{
+	if (str[i] == '"')
+	{
+		i++;
+		while (str[i] != '"')
+			i++;
+	}
+	if (str[i] == '\'')
+	{
+		i++;
+		while (str[i] != '\'')
+			i++;
+	}
+	return (i);
+}
+
 int		ft_count_redirection(char *str, t_minishell *shell)
 {
 	int		i;
@@ -101,19 +111,8 @@ int		ft_count_redirection(char *str, t_minishell *shell)
 	free(tmp);
 	while (str[++i])
 	{
-		if (str[i] == '"')
-		{
-			i++;
-			while (str[i] != '"')
-				i++;
-		}
-		else if (str[i] == '\'')
-		{
-			i++;
-			while (str[i] != '\'')
-				i++;
-		}
-		else if (!(ft_main_count_redirection(str, &i, shell)))
+		i = ft_count_redirection_quotes(str, i);
+		if (!(ft_main_count_redirection(str, &i, shell)))
 			return (FALSE);
 	}
 	return (TRUE);

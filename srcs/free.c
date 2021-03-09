@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 14:29:15 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/09 06:27:35 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/09 14:23:12 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,18 @@ void	ft_free_args(t_minishell *shell)
 	ft_memset(shell->pipe, 0, sizeof(shell->pipe));
 	shell->j = 0;
 	shell->z = 0;
+}
+
+void	ft_free_redir_arg(t_minishell *shell, char *arg)
+{
+	free_tab(shell->redir_tab);
+	free(arg);
+}
+
+void	ft_free_failed(t_minishell *shell, char *arg)
+{
+	free(arg);
+	free_tab(shell->pipe_tab);
+	free_tab(shell->redir_tab);
+	ft_free_args(shell);
 }
