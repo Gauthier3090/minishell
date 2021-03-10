@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 15:02:31 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/09 08:03:08 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/10 23:23:57 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,6 +246,11 @@ char	*ft_redirection_arg(char **redir_tab, t_minishell *shell)
 			shell->double_right = TRUE;
 			redir_tab[i][0] = ' ';
 		}
+		if (redir_tab[i][0] == '<')
+		{
+			shell->double_left = TRUE;
+			redir_tab[i][0] = ' ';
+		}
 		tab = split_input(redir_tab[i]);
 		if (ft_strlen_tab(tab) > 1)
 		{
@@ -264,11 +269,136 @@ char	*ft_redirection_arg(char **redir_tab, t_minishell *shell)
 		free_tab(tab);
 		if (redir_tab[i][0] == ' ' && shell->double_right)
 			redir_tab[i][0] = '>';
+		if (redir_tab[i][0] == ' ' && shell->double_left)
+			redir_tab[i][0] = '<';
 	}
 	if (arg)
-		redir_tab[0] = realloc_str(redir_tab[0], arg);
-	free(arg);
+	{
+		arg = ft_strjoin(redir_tab[0], arg);
+		return (arg);
+	}
 	return (ft_strdup(redir_tab[0]));
+}
+
+int		ft_strlen_redirection(char *str)
+{
+	int	i;
+	int	len;
+
+	i = -1;
+	len = 0;
+	while (str[++i])
+	{
+		if (str[i] == '"')
+		{
+			i++;
+			while (str[i] != '"')
+				i++;
+		}
+		if (str[i] == '\'')
+		{
+			i++;
+			while (str[i] != '\'')
+				i++;
+		}
+		if (str[i] == '<')
+			len++;
+	}
+	return (len);
+}
+
+char	*ft_create_redirection(char *str, t_minishell *shell)
+{
+	int		i;
+	int		j;
+	int		len;
+	char	*new_str;
+
+	len = ft_strlen_redirection(str);
+	if (!(new_str = ft_calloc(ft_strlen(str) + len + 1, sizeof(char))))
+		exit(EXIT_FAILURE);
+	i = -1;
+	j = -1;
+	while (str[++i])
+	{
+		if (str[i] == '"')
+		{
+			new_str[++j] = str[i++];
+			while (str[i] != '"')
+				new_str[++j] = str[i++];
+		}
+		if (str[i] == '\'')
+		{
+			new_str[++j] = str[i++];
+			while (str[i] != '\'')
+				new_str[++j] = str[i++];
+		}
+		if (str[i] == '<' && ft_voided_char_input(i, shell) == FALSE)
+		{
+			new_str[++j] = str[i];
+			new_str[++j] = '<';
+		}
+		else
+			new_str[++j] = str[i];
+	}
+	free(str);
+	return (new_str);
+}
+
+char	*ft_redirection_left(char **redir_tab, char *str, char *arg, int *k)
+{
+	char	**tab;
+	char	**tab2;
+
+	if (redir_tab[*k][0] == '<')
+		redir_tab[*k][0] = ' ';
+	tab = split_input(redir_tab[0]);
+	tab2 = split_input(redir_tab[*k]);
+	if (!ft_strcmp(tab[0], "echo"))
+	{
+		if (*k == 1)
+			str = ft_strdup(arg);
+		str = realloc_str(str, " | ");
+		str = realloc_str(str, arg);
+	}
+	else
+	{
+		if (ft_strlen_tab(tab) == 1)
+		{
+			if (*k == 1)
+			{
+				tab[0] = realloc_str(tab[0], " ");
+				tab[0] = realloc_str(tab[0], tab2[0]);
+				str = ft_strdup(tab[0]);
+				str = realloc_str(str, " | ");
+				str = realloc_str(str, tab[0]);
+			}
+			else
+			{
+				tab[0] = realloc_str(tab[0], " ");
+				tab[0] = realloc_str(tab[0], tab2[0]);
+				str = realloc_str(str, " | ");
+				str = realloc_str(str, tab[0]);
+			}
+		}
+		else
+		{
+			if (*k == 1)
+			{
+				str = ft_strdup(arg);
+				str = realloc_str(str, " | ");
+				str = realloc_str(str, arg);
+			}
+			else
+			{
+				str = realloc_str(str, " | ");
+				str = realloc_str(str, arg);
+			}
+		}
+	}
+	free_tab(tab);
+	free_tab(tab2);
+	return (str);
 }
 
 int		ft_redirection(t_minishell *shell, t_struct *glo)
@@ -293,6 +423,7 @@ int		ft_redirection(t_minishell *shell, t_struct *glo)
 	{
 		if (check_redirection(shell->pipe_tab[i]))
 		{
+			shell->pipe_tab[i] = ft_create_redirection(shell->pipe_tab[i], shell);
 			ft_split_redirection(shell, shell->pipe_tab[i], '>', '<');
 			arg = ft_redirection_arg(shell->redir_tab, shell);
 			j = -1;
@@ -317,7 +448,13 @@ int		ft_redirection(t_minishell *shell, t_struct *glo)
 					str = ft_redirection_right(shell->redir_tab, str, &i, &k, arg);
 					shell->redirection_read = FALSE;
 				}
-				//if (shell->pipe_tab[i][j] == '<')
+				if (shell->pipe_tab[i][j] == '<')
+				{
+					k++;
+					str = ft_redirection_left(shell->redir_tab, str, arg, &k);
+					shell->redirection_read = TRUE;
+					j++;
+				}
 			}
 			shell->index_tab = 0;
 			free_tab(shell->redir_tab);
