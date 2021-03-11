@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 15:02:31 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/09 08:14:31 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/11 00:05:26 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -349,7 +349,7 @@ char	*ft_create_redirection(char *str, t_minishell *shell)
 	return (new_str);
 }
 
-char	*ft_redirection_left(char **redir_tab, char *str, char *arg, int *k)
+char	*ft_redirection_left(char **redir_tab, char *str, char *arg, int *k, int *i)
 {
 	char	**tab;
 	char	**tab2;
@@ -369,7 +369,7 @@ char	*ft_redirection_left(char **redir_tab, char *str, char *arg, int *k)
 	{
 		if (ft_strlen_tab(tab) == 1)
 		{
-			if (*k == 1)
+			if (*k == 1 && *i != 1)
 			{
 				tab[0] = realloc_str(tab[0], " ");
 				tab[0] = realloc_str(tab[0], tab2[0]);
@@ -387,7 +387,7 @@ char	*ft_redirection_left(char **redir_tab, char *str, char *arg, int *k)
 		}
 		else
 		{
-			if (*k == 1)
+			if (*k == 1 && *i != 1)
 			{
 				str = ft_strdup(arg);
 				str = realloc_str(str, " | ");
@@ -455,7 +455,7 @@ int		ft_redirection(t_minishell *shell, t_struct *glo)
 				if (shell->pipe_tab[i][j] == '<')
 				{
 					k++;
-					str = ft_redirection_left(shell->redir_tab, str, arg, &k);
+					str = ft_redirection_left(shell->redir_tab, str, arg, &k, &i);
 					shell->redirection_read = TRUE;
 					j++;
 				}
@@ -482,7 +482,7 @@ int		ft_redirection(t_minishell *shell, t_struct *glo)
 	shell->input = ft_strdup(str);
 	ft_putendl_fd(shell->input, 1);
 	free(str);
-	/*ft_pipe_main(shell, glo);*/
+	ft_pipe_main(shell, glo);
 	ft_free_args(shell);
 	free_tab(shell->pipe_tab);
 	return (FALSE);
