@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 15:47:21 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/09 13:58:44 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/14 22:51:58 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,9 @@ int		ft_count_redirection(char *str, t_minishell *shell)
 	i = -1;
 	if (!(tmp = ft_strtrim(str, " ")))
 		exit(EXIT_FAILURE);
-	if ((tmp[ft_strlen(tmp) - 1] == '>' || tmp[ft_strlen(tmp) - 1] == '<') &&
-	(ft_voided_char_input(ft_strlen(tmp) - 1, shell) == FALSE))
+	if ((tmp[ft_strlen(tmp) - 1] == '>' || tmp[ft_strlen(tmp) - 1] == '<' ||
+	tmp[ft_strlen(tmp) - 1] == '|') && (ft_voided_char_input(ft_strlen(tmp) - 1,
+	shell) == FALSE))
 	{
 		free(tmp);
 		return (error_redirection(ERROR_REDIRECTION_EMPTY, NULL, 1, shell));
