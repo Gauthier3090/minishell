@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/09 10:11:32 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/14 18:13:31 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,7 +246,6 @@ void				ft_pwd(t_minishell *shell);
 ** redirection.c
 */
 int					ft_redirection(t_minishell *shell, t_struct *glo);
-char				*ft_redirection_command(char **tab, char **redir_tab);
 
 /*
 ** redirection2.c

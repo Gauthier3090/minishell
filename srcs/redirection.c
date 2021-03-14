@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 15:02:31 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/09 11:20:42 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/14 18:18:13 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -478,85 +478,91 @@ char	*ft_redirection_left(t_minishell *shell, char *arg, int *k, int *i)
 	return (shell->str);
 }
 
-int		ft_redirection(t_minishell *shell, t_struct *glo)
+int		ft_redirection_quotes(t_minishell *shell, int i, int j)
 {
-	int		i;
-	int		j;
-	int		k;
-	char	*arg;
+	if (shell->pipe_tab[i][j] == '"')
+	{
+		j++;
+		while (shell->pipe_tab[i][j] != '"')
+			j++;
+	}
+	if (shell->pipe_tab[i][j] == '\'')
+	{
+		j++;
+		while (shell->pipe_tab[i][j] != '\'')
+			j++;
+	}
+	return (j);
+}
 
-	if (!check_redirection(shell->input))
-		return (TRUE);
-	if (ft_count_redirection(shell->input, shell) == FALSE)
+void	ft_free_failed(t_minishell *shell, char *arg)
+{
+	free(arg);
+	free_tab(shell->pipe_tab);
+	free_tab(shell->redir_tab);
+	ft_free_args(shell);
+}
+
+int		ft_redirection_left_right(t_minishell *shell, int i, int *j,
+		int *k, char *arg)
+{
+	if (shell->pipe_tab[i][*j] == '>')
 	{
-		ft_free_args(shell);
-		return (FALSE);
+		(*k)++;
+		shell->str = ft_redirection_right(shell, &i, k, arg);
+		shell->redirection_read = FALSE;
+		(*j)++;
 	}
-	ft_split_pipe(shell, '|');
-	ft_pipe_malloc(shell, shell->input);
-	i = -1;
-	while (shell->pipe_tab[++i])
+	if (shell->pipe_tab[i][*j] == '<')
 	{
-		if (check_redirection(shell->pipe_tab[i]))
+		(*k)++;
+		if (!(shell->str = ft_redirection_left(shell, arg, k, &i)))
 		{
-			shell->pipe_tab[i] = ft_create_redirection(shell->pipe_tab[i],\
-			shell);
-			ft_split_redirection(shell, shell->pipe_tab[i], '>', '<');
-			arg = ft_redirection_arg(shell->redir_tab, shell);
-			j = -1;
-			k = 0;
-			while (shell->pipe_tab[i][++j])
-			{
-				if (shell->pipe_tab[i][j] == '"')
-				{
-					j++;
-					while (shell->pipe_tab[i][j] != '"')
-						j++;
-				}
-				if (shell->pipe_tab[i][j] == '\'')
-				{
-					j++;
-					while (shell->pipe_tab[i][j] != '\'')
-						j++;
-				}
-				if (shell->pipe_tab[i][j] == '>')
-				{
-					k++;
-					shell->str = ft_redirection_right(shell, &i, &k, arg);
-					shell->redirection_read = FALSE;
-					j++;
-				}
-				if (shell->pipe_tab[i][j] == '<')
-				{
-					k++;
-					if (!(shell->str = ft_redirection_left(shell, arg, &k, &i)))
-					{
-						free(arg);
-						free_tab(shell->pipe_tab);
-						free_tab(shell->redir_tab);
-						ft_free_args(shell);
-						return (FALSE);
-					}
-					shell->redirection_read = TRUE;
-					j++;
-				}
-			}
-			shell->index_tab = 0;
-			free_tab(shell->redir_tab);
-			free(arg);
+			ft_free_failed(shell, arg);
+			return (FALSE);
 		}
-		else if (i > 0)
-		{
-			shell->str = realloc_str(shell->str, "|");
-			shell->str = realloc_str(shell->str, shell->pipe_tab[i]);
-			shell->redirection_read = TRUE;
-		}
-		else
-		{
-			shell->str = ft_strdup(shell->pipe_tab[i]);
-			shell->redirection_read = TRUE;
-		}
+		shell->redirection_read = TRUE;
+		(*j)++;
 	}
+	return (TRUE);
+}
+
+int		ft_redirection_loop(t_minishell *shell, int i, char *arg)
+{
+	int	j;
+	int	k;
+
+	j = -1;
+	k = 0;
+	while (shell->pipe_tab[i][++j])
+	{
+		j = ft_redirection_quotes(shell, i, j);
+		if (!(ft_redirection_left_right(shell, i, &j, &k, arg)))
+			return (FALSE);
+		shell->index_tab = 0;
+		free_tab(shell->redir_tab);
+		free(arg);
+	}
+	return (TRUE);
+}
+
+void	ft_redirection_command(t_minishell *shell, int i)
+{
+	if (i > 0)
+	{
+		shell->str = realloc_str(shell->str, "|");
+		shell->str = realloc_str(shell->str, shell->pipe_tab[i]);
+		shell->redirection_read = TRUE;
+	}
+	else
+	{
+		shell->str = ft_strdup(shell->pipe_tab[i]);
+		shell->redirection_read = TRUE;
+	}
+}
+
+void	ft_redirection_pipe(t_minishell *shell, t_struct *glo)
+{
 	if (!shell->redirection_read)
 		shell->str = realloc_str(shell->str, "| grep -q \"\"");
 	shell->input ? free(shell->input) : 0;
@@ -566,5 +572,44 @@ int		ft_redirection(t_minishell *shell, t_struct *glo)
 	ft_pipe_main(shell, glo);
 	ft_free_args(shell);
 	free_tab(shell->pipe_tab);
+}
+
+int		ft_redirection_split_pipe(t_minishell *shell)
+{
+	if (ft_count_redirection(shell->input, shell) == FALSE)
+	{
+		ft_free_args(shell);
+		return (FALSE);
+	}
+	ft_split_pipe(shell, '|');
+	ft_pipe_malloc(shell, shell->input);
+	return (TRUE);
+}
+
+int		ft_redirection(t_minishell *shell, t_struct *glo)
+{
+	int		i;
+	char	*arg;
+
+	if (!check_redirection(shell->input))
+		return (TRUE);
+	if (!(ft_redirection_split_pipe(shell)))
+		return (FALSE);
+	i = -1;
+	while (shell->pipe_tab[++i])
+	{
+		if (check_redirection(shell->pipe_tab[i]))
+		{
+			shell->pipe_tab[i] = ft_create_redirection(shell->pipe_tab[i],\
+			shell);
+			ft_split_redirection(shell, shell->pipe_tab[i], '>', '<');
+			arg = ft_redirection_arg(shell->redir_tab, shell);
+			if (!(ft_redirection_loop(shell, i, arg)))
+				return (FALSE);
+		}
+		else
+			ft_redirection_command(shell, i);
+	}
+	ft_redirection_pipe(shell, glo);
 	return (FALSE);
 }
