@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/15 15:19:18 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/15 16:00:27 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -297,6 +297,7 @@ char				*ft_redirection_left(t_minishell *shell, char *arg,
 ** redirection8.c
 */
 void				ft_redirection_pipe(t_minishell *shell, t_struct *glo);
+int					ft_redirection_backslash(t_minishell *shell);
 
 /*
 ** semicolon.c
