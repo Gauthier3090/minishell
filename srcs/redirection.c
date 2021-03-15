@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 15:02:31 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/15 15:24:55 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/15 15:54:08 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,13 @@ int		ft_redirection(t_minishell *shell, t_struct *glo)
 
 	if (!check_redirection(shell->input))
 		return (TRUE);
+	i = -1;
+	while (shell->input[++i])
+	{
+		if ((shell->input[i] == '>' || shell->input[i] == '<')
+		&& ft_voided_char_input(i, shell))
+			return (TRUE);
+	}	
 	if (!(ft_redirection_split_pipe(shell)))
 		return (FALSE);
 	i = -1;
