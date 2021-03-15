@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 14:06:42 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/09 14:07:39 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/15 15:25:16 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ char	*ft_redirection_right(t_minishell *shell, int *i, int *k, char *arg)
 	shell->str = realloc_str(shell->str, command);
 	free(command);
 	free_tab(tab);
+	shell->delete_redir = TRUE;
 	return (shell->str);
 }
 
