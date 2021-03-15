@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 14:10:20 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/15 13:46:31 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/15 16:50:50 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ char	*ft_redirection_arg(char **redir_tab, t_minishell *shell)
 			redir_tab[i][0] = '>';
 		if (redir_tab[i][0] == ' ' && shell->double_left)
 			redir_tab[i][0] = '<';
+		shell->double_left = FALSE;
+		shell->double_right = FALSE;
 	}
 	if (arg)
 	{
