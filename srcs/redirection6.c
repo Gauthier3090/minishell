@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 14:10:20 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/15 16:50:50 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/15 17:02:58 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ char	*ft_redirection_arg(char **redir_tab, t_minishell *shell)
 {
 	int		i;
 	char	*arg;
-	char	*tmp;
 
 	i = 0;
 	arg = NULL;
@@ -30,17 +29,7 @@ char	*ft_redirection_arg(char **redir_tab, t_minishell *shell)
 		shell->double_left = FALSE;
 		shell->double_right = FALSE;
 	}
-	if (arg)
-	{
-		if (!(tmp = ft_strdup(arg)))
-			exit(EXIT_FAILURE);
-		free(arg);
-		if (!(arg = ft_strjoin(redir_tab[0], tmp)))
-			exit(EXIT_FAILURE);
-		free(tmp);
-		return (arg);
-	}
-	return (ft_strdup(redir_tab[0]));
+	return (ft_redirection_arg_return(arg, redir_tab));
 }
 
 int		ft_strlen_redirection(char *str)

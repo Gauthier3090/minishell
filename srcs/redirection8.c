@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 14:21:57 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/15 16:00:11 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/15 17:04:22 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,25 @@ int		ft_redirection_backslash(t_minishell *shell)
 			return (TRUE);
 	}
 	return (FALSE);
+}
+
+char	*ft_redirection_arg_return(char *arg, char **redir_tab)
+{
+	char	*tmp;
+
+	if (arg)
+	{
+		if (!(tmp = ft_strdup(arg)))
+			exit(EXIT_FAILURE);
+		free(arg);
+		if (!(arg = ft_strjoin(redir_tab[0], tmp)))
+			exit(EXIT_FAILURE);
+		free(tmp);
+	}
+	else
+	{
+		if (!(arg = ft_strdup(redir_tab[0])))
+			exit(EXIT_FAILURE);
+	}
+	return (arg);
 }

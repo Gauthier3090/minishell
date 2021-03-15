@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldavids <ldavids@student.s19.be>           +#+  +:+       +#+        */
+/*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:52:25 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/15 16:29:47 by ldavids          ###   ########.fr       */
+/*   Updated: 2021/03/15 17:02:35 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -298,6 +298,7 @@ char				*ft_redirection_left(t_minishell *shell, char *arg,
 */
 void				ft_redirection_pipe(t_minishell *shell, t_struct *glo);
 int					ft_redirection_backslash(t_minishell *shell);
+char				*ft_redirection_arg_return(char *arg, char **redir_tab);
 
 /*
 ** semicolon.c
