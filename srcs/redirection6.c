@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 14:10:20 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/09 14:23:27 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/15 13:46:31 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,20 +115,16 @@ char	*ft_create_redirection(char *str, t_minishell *shell)
 int		ft_check_file(int *k, t_minishell *shell)
 {
 	int		fd;
-	char	**tab;
 	char	**tab2;
 
-	tab = split_input(shell->redir_tab[0]);
 	tab2 = split_input(shell->redir_tab[*k]);
 	if ((fd = open(tab2[0], O_RDONLY, 0777)) < 0)
 	{
 		shell->ret = ft_putstr_error(ERROR_FILE_NOT_FOUND, tab2[0], 1);
-		free_tab(tab);
 		free_tab(tab2);
 		return (FALSE);
 	}
 	close(fd);
-	free_tab(tab);
 	free_tab(tab2);
 	return (TRUE);
 }
