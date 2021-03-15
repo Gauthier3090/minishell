@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 15:02:31 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/09 14:21:41 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/15 15:20:06 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ int		ft_redirection_left_right(t_minishell *shell, int *j, int *k, char *arg)
 		(*k)++;
 		shell->str = ft_redirection_right(shell, &shell->index_redir, k, arg);
 		shell->redirection_read = FALSE;
+		shell->delete_redir = TRUE;
 		(*j)++;
 	}
-	if (shell->pipe_tab[shell->index_redir][*j] == '<')
+	if (shell->pipe_tab[shell->index_redir][*j] == '<' && !shell->delete_redir)
 	{
 		(*k)++;
 		if (!(shell->str = ft_redirection_left(shell, arg, k,
@@ -31,6 +32,11 @@ int		ft_redirection_left_right(t_minishell *shell, int *j, int *k, char *arg)
 			return (FALSE);
 		}
 		shell->redirection_read = TRUE;
+		(*j)++;
+	}
+	if (shell->pipe_tab[shell->index_redir][*j] == '<' && shell->delete_redir)
+	{
+		(*k)++;
 		(*j)++;
 	}
 	return (TRUE);

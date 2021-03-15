@@ -6,7 +6,7 @@
 /*   By: gpladet <gpladet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 14:21:57 by gpladet           #+#    #+#             */
-/*   Updated: 2021/03/09 14:22:10 by gpladet          ###   ########.fr       */
+/*   Updated: 2021/03/15 15:20:45 by gpladet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,5 @@ void	ft_redirection_pipe(t_minishell *shell, t_struct *glo)
 	ft_pipe_main(shell, glo);
 	ft_free_args(shell);
 	free_tab(shell->pipe_tab);
+	shell->delete_redir = FALSE;
 }
